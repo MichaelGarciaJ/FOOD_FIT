@@ -7,11 +7,11 @@ plugins {
 }
 
 android {
-    namespace = "com.mariana.kudage"
+    namespace = "com.mariana.foodfit"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.mariana.kudage"
+        applicationId = "com.mariana.foodfit"
         minSdk = 24
         targetSdk = 33
         versionCode = 1

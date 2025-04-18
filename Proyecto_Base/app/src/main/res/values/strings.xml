@@ -1,5 +1,9 @@
 <resources>
+    <!-- NOMBRE DE LA APP -->
     <string name="app_name">Food Fit</string>
     <string name="hello_world">Hola Mundo</string>
+
+    <!-- SPLASH SCREEN -->
+    <string name="splash_iv_logo">Logo de la aplicación</string>
 
 </resources>

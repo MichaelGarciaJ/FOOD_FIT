@@ -1,9 +1,10 @@
-package com.mariana.kudage
+package com.mariana.foodfit.ui.auth
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.mariana.foodfit.R
 
-class MainActivity : AppCompatActivity() {
+class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
