@@ -6,4 +6,26 @@
     <!-- SPLASH SCREEN -->
     <string name="splash_iv_logo">Logo de la aplicación</string>
 
+    <!-- LOGIN -->
+    <string name="login_iv_logoFoodFit">Imagén del icono de la app</string>
+    <string name="login_tv_textLogin">Iniciar sesión</string>
+    <string name="login_et_correoElectronico">Correo electrónico</string>
+    <string name="login_et_contrasenya">Contraseña</string>
+    <string name="login_cb_recordar">Recordar</string>
+    <string name="login_bt_login">Iniciar sesión</string>
+    <string name="login_tv_register">¿No tienes cuenta de Food Fit?</string>
+    <string name="login_tv_registerNow">Registrarte ahora</string>
+
+    <!-- REGISTER -->
+    <string name="register_iv_logoFoodFit">Logo de FoodFit</string>
+    <string name="register_tv_textRegister">Registro</string>
+    <string name="register_et_nombre">Nombre completo</string>
+    <string name="register_et_correoElectronico">Correo electrónico</string>
+    <string name="register_et_contrasenya">Contraseña</string>
+    <string name="register_et_confirmarContrasenya">Confirmar contraseña</string>
+    <string name="register_bt_registrarse">Registrarse</string>
+    <string name="register_tv_yaTienesCuenta">¿Ya tienes cuenta?</string>
+    <string name="register_tv_iniciaSesion">Iniciar sesión</string>
+
+
 </resources>
