@@ -2,20 +2,20 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/login"
+    android:id="@+id/loginLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/colorSurface"
     android:padding="16dp"
     tools:context=".ui.auth.LoginActivity">
 
-    <!-- Logo de la app (Iniciamos la chain aquí) -->
+    <!-- Logo de la app -->
     <ImageView
-        android:id="@+id/login_iv_logoFoodFit"
+        android:id="@+id/loginIvLogoFoodFit"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:src="@mipmap/ic_launcher_iconoapp_foreground"
-        app:layout_constraintBottom_toTopOf="@+id/login_tv_textLogin"
+        app:layout_constraintBottom_toTopOf="@+id/loginTextLogin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -23,7 +23,7 @@
 
     <!-- Texto "Login" -->
     <TextView
-        android:id="@+id/login_tv_textLogin"
+        android:id="@+id/loginTextLogin"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
@@ -31,14 +31,14 @@
         android:text="@string/login_tv_textLogin"
         android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
         android:textColor="?attr/colorOnSurface"
-        app:layout_constraintBottom_toTopOf="@+id/login_til_email"
+        app:layout_constraintBottom_toTopOf="@+id/loginTilEmail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/login_iv_logoFoodFit" />
+        app:layout_constraintTop_toBottomOf="@id/loginIvLogoFoodFit" />
 
     <!-- Campo de email -->
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/login_til_email"
+        android:id="@+id/loginTilEmail"
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -46,15 +46,15 @@
         android:hint="@string/login_et_correoElectronico"
         app:boxStrokeColor="?attr/colorPrimary"
         app:endIconMode="clear_text"
-        app:layout_constraintBottom_toTopOf="@+id/login_til_password"
+        app:layout_constraintBottom_toTopOf="@+id/loginTilPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/login_tv_textLogin"
+        app:layout_constraintTop_toBottomOf="@id/loginTextLogin"
         app:startIconDrawable="@drawable/ic_email"
         app:startIconTint="?attr/colorPrimary">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/login_et_correoElectronico"
+            android:id="@+id/loginEtCorreoElectronico"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
@@ -63,7 +63,7 @@
 
     <!-- Campo de contraseña -->
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/login_til_password"
+        android:id="@+id/loginTilPassword"
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -71,15 +71,15 @@
         android:hint="@string/login_et_contrasenya"
         app:boxStrokeColor="?attr/colorPrimary"
         app:endIconMode="password_toggle"
-        app:layout_constraintBottom_toTopOf="@+id/login_ly_remember"
+        app:layout_constraintBottom_toTopOf="@+id/loginLyRemember"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/login_til_email"
+        app:layout_constraintTop_toBottomOf="@id/loginTilEmail"
         app:startIconDrawable="@drawable/ic_password"
         app:startIconTint="?attr/colorPrimary">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/login_et_contrasenya"
+            android:id="@+id/loginEtContrasenya"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
@@ -88,22 +88,22 @@
 
     <!-- Recordar -->
     <LinearLayout
-        android:id="@+id/login_ly_remember"
+        android:id="@+id/loginLyRemember"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/login_bt_login"
+        app:layout_constraintBottom_toTopOf="@+id/loginBtLogin"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/login_til_password">
+        app:layout_constraintTop_toBottomOf="@id/loginTilPassword">
 
         <com.google.android.material.checkbox.MaterialCheckBox
-            android:id="@+id/login_cb_checkRecordar"
+            android:id="@+id/loginCbCheckRecordar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <TextView
-            android:id="@+id/login_tv_remember"
+            android:id="@+id/loginTvRemember"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
@@ -113,7 +113,7 @@
 
     <!-- Botón Login -->
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/login_bt_login"
+        android:id="@+id/loginBtLogin"
         style="@style/Widget.Material3.Button"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -121,14 +121,14 @@
         android:text="@string/login_bt_login"
         app:backgroundTint="?attr/colorPrimary"
         app:cornerRadius="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/login_bt_google"
+        app:layout_constraintBottom_toTopOf="@+id/loginBtGoogle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/login_ly_remember" />
+        app:layout_constraintTop_toBottomOf="@id/loginLyRemember" />
 
     <!-- Botón de Google -->
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/login_bt_google"
+        android:id="@+id/loginBtGoogle"
         style="@style/Widget.Material3.Button.OutlinedButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -138,17 +138,17 @@
         app:icon="@drawable/ic_google_logo"
         app:iconSize="28dp"
         app:iconTint="@null"
-        app:layout_constraintBottom_toTopOf="@+id/login_tv_registerHint"
+        app:layout_constraintBottom_toTopOf="@+id/loginTvRegisterHint"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/login_bt_login"
+        app:layout_constraintTop_toBottomOf="@id/loginBtLogin"
         app:strokeColor="#DADCE0"
         app:strokeWidth="1dp" />
 
     <!-- Texto Registro -->
     <TextView
-        android:id="@+id/login_tv_registerHint"
+        android:id="@+id/loginTvRegisterHint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -157,9 +157,9 @@
         app:layout_constraintBottom_toTopOf="@+id/loginTvRegisterNow"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/login_bt_google" />
+        app:layout_constraintTop_toBottomOf="@id/loginBtGoogle" />
 
-    <!-- Enlace Regístrate Ahora (anclado al fondo) -->
+    <!-- Enlace Regístrate Ahora -->
     <TextView
         android:id="@+id/loginTvRegisterNow"
         android:layout_width="wrap_content"
@@ -171,6 +171,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/login_tv_registerHint" />
+        app:layout_constraintTop_toBottomOf="@id/loginTvRegisterHint" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

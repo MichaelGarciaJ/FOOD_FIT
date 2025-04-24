@@ -3,28 +3,28 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/register"
+    android:id="@+id/registerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?attr/colorSurface"
     android:padding="16dp"
     tools:context=".ui.auth.RegisterActivity">
 
-    <!-- Logo de la app (Iniciamos la chain aquí) -->
+    <!-- Logo de la app -->
     <ImageView
-        android:id="@+id/register_iv_logoFoodFit"
+        android:id="@+id/registerIvLogoFoodFit"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:src="@mipmap/ic_launcher_iconoapp_foreground"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/register_tv_textRegister"
+        app:layout_constraintBottom_toTopOf="@+id/registerTextRegister"
         app:layout_constraintVertical_chainStyle="spread_inside" />
 
     <!-- Título "Registro" -->
     <TextView
-        android:id="@+id/register_tv_textRegister"
+        android:id="@+id/registerTextRegister"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -32,14 +32,14 @@
         android:text="@string/register_tv_textRegister"
         android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
         android:textColor="?attr/colorOnSurface"
-        app:layout_constraintTop_toBottomOf="@id/register_iv_logoFoodFit"
+        app:layout_constraintTop_toBottomOf="@id/registerIvLogoFoodFit"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/register_til_name" />
+        app:layout_constraintBottom_toTopOf="@+id/registerTilName" />
 
     <!-- Campo de nombre -->
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/register_til_name"
+        android:id="@+id/registerTilName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -49,13 +49,13 @@
         app:startIconTint="?attr/colorPrimary"
         app:endIconMode="clear_text"
         app:boxStrokeColor="?attr/colorPrimary"
-        app:layout_constraintTop_toBottomOf="@id/register_tv_textRegister"
+        app:layout_constraintTop_toBottomOf="@id/registerTextRegister"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/register_til_email">
+        app:layout_constraintBottom_toTopOf="@+id/registerTilEmail">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/register_et_nombre"
+            android:id="@+id/registerEtNombre"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
@@ -64,7 +64,7 @@
 
     <!-- Campo de email -->
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/register_til_email"
+        android:id="@+id/registerTilEmail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -74,13 +74,13 @@
         app:startIconTint="?attr/colorPrimary"
         app:endIconMode="clear_text"
         app:boxStrokeColor="?attr/colorPrimary"
-        app:layout_constraintTop_toBottomOf="@id/register_til_name"
+        app:layout_constraintTop_toBottomOf="@id/registerTilName"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/register_til_password">
+        app:layout_constraintBottom_toTopOf="@+id/registerTilPassword">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/register_et_correoElectronico"
+            android:id="@+id/registerEtCorreoElectronico"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textEmailAddress"
@@ -89,7 +89,7 @@
 
     <!-- Campo de contraseña -->
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/register_til_password"
+        android:id="@+id/registerTilPassword"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -99,13 +99,13 @@
         app:startIconTint="?attr/colorPrimary"
         app:endIconMode="password_toggle"
         app:boxStrokeColor="?attr/colorPrimary"
-        app:layout_constraintTop_toBottomOf="@id/register_til_email"
+        app:layout_constraintTop_toBottomOf="@id/registerTilEmail"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/register_til_confirmPassword">
+        app:layout_constraintBottom_toTopOf="@+id/registerTilConfirmPassword">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/register_et_contrasenya"
+            android:id="@+id/registerEtContrasenya"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
@@ -114,7 +114,7 @@
 
     <!-- Campo de confirmar contraseña -->
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/register_til_confirmPassword"
+        android:id="@+id/registerTilConfirmPassword"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
@@ -124,13 +124,13 @@
         app:startIconTint="?attr/colorPrimary"
         app:endIconMode="password_toggle"
         app:boxStrokeColor="?attr/colorPrimary"
-        app:layout_constraintTop_toBottomOf="@id/register_til_password"
+        app:layout_constraintTop_toBottomOf="@id/registerTilPassword"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/register_bt_register">
+        app:layout_constraintBottom_toTopOf="@+id/registerBtRegister">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/register_et_confirmarContrasenya"
+            android:id="@+id/registerEtConfirmarContrasenya"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textPassword"
@@ -139,7 +139,7 @@
 
     <!-- Botón de registro -->
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/register_bt_register"
+        android:id="@+id/registerBtRegister"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
@@ -147,34 +147,34 @@
         style="@style/Widget.Material3.Button"
         app:cornerRadius="8dp"
         app:backgroundTint="?attr/colorPrimary"
-        app:layout_constraintTop_toBottomOf="@id/register_til_confirmPassword"
+        app:layout_constraintTop_toBottomOf="@id/registerTilConfirmPassword"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/register_tv_loginHint" />
+        app:layout_constraintBottom_toTopOf="@+id/registerTvLoginHint" />
 
     <!-- Texto "¿Ya tienes cuenta?" -->
     <TextView
-        android:id="@+id/register_tv_loginHint"
+        android:id="@+id/registerTvLoginHint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
         android:text="@string/register_tv_yaTienesCuenta"
         android:textColor="?attr/colorOnSurfaceVariant"
-        app:layout_constraintTop_toBottomOf="@id/register_bt_register"
+        app:layout_constraintTop_toBottomOf="@id/registerBtRegister"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/register_tv_loginNow" />
+        app:layout_constraintBottom_toTopOf="@+id/registerTvLoginNow" />
 
-    <!-- Link "Inicia sesión" (anclado al fondo) -->
+    <!-- Link "Inicia sesión" -->
     <TextView
-        android:id="@+id/register_tv_loginNow"
+        android:id="@+id/registerTvLoginNow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="2dp"
         android:text="@string/register_tv_iniciaSesion"
         android:textColor="?attr/colorPrimary"
         android:textStyle="bold"
-        app:layout_constraintTop_toBottomOf="@id/register_tv_loginHint"
+        app:layout_constraintTop_toBottomOf="@id/registerTvLoginHint"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent" />

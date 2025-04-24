@@ -3,8 +3,6 @@ package com.mariana.foodfit.ui.auth
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import com.mariana.foodfit.R
 import com.mariana.foodfit.databinding.ActivityLoginBinding
 
 
