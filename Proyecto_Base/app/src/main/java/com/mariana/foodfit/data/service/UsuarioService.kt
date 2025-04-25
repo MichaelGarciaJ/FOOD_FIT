@@ -1,6 +1,8 @@
 package com.mariana.foodfit.data.service
 
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.mariana.foodfit.data.entity.Usuario
@@ -27,16 +29,23 @@ class UsuarioService {
      * @param nombre Nombre del usuario.
      * @param correo Correo electrónico.
      * @param contrasena Contraseña.
-     * @return Objeto Usuario creado o null si falla el registro.
+     * @return Usuario creado o null si falla (por ejemplo, email duplicado).
+     * @throws FirebaseAuthUserCollisionException si el correo ya existe.
      */
     suspend fun register(nombre: String, correo: String, contrasena: String): Usuario? {
-        val result = auth.createUserWithEmailAndPassword(correo, contrasena).await()
-        val uid = result.user?.uid ?: return null
+        try {
+            val result = auth.createUserWithEmailAndPassword(correo, contrasena).await()
+            val uid = result.user?.uid ?: return null
 
-        val usuario = Usuario(idUsuario = uid, nombre = nombre, correo = correo)
-        usuariosCollection.document(uid).set(usuario).await()
+            val usuario = Usuario(idUsuario = uid, nombre = nombre, correo = correo)
+            usuariosCollection.document(uid).set(usuario).await()
 
-        return usuario
+            return usuario
+
+        } catch (e: FirebaseAuthUserCollisionException) {
+            // Este error ocurre si el correo ya está en uso
+            throw e
+        }
     }
 
     /**
@@ -55,13 +64,6 @@ class UsuarioService {
     }
 
     /**
-     * Método que cierra la sesión del usuario actual.
-     */
-    fun logout() {
-        auth.signOut()
-    }
-
-    /**
      * Método que obtiene los datos del usuario autenticado actualmente.
      *
      * @return Usuario actual o null si no hay sesión iniciada.
@@ -70,6 +72,13 @@ class UsuarioService {
         val uid = auth.currentUser?.uid ?: return null
         val snapshot = usuariosCollection.document(uid).get().await()
         return snapshot.toObject(Usuario::class.java)
+    }
+
+    /**
+     * Método que cierra la sesión del usuario actual.
+     */
+    fun logout() {
+        auth.signOut()
     }
 
     // ====================================================
@@ -123,6 +132,40 @@ class UsuarioService {
      */
     suspend fun delete(id: String) {
         usuariosCollection.document(id).delete().await()
+    }
+
+    // ====================================================
+    // MÉTODOS DE AUTENTICACIÓN CON GOOGLE
+    // ====================================================
+
+    /**
+     * Método que permite el inicio de sesión mediante una cuenta de Google.
+     *
+     * @param idToken Token de autenticación proporcionado por Google Sign-In.
+     * @return Objeto Usuario con los datos del usuario o null si falla la autenticación.
+     */
+    suspend fun signInWithGoogle(idToken: String): Usuario? {
+        // Construir credencial de Firebase
+        val credential = GoogleAuthProvider.getCredential(idToken, null)
+
+        // Autenticar en FirebaseAuth
+        val result = auth.signInWithCredential(credential).await()
+        val firebaseUser = result.user ?: return null
+
+        // Si es la primera vez que entra, crea su documento en Firestore
+        if (result.additionalUserInfo?.isNewUser == true) {
+            val usuario = Usuario(
+                idUsuario = firebaseUser.uid,
+                nombre = firebaseUser.displayName ?: "",
+                correo = firebaseUser.email ?: ""
+            )
+            usuariosCollection.document(firebaseUser.uid).set(usuario).await()
+            return usuario
+        }
+
+        // Si ya existía, simplemente lo recuperas
+        val snapshot = usuariosCollection.document(firebaseUser.uid).get().await()
+        return snapshot.toObject(Usuario::class.java)
     }
 
 }

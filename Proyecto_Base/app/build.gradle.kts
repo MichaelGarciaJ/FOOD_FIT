@@ -76,9 +76,14 @@ dependencies {
     // When using the BoM, don't specify versions in Firebase dependencies
     // https://firebase.google.com/docs/android/setup#available-libraries
 
+    // Versiones gestionadas por BoM
     implementation("com.google.firebase:firebase-auth-ktx")
     implementation("com.google.firebase:firebase-firestore-ktx")
 
     // Corrutinas para Firebase
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.7.3")
+
+    // Google Sign-In (Play Services Auth)
+    implementation("com.google.android.gms:play-services-auth:20.7.0")
+
 }

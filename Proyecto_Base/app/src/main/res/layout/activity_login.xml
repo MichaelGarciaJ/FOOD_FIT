@@ -71,7 +71,7 @@
         android:hint="@string/login_et_contrasenya"
         app:boxStrokeColor="?attr/colorPrimary"
         app:endIconMode="password_toggle"
-        app:layout_constraintBottom_toTopOf="@+id/loginLyRemember"
+        app:layout_constraintBottom_toTopOf="@+id/loginBtLogin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/loginTilEmail"
@@ -86,31 +86,6 @@
             android:textColor="?attr/colorOnSurface" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <!-- Recordar -->
-    <LinearLayout
-        android:id="@+id/loginLyRemember"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="2dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/loginBtLogin"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/loginTilPassword">
-
-        <com.google.android.material.checkbox.MaterialCheckBox
-            android:id="@+id/loginCbCheckRecordar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/loginTvRemember"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="@string/login_cb_recordar"
-            android:textColor="?attr/colorOnSurfaceVariant" />
-    </LinearLayout>
-
     <!-- Botón Login -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/loginBtLogin"
@@ -124,7 +99,7 @@
         app:layout_constraintBottom_toTopOf="@+id/loginBtGoogle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/loginLyRemember" />
+        app:layout_constraintTop_toBottomOf="@id/loginTilPassword" />
 
     <!-- Botón de Google -->
     <com.google.android.material.button.MaterialButton

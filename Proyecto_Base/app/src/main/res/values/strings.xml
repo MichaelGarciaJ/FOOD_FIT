@@ -1,7 +1,9 @@
 <resources>
     <!-- NOMBRE DE LA APP -->
     <string name="app_name">Food Fit</string>
-    <string name="hello_world">Hola Mundo</string>
+
+    <!-- MI WEB CLIENT ID -->
+    <string name="default_web_client_id">849686616005-4d4rm9c9fq2vv2f5clafcpb7e5osu7rt.apps.googleusercontent.com</string>
 
     <!-- SPLASH SCREEN -->
     <string name="splash_iv_logo">Logo de la aplicación</string>

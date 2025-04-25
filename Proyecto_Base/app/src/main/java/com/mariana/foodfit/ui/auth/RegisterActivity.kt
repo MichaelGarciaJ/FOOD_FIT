@@ -3,6 +3,8 @@ package com.mariana.foodfit.ui.auth
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.mariana.foodfit.R
 import com.mariana.foodfit.data.service.UsuarioService
 import com.mariana.foodfit.databinding.ActivityRegisterBinding
 import com.mariana.foodfit.utils.Utils.Companion.comprobarCorreo
@@ -17,7 +19,8 @@ class RegisterActivity : AppCompatActivity() {
 
     // ViewBinding para acceder a los elementos de activity_login.xml
     private lateinit var binding: ActivityRegisterBinding
-    // Instancia del service
+
+    // Instancia del usuario service
     private val usuarioService = UsuarioService()
 
     /**
@@ -60,6 +63,8 @@ class RegisterActivity : AppCompatActivity() {
     private fun createUser() {
         binding.registerBtRegister.setOnClickListener {
             binding.registerBtRegister.isEnabled = false
+            binding.registerBtRegister.text = "Registrando..."
+
 
             // Obtener valores de los campos de texto
             val nombre = binding.registerEtNombre.text.toString().trim()
@@ -71,24 +76,29 @@ class RegisterActivity : AppCompatActivity() {
             if (!validarNombreUsuario(nombre)) {
                 mostrarMensaje(this, "Nombre inválido. Usa 3-20 caracteres")
                 binding.registerBtRegister.isEnabled = true
+                binding.registerBtRegister.text = getString(R.string.register_bt_registrarse)
+
                 return@setOnClickListener
             }
 
             if (!comprobarCorreo(correo)) {
                 mostrarMensaje(this, "Correo inválido")
                 binding.registerBtRegister.isEnabled = true
+                binding.registerBtRegister.text = getString(R.string.register_bt_registrarse)
                 return@setOnClickListener
             }
 
             if (contrasena.length < 6) {
                 mostrarMensaje(this, "La contraseña debe tener al menos 6 caracteres")
                 binding.registerBtRegister.isEnabled = true
+                binding.registerBtRegister.text = getString(R.string.register_bt_registrarse)
                 return@setOnClickListener
             }
 
             if (contrasena != confirmarContrasena) {
                 mostrarMensaje(this, "Las contraseñas no coinciden")
                 binding.registerBtRegister.isEnabled = true
+                binding.registerBtRegister.text = getString(R.string.register_bt_registrarse)
                 return@setOnClickListener
             }
 
@@ -102,11 +112,15 @@ class RegisterActivity : AppCompatActivity() {
                     } else {
                         mostrarMensaje(this@RegisterActivity, "No se pudo crear el usuario")
                     }
+
                 } catch (e: Exception) {
                     mostrarMensaje(this@RegisterActivity, "Error: ${e.message}")
+                } catch (e: FirebaseAuthUserCollisionException) {
+                    mostrarMensaje(this@RegisterActivity, "Este correo ya está registrado")
                 } finally {
                     // Rehabilitar el botón después de completar la operación.
-                    runOnUiThread {binding.registerBtRegister.isEnabled = true}
+                    binding.registerBtRegister.text = getString(R.string.register_bt_registrarse)
+                    runOnUiThread { binding.registerBtRegister.isEnabled = true }
                 }
             }
         }
