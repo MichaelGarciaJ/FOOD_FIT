@@ -13,7 +13,6 @@
     <string name="login_tv_textLogin">Iniciar sesión</string>
     <string name="login_et_correoElectronico">Correo electrónico</string>
     <string name="login_et_contrasenya">Contraseña</string>
-    <string name="login_cb_recordar">Recordar</string>
     <string name="login_bt_login">Iniciar sesión</string>
     <string name="login_tv_register">¿No tienes cuenta de Food Fit?</string>
     <string name="login_tv_registerNow">Registrarte ahora</string>
@@ -29,6 +28,10 @@
     <string name="register_bt_registrarse">Registrarse</string>
     <string name="register_tv_yaTienesCuenta">¿Ya tienes cuenta?</string>
     <string name="register_tv_iniciaSesion">Iniciar sesión</string>
+
+    <!-- TOOLBAR -->
+    <string name="toolbar_ib_menu">Abrir menú de navegación</string>
+    <string name="toolbar_ib_busqueda">Logo de FoodFit</string>
 
 
 </resources>

@@ -1,0 +1,52 @@
+<androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    android:background="?attr/colorPrimaryContainer"
+    android:elevation="4dp"
+    app:theme="@style/ThemeOverlay.AppTheme.MediumContrast"
+    app:titleTextColor="?attr/colorOnPrimaryContainer">
+
+    <!-- Contenedor para íconos -->
+    <LinearLayout
+        android:id="@+id/toolbarLyIconos"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <!-- Ícono de menú -->
+        <ImageButton
+            android:id="@+id/toolbarIbMenu"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/toolbar_ib_menu"
+            android:src="@drawable/ic_menu"
+            app:tint="?attr/colorOnPrimaryContainer" />
+
+        <!-- Ícono de búsqueda -->
+        <ImageButton
+            android:id="@+id/toolbarIbBusqueda"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_marginStart="4dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/toolbar_ib_busqueda"
+            android:src="@drawable/ic_search"
+            app:tint="?attr/colorOnPrimaryContainer" />
+    </LinearLayout>
+
+    <!-- Título centrado -->
+    <TextView
+        android:id="@+id/toolbarTvTitulo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/app_name"
+        android:textColor="?attr/colorOnPrimaryContainer"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+</androidx.appcompat.widget.Toolbar>
