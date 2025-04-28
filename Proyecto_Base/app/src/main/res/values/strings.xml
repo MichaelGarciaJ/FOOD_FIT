@@ -33,5 +33,15 @@
     <string name="toolbar_ib_menu">Abrir menú de navegación</string>
     <string name="toolbar_ib_busqueda">Logo de FoodFit</string>
 
+    <!-- MENÚ HOME -->
+    <string name="menuHomeDesayuno">Desayuno</string>
+    <string name="menuHomeComida">Comida</string>
+    <string name="menuHomeCena">Cena</string>
+    <string name="menuHomeSnack">Snack</string>
+    <string name="menuHomeCrear">Crear Comida</string>
+    <string name="menuHomeFavoritos">Favoritos</string>
+    <string name="menuHomeMenu">Menú Comida</string>
+    <string name="menuHomePerfil">Perfil</string>
+
 
 </resources>

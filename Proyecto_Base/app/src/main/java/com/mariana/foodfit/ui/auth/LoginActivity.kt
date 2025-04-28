@@ -12,7 +12,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.mariana.foodfit.R
 import com.mariana.foodfit.data.service.UsuarioService
 import com.mariana.foodfit.databinding.ActivityLoginBinding
-import com.mariana.foodfit.ui.profile.ProfileActivity
+import com.mariana.foodfit.ui.home.HomeActivity
 import com.mariana.foodfit.utils.Utils.Companion.mostrarMensaje
 import kotlinx.coroutines.launch
 
@@ -101,7 +101,7 @@ class LoginActivity : AppCompatActivity() {
                             .putBoolean("is_google_login", true)
                             .apply()
 
-                        startActivity(Intent(this@LoginActivity, ProfileActivity::class.java))
+                        startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
                         finish()
                     } else {
                         mostrarMensaje(this@LoginActivity, "Error en autenticación Google")
@@ -125,7 +125,7 @@ class LoginActivity : AppCompatActivity() {
         val usuario = FirebaseAuth.getInstance().currentUser
 
         if (usuario != null) {
-            startActivity(Intent(this@LoginActivity, ProfileActivity::class.java))
+            startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
             finish()
             return
         }
@@ -161,7 +161,7 @@ class LoginActivity : AppCompatActivity() {
                             .putBoolean("is_google_login", false)
                             .apply()
 
-                        startActivity(Intent(this@LoginActivity, ProfileActivity::class.java))
+                        startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
                         finish()
                     } else {
                         mostrarMensaje(this@LoginActivity, "Correo o contraseña incorrectas")
