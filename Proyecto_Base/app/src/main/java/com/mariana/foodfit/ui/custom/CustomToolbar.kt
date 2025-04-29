@@ -3,8 +3,6 @@ package com.mariana.foodfit.ui.custom
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.MenuInflater
-import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.Toolbar
 import com.mariana.foodfit.databinding.ToolbarCustomBinding
 
@@ -22,12 +20,12 @@ class CustomToolbar @JvmOverloads constructor(
     private val binding: ToolbarCustomBinding
 
     init {
-        // Inflar el layout personalizado usando ViewBinding
+        // Cuando se crea el toolbar, infla su diseño y lo asocia a "binding"
         binding = ToolbarCustomBinding.inflate(LayoutInflater.from(context), this, true)
     }
 
     /**
-     * Establece el título del toolbar.
+     * Método que cambia el título del toolbar.
      *
      * @param titulo Texto que se mostrará como título.
      */
@@ -36,7 +34,7 @@ class CustomToolbar @JvmOverloads constructor(
     }
 
     /**
-     * Permite asignar un listener al botón de menú.
+     * Método que permite asignar un listener al botón de menú.
      *
      * @param listener Función a ejecutar al hacer clic en el botón menú.
      */
@@ -45,7 +43,7 @@ class CustomToolbar @JvmOverloads constructor(
     }
 
     /**
-     * Permite asignar un listener al botón de búsqueda.
+     * Método que permite asignar un listener al botón de búsqueda.
      *
      * @param listener Función a ejecutar al hacer clic en el botón búsqueda.
      */
@@ -54,7 +52,7 @@ class CustomToolbar @JvmOverloads constructor(
     }
 
     /**
-     * Muestra u oculta el botón de búsqueda.
+     * Método que muestra u oculta el botón de búsqueda.
      *
      * @param visible True para mostrar, False para ocultar.
      */
@@ -63,58 +61,12 @@ class CustomToolbar @JvmOverloads constructor(
     }
 
     /**
-     * Muestra u oculta el botón de menú.
+     * Método que muestra u oculta el botón de menú.
      *
      * @param visible True para mostrar, False para ocultar.
      */
     fun mostrarMenu(visible: Boolean) {
         binding.toolbarIbMenu.visibility = if (visible) VISIBLE else GONE
-    }
-
-    /**
-     * Muestra un PopupMenu anclado al botón de menú.
-     *
-     * @param menuRes El recurso del menú a inflar.
-     * @param onMenuItemClick Acción a ejecutar al seleccionar un ítem.
-     */
-    fun mostrarPopupMenu(menuRes: Int, onMenuItemClick: (itemId: Int) -> Unit) {
-        val popup = PopupMenu(context, binding.toolbarIbMenu)
-        val inflater: MenuInflater = popup.menuInflater
-        inflater.inflate(menuRes, popup.menu)
-
-        // Forzar mostrar íconos
-        try {
-            val fields = popup.javaClass.declaredFields
-            for (field in fields) {
-                if ("mPopup" == field.name) {
-                    field.isAccessible = true
-                    val menuPopupHelper = field.get(popup)
-                    val classPopupHelper = Class.forName(menuPopupHelper.javaClass.name)
-                    val setForceIcons = classPopupHelper.getMethod(
-                        "setForceShowIcon",
-                        Boolean::class.javaPrimitiveType
-                    )
-                    setForceIcons.invoke(menuPopupHelper, true)
-
-                    // Forzar que se muestren separadores entre grupos
-                    val setGroupDividerEnabled = classPopupHelper.getMethod(
-                        "setGroupDividerEnabled",
-                        Boolean::class.javaPrimitiveType
-                    )
-                    setGroupDividerEnabled.invoke(menuPopupHelper, true)
-
-                    break
-                }
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
-        popup.setOnMenuItemClickListener { menuItem ->
-            onMenuItemClick(menuItem.itemId)
-            true
-        }
-        popup.show()
     }
 
 }

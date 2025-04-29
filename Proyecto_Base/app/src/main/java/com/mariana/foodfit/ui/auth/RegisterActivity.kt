@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
  */
 class RegisterActivity : AppCompatActivity() {
 
-    // ViewBinding para acceder a los elementos de activity_login.xml
+    // ViewBinding para acceder a los elementos de activity_register.xml
     private lateinit var binding: ActivityRegisterBinding
 
     // Instancia del usuario service

@@ -6,19 +6,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.mariana.foodfit.R
 import com.mariana.foodfit.databinding.FragmentMenuLateralBinding
 import com.mariana.foodfit.ui.profile.ProfileActivity
+import com.mariana.foodfit.utils.Utils.Companion.mostrarMensaje
 
 /**
  * Fragment que representa el menú lateral de navegación.
  */
 class MenuLateralFragment : Fragment() {
 
-    // ViewBinding para fragment_menu_lateral.xml
+    // ViewBinding para acceder a los elementos de fragment_menu_lateral.xml
     private var _binding: FragmentMenuLateralBinding? = null
+
+    // Se asegura de que no sea null al acceder.
     private val binding get() = _binding!!
 
     override fun onAttach(context: Context) {
@@ -40,30 +42,40 @@ class MenuLateralFragment : Fragment() {
         configurarMenu()
     }
 
+    /**
+     * Método que configura el comportamiento de los ítems del menú lateral.
+     */
     private fun configurarMenu() {
-        binding.viewMenuLateral.setNavigationItemSelectedListener { menuItem ->
+        binding.fragmentMenuLateral.setNavigationItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.menuHomeDesayuno -> {
-                    mostrarMensaje("Desayuno")
+                    mostrarMensaje(context, "Desayuno")
                 }
+
                 R.id.menuHomeComida -> {
-                    mostrarMensaje("Comida")
+                    mostrarMensaje(context, "Comida")
                 }
+
                 R.id.menuHomeCena -> {
-                    mostrarMensaje("Cena")
+                    mostrarMensaje(context, "Cena")
                 }
+
                 R.id.menuHomeSnack -> {
-                    mostrarMensaje("Snack")
+                    mostrarMensaje(context, "Snack")
                 }
+
                 R.id.menuHomeCrear -> {
-                    mostrarMensaje("Crear nuevo")
+                    mostrarMensaje(context, "Crear nuevo")
                 }
+
                 R.id.menuHomeFavoritos -> {
-                    mostrarMensaje("Favoritos")
+                    mostrarMensaje(context, "Favoritos")
                 }
+
                 R.id.menuHomeMenu -> {
-                    mostrarMensaje("Menú semanal")
+                    mostrarMensaje(context, "Menú semanal")
                 }
+
                 R.id.menuHomePerfil -> {
                     // Ir al perfil
                     startActivity(Intent(requireContext(), ProfileActivity::class.java))
@@ -71,10 +83,6 @@ class MenuLateralFragment : Fragment() {
             }
             true
         }
-    }
-
-    private fun mostrarMensaje(mensaje: String) {
-        Toast.makeText(requireContext(), mensaje, Toast.LENGTH_SHORT).show()
     }
 
     override fun onDestroyView() {

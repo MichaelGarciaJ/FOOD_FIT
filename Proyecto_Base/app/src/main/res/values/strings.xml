@@ -43,5 +43,13 @@
     <string name="menuHomeMenu">Menú Comida</string>
     <string name="menuHomePerfil">Perfil</string>
 
+    <!-- MENÚ LATERAL HOME -->
+    <string name="menuLtHeaderBtPerfil">Usuario</string>
+    <string name="menuLtHeaderIbPerfil">Imagen del usuario</string>
+
+
+
+
+
 
 </resources>

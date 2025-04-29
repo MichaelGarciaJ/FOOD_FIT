@@ -4,7 +4,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
-import com.mariana.foodfit.R
 import com.mariana.foodfit.databinding.ActivityHomeBinding
 
 class HomeActivity : AppCompatActivity() {
@@ -17,10 +16,10 @@ class HomeActivity : AppCompatActivity() {
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        drawerLayout = binding.drawerLayout
+        drawerLayout = binding.home
 
         // Configuramos el botón de menú para abrir/cerrar el drawer
-        binding.toolbar.setOnMenuClickListener {
+        binding.homeCustomToolbar.setOnMenuClickListener {
             if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
                 drawerLayout.closeDrawer(GravityCompat.START)
             } else {

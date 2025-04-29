@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/menuLtHeader"
     android:layout_width="match_parent"
     android:layout_height="200dp"
     android:background="?attr/colorSurfaceVariant"
@@ -10,24 +10,24 @@
 
     <!-- Imagen de perfil -->
     <ImageButton
-        android:id="@+id/img_btn_perfil"
+        android:id="@+id/menuLtHeaderIbPerfil"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:clickable="false"
-        android:contentDescription="Imagen del usuario"
+        android:contentDescription="@string/menuLtHeaderIbPerfil"
         android:scaleType="fitCenter"
         android:src="@drawable/ic_person"
         app:tint="?attr/colorOnSurfaceVariant" />
 
     <!-- Nombre de usuario -->
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_perfil"
+        android:id="@+id/menuLtHeaderBtPerfil"
         style="@style/Widget.Material3.Button.TextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="false"
-        android:text="Usuario"
+        android:text="@string/menuLtHeaderBtPerfil"
         android:textColor="?attr/colorOnSurface"
         android:textSize="20sp"
         android:textStyle="bold"
