@@ -44,12 +44,8 @@
     <string name="menuHomePerfil">Perfil</string>
 
     <!-- MENÚ LATERAL HOME -->
-    <string name="menuLtHeaderBtPerfil">Usuario</string>
-    <string name="menuLtHeaderIbPerfil">Imagen del usuario</string>
-
-
-
-
+    <string name="menuTvHeaderTvPerfil">Usuario</string>
+    <string name="menuIwHeaderIbPerfil">Imagen del usuario</string>
 
 
 </resources>

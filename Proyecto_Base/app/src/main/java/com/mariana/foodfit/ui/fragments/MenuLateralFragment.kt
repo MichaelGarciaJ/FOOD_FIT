@@ -6,11 +6,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
+import com.google.android.material.button.MaterialButton
 import com.mariana.foodfit.R
+import com.mariana.foodfit.data.service.UsuarioService
 import com.mariana.foodfit.databinding.FragmentMenuLateralBinding
 import com.mariana.foodfit.ui.profile.ProfileActivity
 import com.mariana.foodfit.utils.Utils.Companion.mostrarMensaje
+import kotlinx.coroutines.launch
 
 /**
  * Fragment que representa el menú lateral de navegación.
@@ -19,15 +26,12 @@ class MenuLateralFragment : Fragment() {
 
     // ViewBinding para acceder a los elementos de fragment_menu_lateral.xml
     private var _binding: FragmentMenuLateralBinding? = null
-
     // Se asegura de que no sea null al acceder.
     private val binding get() = _binding!!
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        // Puedes aquí inicializar algo si lo necesitas antes de crear la vista
-    }
-
+    /**
+     * Método que infla el XML del fragmento y guarda el binding.
+     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,9 +40,13 @@ class MenuLateralFragment : Fragment() {
         return binding.root
     }
 
+    /**
+     * Método que llama a configurar el menú lateral.
+     */
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        mostrarNombreUsuarioYFotoUsuario()
         configurarMenu()
     }
 
@@ -47,6 +55,10 @@ class MenuLateralFragment : Fragment() {
      */
     private fun configurarMenu() {
         binding.fragmentMenuLateral.setNavigationItemSelectedListener { menuItem ->
+
+            // Deshabilita el menú para evitar múltiples clics
+            binding.fragmentMenuLateral.menu.setGroupEnabled(0, false)
+
             when (menuItem.itemId) {
                 R.id.menuHomeDesayuno -> {
                     mostrarMensaje(context, "Desayuno")
@@ -77,14 +89,56 @@ class MenuLateralFragment : Fragment() {
                 }
 
                 R.id.menuHomePerfil -> {
-                    // Ir al perfil
-                    startActivity(Intent(requireContext(), ProfileActivity::class.java))
+                    // Solo abre ProfileActivity si no estamos ya en ella
+                    if (requireActivity() !is ProfileActivity) {
+                        val intent = Intent(requireActivity(), ProfileActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        startActivity(intent)
+                    }
                 }
             }
+            // Rehabilita el menú después de 500ms
+            binding.fragmentMenuLateral.postDelayed({
+                binding.fragmentMenuLateral.menu.setGroupEnabled(0, true)
+            }, 500)
+
             true
         }
     }
 
+    /**
+     * Método que carga y muestra la información del usuario actual (nombre y foto de perfil)
+     * en el header del menú lateral.
+     */
+    private fun mostrarNombreUsuarioYFotoUsuario() {
+        val headerView = binding.fragmentMenuLateral.getHeaderView(0)
+        val textoNombre = headerView.findViewById<TextView>(R.id.menuTvHeaderTvPerfil)
+        val imagenPerfil = headerView.findViewById<ImageView>(R.id.menuIwHeaderIbPerfil)
+
+        // Llamas al servicio
+        lifecycleScope.launch {
+            val usuarioService = UsuarioService()
+            val usuario = usuarioService.getCurrentUser()
+
+            usuario?.let {
+                textoNombre.text = it.nombre
+
+                // Si hay una URL de imagen, la cargamos con Glide
+                if (!it.photoUrl.isNullOrBlank()) {
+                    Glide.with(requireContext())
+                        .load(it.photoUrl)
+                        .placeholder(R.drawable.ic_person)
+                        .error(R.drawable.ic_person) // si falla, muestra el ícono por defecto
+                        .circleCrop()
+                        .into(imagenPerfil)
+                }
+            }
+        }
+    }
+
+    /**
+     * Método quue limpia el binding para evitar que la vista se quede ocupando memoria luego de destruirse.
+     */
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

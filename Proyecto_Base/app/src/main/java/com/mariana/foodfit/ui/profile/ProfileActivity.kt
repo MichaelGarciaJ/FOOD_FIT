@@ -21,33 +21,29 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var googleSignInClient: GoogleSignInClient
     private lateinit var prefs: SharedPreferences
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        // Inflar el layout usando ViewBinding
-        binding = ActivityProfileBinding.inflate(layoutInflater)
-
-        // Establecer el layout inflado como la vista de la actividad
-        setContentView(binding.root)
-
+        // Leer preferencias y aplicar modo oscuro ANTES de inflar la vista
         prefs = getSharedPreferences("settings", MODE_PRIVATE)
-
-        // Aplicar el tema guardado
         val isDarkMode = prefs.getBoolean("dark_mode", false)
         AppCompatDelegate.setDefaultNightMode(
             if (isDarkMode) AppCompatDelegate.MODE_NIGHT_YES
             else AppCompatDelegate.MODE_NIGHT_NO
         )
 
-        // Configurar cliente de Google Sign-In (por si hay que cerrar sesión con él)
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+
+        // Inflar el layout usando ViewBinding
+        binding = ActivityProfileBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        // Configurar cliente de Google Sign-In
         configureGoogleSignIn()
 
+        // Botón para cambiar el tema (oscuro/claro)
         binding.btnCambiarTema.setOnClickListener {
             val currentlyDark = prefs.getBoolean("dark_mode", false)
-            val editor = prefs.edit()
-            editor.putBoolean("dark_mode", !currentlyDark)
-            editor.apply()
+            prefs.edit().putBoolean("dark_mode", !currentlyDark).apply()
 
             AppCompatDelegate.setDefaultNightMode(
                 if (!currentlyDark) AppCompatDelegate.MODE_NIGHT_YES
@@ -57,22 +53,16 @@ class ProfileActivity : AppCompatActivity() {
 
         // Botón para cerrar sesión
         binding.cerrar.setOnClickListener {
-            // Cerrar sesión de Firebase (siempre)
             usuarioService.logout()
 
-            // Cerrar sesión de Google solo si fue login por Google
-            val isGoogleLogin = prefs.getBoolean("is_google_login", false)
-            if (isGoogleLogin) {
+            if (prefs.getBoolean("is_google_login", false)) {
                 googleSignInClient.signOut()
             }
 
-            // Limpiar el flag para evitar confusiones en próximos inicios
             prefs.edit().remove("is_google_login").apply()
 
-            // Redirigir a LoginActivity
-            startActivity(Intent(this@ProfileActivity, LoginActivity::class.java))
+            startActivity(Intent(this, LoginActivity::class.java))
             finish()
-
         }
     }
 

@@ -154,10 +154,13 @@ class UsuarioService {
 
         // Si es la primera vez que entra, crea su documento en Firestore
         if (result.additionalUserInfo?.isNewUser == true) {
+            val photoUrl = firebaseUser.photoUrl?.toString() // puede ser null
+
             val usuario = Usuario(
                 idUsuario = firebaseUser.uid,
                 nombre = firebaseUser.displayName ?: "",
-                correo = firebaseUser.email ?: ""
+                correo = firebaseUser.email ?: "",
+                photoUrl = photoUrl
             )
             usuariosCollection.document(firebaseUser.uid).set(usuario).await()
             return usuario
