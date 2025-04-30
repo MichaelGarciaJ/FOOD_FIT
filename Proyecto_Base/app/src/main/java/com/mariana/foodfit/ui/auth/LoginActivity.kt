@@ -6,14 +6,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.mariana.foodfit.R
 import com.mariana.foodfit.data.service.UsuarioService
 import com.mariana.foodfit.databinding.ActivityLoginBinding
 import com.mariana.foodfit.ui.home.HomeActivity
-import com.mariana.foodfit.utils.Utils.Companion.mostrarMensaje
+import com.mariana.foodfit.utils.GoogleSignInHelper
+import com.mariana.foodfit.utils.Utils
 import kotlinx.coroutines.launch
 
 
@@ -23,7 +23,10 @@ import kotlinx.coroutines.launch
  */
 class LoginActivity : AppCompatActivity() {
 
+    // Cliente de autenticación de Google.
     private lateinit var googleSignInClient: GoogleSignInClient
+
+    // Código de solicitud utilizado para identificar la respuesta del intent de inicio de sesión con Google
     private val RC_SIGN_IN = 1001
 
     // ViewBinding para acceder a los elementos de activity_login.xml
@@ -56,7 +59,7 @@ class LoginActivity : AppCompatActivity() {
         signIn()
 
         // Prepara Google Sign-In
-        configureGoogleSignIn()
+        googleSignInClient = GoogleSignInHelper.getClient(this@LoginActivity)
 
         // Configura login con Google
         startWithGoogle()
@@ -104,14 +107,15 @@ class LoginActivity : AppCompatActivity() {
                         startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
                         finish()
                     } else {
-                        mostrarMensaje(this@LoginActivity, "Error en autenticación Google")
+                        Utils.mostrarMensaje(this@LoginActivity, "Error en autenticación Google")
                     }
                     // Rehabilitar el botón de Google al finalizar
                     runOnUiThread { binding.loginBtGoogle.isEnabled = true }
+                    binding.loginBtGoogle.text = getString(R.string.login_with_google)
                 }
 
             } catch (e: ApiException) {
-                mostrarMensaje(this, "Google Sign-In falló: ${e.message}")
+                Utils.mostrarMensaje(this, "Google Sign-In falló: ${e.message}")
                 binding.loginBtGoogle.isEnabled = true
             }
         }
@@ -144,7 +148,7 @@ class LoginActivity : AppCompatActivity() {
             val contrasena = binding.loginEtContrasenya.text.toString().trim()
 
             if (correo.isEmpty() || contrasena.isEmpty()) {
-                mostrarMensaje(this, "Correo y contraseña obligatorios")
+                Utils.mostrarMensaje(this, "Correo y contraseña obligatorios")
                 binding.loginBtLogin.isEnabled = true
                 binding.loginBtLogin.text = getString(R.string.login_bt_login)
                 return@setOnClickListener
@@ -164,11 +168,11 @@ class LoginActivity : AppCompatActivity() {
                         startActivity(Intent(this@LoginActivity, HomeActivity::class.java))
                         finish()
                     } else {
-                        mostrarMensaje(this@LoginActivity, "Correo o contraseña incorrectas")
+                        Utils.mostrarMensaje(this@LoginActivity, "Correo o contraseña incorrectas")
                     }
 
                 } catch (e: Exception) {
-                    mostrarMensaje(this@LoginActivity, "Error: ${e.message}")
+                    Utils.mostrarMensaje(this@LoginActivity, "Error: ${e.message}")
                 } finally {
                     // Rehabilitar el botón después de completar la operación.
                     binding.loginBtLogin.text = getString(R.string.login_bt_login)
@@ -179,23 +183,13 @@ class LoginActivity : AppCompatActivity() {
     }
 
     /**
-     * Método que inicializa el cliente de Google Sign-In con el ID token de la app.
-     */
-    private fun configureGoogleSignIn() {
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.default_web_client_id))
-            .requestEmail()
-            .build()
-        googleSignInClient = GoogleSignIn.getClient(this, gso)
-    }
-
-    /**
      * Método que configura el clic del botón de Google para iniciar el flujo de Sign-In.
      * También deshabilita el botón al pulsarlo para evitar dobles lanzamientos.
      */
     private fun startWithGoogle() {
         binding.loginBtGoogle.setOnClickListener {
             binding.loginBtGoogle.isEnabled = false
+            binding.loginBtGoogle.text = "Cargando..."
             startActivityForResult(googleSignInClient.signInIntent, RC_SIGN_IN)
         }
     }

@@ -1,6 +1,5 @@
 package com.mariana.foodfit.ui.menu
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,12 +10,12 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
-import com.google.android.material.button.MaterialButton
 import com.mariana.foodfit.R
 import com.mariana.foodfit.data.service.UsuarioService
 import com.mariana.foodfit.databinding.FragmentMenuLateralBinding
+import com.mariana.foodfit.ui.home.HomeActivity
 import com.mariana.foodfit.ui.profile.ProfileActivity
-import com.mariana.foodfit.utils.Utils.Companion.mostrarMensaje
+import com.mariana.foodfit.utils.Utils
 import kotlinx.coroutines.launch
 
 /**
@@ -60,32 +59,40 @@ class MenuLateralFragment : Fragment() {
             binding.fragmentMenuLateral.menu.setGroupEnabled(0, false)
 
             when (menuItem.itemId) {
+                R.id.menuHome -> {
+                    // Solo abre HomeActivity si no estamos ya en ella
+                    if (requireActivity() !is HomeActivity) {
+                        val intent = Intent(requireActivity(), HomeActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                        startActivity(intent)
+                    }
+                }
                 R.id.menuHomeDesayuno -> {
-                    mostrarMensaje(context, "Desayuno")
+                    Utils.mostrarMensaje(context, "Desayuno")
                 }
 
                 R.id.menuHomeComida -> {
-                    mostrarMensaje(context, "Comida")
+                    Utils.mostrarMensaje(context, "Comida")
                 }
 
                 R.id.menuHomeCena -> {
-                    mostrarMensaje(context, "Cena")
+                    Utils.mostrarMensaje(context, "Cena")
                 }
 
                 R.id.menuHomeSnack -> {
-                    mostrarMensaje(context, "Snack")
+                    Utils.mostrarMensaje(context, "Snack")
                 }
 
                 R.id.menuHomeCrear -> {
-                    mostrarMensaje(context, "Crear nuevo")
+                    Utils.mostrarMensaje(context, "Crear nuevo")
                 }
 
                 R.id.menuHomeFavoritos -> {
-                    mostrarMensaje(context, "Favoritos")
+                    Utils.mostrarMensaje(context, "Favoritos")
                 }
 
                 R.id.menuHomeMenu -> {
-                    mostrarMensaje(context, "Menú semanal")
+                    Utils.mostrarMensaje(context, "Menú semanal")
                 }
 
                 R.id.menuHomePerfil -> {

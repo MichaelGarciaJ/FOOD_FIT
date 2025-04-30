@@ -34,6 +34,7 @@
     <string name="toolbar_ib_busqueda">Logo de FoodFit</string>
 
     <!-- MENÚ HOME -->
+    <string name="menuHome">Home</string>
     <string name="menuHomeDesayuno">Desayuno</string>
     <string name="menuHomeComida">Comida</string>
     <string name="menuHomeCena">Cena</string>
@@ -46,6 +47,12 @@
     <!-- MENÚ LATERAL HOME -->
     <string name="menuTvHeaderTvPerfil">Usuario</string>
     <string name="menuIwHeaderIbPerfil">Imagen del usuario</string>
+
+    <!-- PROFILE -->
+    <string name="profileBtnChangeTheme">Icono en el que te indica al modo a que vas a cambiar</string>
+    <string name="profileBtnLogout">Cerrar sesión</string>
+    <string name="profileTvFavoritesCount">0</string>
+    <string name="profileTvFavoritesLabel">Platillos favoritos</string>
 
 
 </resources>

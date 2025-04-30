@@ -4,6 +4,11 @@
     <!-- Grupo 1: Comidas -->
     <group android:id="@+id/menuHomeGroupComidas">
         <item
+            android:id="@+id/menuHome"
+            android:icon="@drawable/ic_home"
+            android:iconTint="?attr/colorPrimary"
+            android:title="@string/menuHome" />
+        <item
             android:id="@+id/menuHomeDesayuno"
             android:icon="@drawable/ic_breakfast"
             android:iconTint="?attr/colorPrimary"
