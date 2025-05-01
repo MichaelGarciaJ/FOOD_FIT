@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
+        android:name=".FoodFitApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -18,22 +19,28 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:targetApi="31">
-        <activity
-            android:name=".ui.profile.EditProfileActivity"
-            android:exported="false" />
+
         <!-- Metadatos de Firebase -->
         <meta-data
             android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" /> <!-- Actividad para Google Sign-In -->
+            android:value="@integer/google_play_services_version" />
+        <!-- Actividad para Google Sign-In -->
         <activity
             android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"
             android:excludeFromRecents="true"
             android:exported="false"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" /> <!-- Actividad para manejar fallos de conexión -->
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <!-- Actividad para manejar fallos de conexión -->
         <activity
             android:name="com.google.android.gms.common.api.GoogleApiActivity"
             android:exported="false"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" /> <!-- Actividades de la aplicación -->
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <!-- Actividades de la aplicación -->
+        <activity
+            android:name=".ui.profile.EditProfileActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".ui.profile.ProfileActivity"
             android:exported="false"

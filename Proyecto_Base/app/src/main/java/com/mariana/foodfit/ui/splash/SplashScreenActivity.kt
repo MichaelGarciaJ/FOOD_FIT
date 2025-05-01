@@ -24,11 +24,23 @@ class SplashScreenActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
 
-        // Cargar animaciones
+        // Detectar si está en modo oscuro
+        val isDarkMode =
+            when (resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK) {
+                android.content.res.Configuration.UI_MODE_NIGHT_YES -> true
+                else -> false
+            }
+
+        // Seleccionar la imagen del logo adecuada según el modo
+        val splashIvLogo: ImageView = findViewById(R.id.splash_iv_logo)
+        val logoResId =
+            if (isDarkMode) R.drawable.logofoodfit_night else R.drawable.logofoodfit_light
+        splashIvLogo.setImageResource(logoResId)
+
+        // Cargar animación de fade-in desde recursos
         val fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in)
 
         // Aplicar animaciones al logo
-        val splashIvLogo: ImageView = findViewById(R.id.splash_iv_logo)
         splashIvLogo.startAnimation(fadeIn)
 
         Handler(Looper.getMainLooper()).postDelayed({

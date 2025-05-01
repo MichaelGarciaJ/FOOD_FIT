@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
  */
 class LoginActivity : AppCompatActivity() {
 
-    // Cliente de autenticación de Google.
+    // Cliente de autenticación de Google
     private lateinit var googleSignInClient: GoogleSignInClient
 
     // Código de solicitud utilizado para identificar la respuesta del intent de inicio de sesión con Google

@@ -25,6 +25,7 @@ class MenuLateralFragment : Fragment() {
 
     // ViewBinding para acceder a los elementos de fragment_menu_lateral.xml
     private var _binding: FragmentMenuLateralBinding? = null
+
     // Se asegura de que no sea null al acceder.
     private val binding get() = _binding!!
 
@@ -65,8 +66,11 @@ class MenuLateralFragment : Fragment() {
                         val intent = Intent(requireActivity(), HomeActivity::class.java)
                         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
                         startActivity(intent)
+                    } else {
+                        Utils.mostrarMensaje(context, "Ya estas en Home")
                     }
                 }
+
                 R.id.menuHomeDesayuno -> {
                     Utils.mostrarMensaje(context, "Desayuno")
                 }
@@ -101,12 +105,14 @@ class MenuLateralFragment : Fragment() {
                         val intent = Intent(requireActivity(), ProfileActivity::class.java)
                         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
                         startActivity(intent)
+                    } else {
+                        Utils.mostrarMensaje(context, "Ya estas en Perfil")
                     }
                 }
             }
             // Rehabilita el menú después de 500ms
             binding.fragmentMenuLateral.postDelayed({
-                binding.fragmentMenuLateral.menu.setGroupEnabled(0, true)
+                _binding?.fragmentMenuLateral?.menu?.setGroupEnabled(0, true)
             }, 500)
 
             true
@@ -122,7 +128,7 @@ class MenuLateralFragment : Fragment() {
         val textoNombre = headerView.findViewById<TextView>(R.id.menuTvHeaderTvPerfil)
         val imagenPerfil = headerView.findViewById<ImageView>(R.id.menuIwHeaderIbPerfil)
 
-        // Llamas al servicio
+        // Lanza una corrutina para obtener el usuario de forma asíncrona
         lifecycleScope.launch {
             val usuarioService = UsuarioService()
             val usuario = usuarioService.getCurrentUser()
@@ -148,6 +154,7 @@ class MenuLateralFragment : Fragment() {
      */
     override fun onDestroyView() {
         super.onDestroyView()
+        binding.fragmentMenuLateral.removeCallbacks(null)
         _binding = null
     }
 }

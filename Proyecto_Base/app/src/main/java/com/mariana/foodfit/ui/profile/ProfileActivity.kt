@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.lifecycleScope
@@ -14,6 +15,7 @@ import com.mariana.foodfit.data.service.UsuarioService
 import com.mariana.foodfit.databinding.ActivityProfileBinding
 import com.mariana.foodfit.ui.auth.LoginActivity
 import com.mariana.foodfit.utils.GoogleSignInHelper
+import com.mariana.foodfit.utils.ThemeUtils
 import com.mariana.foodfit.utils.ToolbarUtils
 import kotlinx.coroutines.launch
 
@@ -27,8 +29,9 @@ class ProfileActivity : AppCompatActivity() {
 
     // Instancia del usuario service
     private val usuarioService = UsuarioService()
+
+    // Cliente de autenticación de Google
     private lateinit var googleSignInClient: GoogleSignInClient
-    private lateinit var prefs: SharedPreferences
 
     /**
      * Método llamado cuando se crea la Activity.
@@ -36,10 +39,10 @@ class ProfileActivity : AppCompatActivity() {
      * @param savedInstanceState Bundle con el estado previo (null si es la primera vez).
      */
     override fun onCreate(savedInstanceState: Bundle?) {
-        // Aplica el tema claro u oscuro según las pregerencias guardadas del usuario.
-        aplicarPreferenciasDeTema()
-
         super.onCreate(savedInstanceState)
+
+        // Aplica el tema claro u oscuro según las preferencias guardadas
+        ThemeUtils.applySavedTheme(this)
 
         // Inflar el layout usando ViewBinding
         binding = ActivityProfileBinding.inflate(layoutInflater)
@@ -56,25 +59,12 @@ class ProfileActivity : AppCompatActivity() {
             binding.profileDrawerLayout
         )
 
+        // Configura los distintos elementos de la interfaz
         mostrarNombreFotoYCorreoUsuario()
-
         configurarBotonTema()
         configurarBotonLogout()
-
         configurarBotonEditarPerfil()
-    }
-
-    /**
-     * Método que aplica el modo claro u oscuro según las preferencias del usuario
-     * almacenadas en SharedPreferences bajo la clave "dark_mode".
-     */
-    private fun aplicarPreferenciasDeTema() {
-        prefs = getSharedPreferences("settings", MODE_PRIVATE)
-        val isDarkMode = prefs.getBoolean("dark_mode", false)
-        AppCompatDelegate.setDefaultNightMode(
-            if (isDarkMode) AppCompatDelegate.MODE_NIGHT_YES
-            else AppCompatDelegate.MODE_NIGHT_NO
-        )
+        actualizarIconoTema()
     }
 
     /**
@@ -87,6 +77,7 @@ class ProfileActivity : AppCompatActivity() {
         val correo = binding.profileTvEmail
 
 
+        // Lanza una corrutina para obtener el usuario de forma asíncrona
         lifecycleScope.launch {
             val usuario = usuarioService.getCurrentUser()
 
@@ -113,6 +104,7 @@ class ProfileActivity : AppCompatActivity() {
      */
     private fun configurarBotonEditarPerfil() {
         binding.profileBtnEdit.setOnClickListener {
+            binding.profileBtnEdit.isEnabled = false
             val intent = Intent(this, EditProfileActivity::class.java)
             startActivity(intent)
             finish()
@@ -120,51 +112,81 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     /**
-     * Método que configura el botón para cambiar entre modo claro y oscuro.
-     * Guarda el nuevo estado del tema en SharedPreferences y cambia el ícono del botón dependiendo del modo actual.
+     * Método que configura el botón para cambiar entre modo claro, oscuro o seguir sistema.
+     * Muestra un diálogo, guarda el nuevo estado en SharedPreferences y cambia el modo.
      */
     private fun configurarBotonTema() {
         binding.profileBtnChangeTheme.setOnClickListener {
-            val currentlyDark = prefs.getBoolean("dark_mode", false)
-            val nuevoModoOscuro = !currentlyDark
+            val opciones = arrayOf("Modo claro", "Modo oscuro", "Seguir sistema")
+            val currentMode = ThemeUtils.getCurrentMode(this)
 
-            // Guardar el nuevo estado
-            prefs.edit().putBoolean("dark_mode", !currentlyDark).apply()
+            val checkedItem = when (currentMode) {
+                AppCompatDelegate.MODE_NIGHT_NO -> 0
+                AppCompatDelegate.MODE_NIGHT_YES -> 1
+                else -> 2
+            }
 
-            // Cambiar el tema
-            AppCompatDelegate.setDefaultNightMode(
-                if (nuevoModoOscuro) AppCompatDelegate.MODE_NIGHT_YES
-                else AppCompatDelegate.MODE_NIGHT_NO
-            )
+            AlertDialog.Builder(this)
+                .setTitle("Selecciona el tema")
+                .setSingleChoiceItems(opciones, checkedItem) { dialog, which ->
+                    val selectedMode = when (which) {
+                        0 -> AppCompatDelegate.MODE_NIGHT_NO
+                        1 -> AppCompatDelegate.MODE_NIGHT_YES
+                        else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+                    }
 
-            // Cambiar el ícono del botón según el nuevo modo
-            val nuevoIcono =
-                if (nuevoModoOscuro) R.drawable.ic_light_mode else R.drawable.ic_dark_mode
-            binding.profileBtnChangeTheme.setImageResource(nuevoIcono)
+                    ThemeUtils.setThemeMode(this, selectedMode)
+                    dialog.dismiss()
+                }
+
+                .setNegativeButton("Cancelar", null)
+                .show()
         }
-
-        // Establecer el ícono adecuado al iniciar
-        val currentlyDark = prefs.getBoolean("dark_mode", false)
-        val iconoInicial = if (currentlyDark) R.drawable.ic_light_mode else R.drawable.ic_dark_mode
-        binding.profileBtnChangeTheme.setImageResource(iconoInicial)
     }
 
     /**
+     * Método que actualiza el ícono del botón de cambio de tema
+     * según el modo de tema actual para sugerir al usuario el próximo modo.
+     */
+    private fun actualizarIconoTema() {
+        val mode = ThemeUtils.getCurrentMode(this)
+        val iconRes = when (mode) {
+            AppCompatDelegate.MODE_NIGHT_NO -> R.drawable.ic_dark_mode
+            AppCompatDelegate.MODE_NIGHT_YES -> R.drawable.ic_light_mode
+            AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> {
+                val currentNightMode =
+                    resources.configuration.uiMode and android.content.res.Configuration.UI_MODE_NIGHT_MASK
+                if (currentNightMode == android.content.res.Configuration.UI_MODE_NIGHT_YES) {
+                    R.drawable.ic_light_mode  // sistema está en oscuro → mostrar sol (para sugerir claro)
+                } else {
+                    R.drawable.ic_dark_mode  // sistema está en claro → mostrar luna (para sugerir oscuro)
+                }
+            }
+
+            else -> R.drawable.ic_dark_mode
+        }
+        binding.profileBtnChangeTheme.setImageResource(iconRes)
+    }
+
+
+    /**
      * Método que configura el botón de logout para cerrar la sesión del usuario.
-     * Finalmente redirige a LoginActivity y finaliza la actual.
+     * Si fue un login con Google, también cierra la sesión de Google.
      */
     private fun configurarBotonLogout() {
         binding.profileBtnLogout.setOnClickListener {
             usuarioService.logout()
 
+            val prefs = getSharedPreferences("settings", MODE_PRIVATE)
             if (prefs.getBoolean("is_google_login", false)) {
                 googleSignInClient.signOut()
             }
 
             prefs.edit().remove("is_google_login").apply()
 
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
+            val intent = Intent(this@ProfileActivity, LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
         }
     }
 
