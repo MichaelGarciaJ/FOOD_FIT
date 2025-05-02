@@ -70,8 +70,6 @@
                         app:icon="@drawable/ic_edit"
                         app:iconGravity="textEnd"
                         app:iconTint="?attr/colorOnSurface" />
-
-
                 </FrameLayout>
 
                 <!-- Nombre -->
