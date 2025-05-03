@@ -73,30 +73,25 @@ class RegisterActivity : AppCompatActivity() {
             // Validaciones
             if (!Utils.validarNombreUsuario(nombre)) {
                 Utils.mostrarMensaje(this, "Nombre inválido. Usa 3-20 caracteres")
-                binding.registerBtRegister.isEnabled = true
-                binding.registerBtRegister.text = getString(R.string.register_bt_registrarse)
-
+                resetRegisterButton()
                 return@setOnClickListener
             }
 
             if (!Utils.comprobarCorreo(correo)) {
                 Utils.mostrarMensaje(this, "Correo inválido")
-                binding.registerBtRegister.isEnabled = true
-                binding.registerBtRegister.text = getString(R.string.register_bt_registrarse)
+                resetRegisterButton()
                 return@setOnClickListener
             }
 
             if (contrasena.length < 6) {
                 Utils.mostrarMensaje(this, "La contraseña debe tener al menos 6 caracteres")
-                binding.registerBtRegister.isEnabled = true
-                binding.registerBtRegister.text = getString(R.string.register_bt_registrarse)
+                resetRegisterButton()
                 return@setOnClickListener
             }
 
             if (contrasena != confirmarContrasena) {
                 Utils.mostrarMensaje(this, "Las contraseñas no coinciden")
-                binding.registerBtRegister.isEnabled = true
-                binding.registerBtRegister.text = getString(R.string.register_bt_registrarse)
+                resetRegisterButton()
                 return@setOnClickListener
             }
 
@@ -117,11 +112,18 @@ class RegisterActivity : AppCompatActivity() {
                     Utils.mostrarMensaje(this@RegisterActivity, "Este correo ya está registrado")
                 } finally {
                     // Rehabilitar el botón después de completar la operación.
-                    binding.registerBtRegister.text = getString(R.string.register_bt_registrarse)
-                    runOnUiThread { binding.registerBtRegister.isEnabled = true }
+                    runOnUiThread { resetRegisterButton() }
                 }
             }
         }
+    }
+
+    /**
+     * Método que restaura el botón de guardar a su estado original.
+     */
+    private fun resetRegisterButton() {
+        binding.registerBtRegister.text = getString(R.string.register_bt_registrarse)
+        binding.registerBtRegister.isEnabled = true
     }
 
 }

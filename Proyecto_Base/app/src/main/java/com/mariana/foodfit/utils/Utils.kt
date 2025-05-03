@@ -26,13 +26,16 @@ class Utils {
 
         /**
          * Método para validar el nombre de usuario.
-         * El nombre solo puede contener letras, números, guiones y guiones bajos, y debe tener una longitud válida.
+         * Permite letras, números, guiones, guiones bajos y un solo espacio entre palabras.
+         * No permite espacios al inicio ni al final ni múltiples espacios seguidos.
          *
          * @param username El nombre de usuario que se quiere validar.
          * @return true si el nombre de usuario es válido, false si no cumple con las condiciones.
          */
         fun validarNombreUsuario(username: String): Boolean {
-            return username.matches("^[a-zA-Z0-9_-]{3,20}$".toRegex())
+            val limpio = username.trim()
+            val regex = Regex("^[a-zA-Z0-9_-]+( [a-zA-Z0-9_-]+)?$")
+            return limpio.length in 3..20 && regex.matches(limpio)
         }
 
         /**
@@ -40,9 +43,14 @@ class Utils {
          *
          * @param context Contexto de la aplicación/actividad
          * @param mensaje Texto a mostrar en el Toast (puede ser null)
+         * @param duracion Tiempo que el mensaje va a estar en la pantalla (predeterminado Toast.LENGTH_SHORT)
          */
-        fun mostrarMensaje(context: Context?, mensaje: String?) {
-            Toast.makeText(context, mensaje, Toast.LENGTH_SHORT).show()
+        fun mostrarMensaje(
+            context: Context?,
+            mensaje: String?,
+            duracion: Int = Toast.LENGTH_SHORT
+        ) {
+            Toast.makeText(context, mensaje, duracion).show()
         }
     }
 

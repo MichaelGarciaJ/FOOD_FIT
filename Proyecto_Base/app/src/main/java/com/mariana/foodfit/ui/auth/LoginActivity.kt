@@ -109,14 +109,16 @@ class LoginActivity : AppCompatActivity() {
                     } else {
                         Utils.mostrarMensaje(this@LoginActivity, "Error en autenticación Google")
                     }
-                    // Rehabilitar el botón de Google al finalizar
-                    runOnUiThread { binding.loginBtGoogle.isEnabled = true }
-                    binding.loginBtGoogle.text = getString(R.string.login_with_google)
                 }
 
             } catch (e: ApiException) {
                 Utils.mostrarMensaje(this, "Google Sign-In falló: ${e.message}")
                 binding.loginBtGoogle.isEnabled = true
+
+            } finally {
+                // Rehabilitar el botón de Google al finalizar
+                runOnUiThread { binding.loginBtGoogle.isEnabled = true }
+                binding.loginBtGoogle.text = getString(R.string.login_with_google)
             }
         }
     }

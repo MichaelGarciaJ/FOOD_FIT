@@ -144,6 +144,8 @@ class MenuLateralFragment : Fragment() {
                         .error(R.drawable.ic_person) // si falla, muestra el ícono por defecto
                         .circleCrop()
                         .into(imagenPerfil)
+                } else {
+                    imagenPerfil.setImageResource(R.drawable.ic_person)
                 }
             }
         }

@@ -24,7 +24,7 @@ import kotlinx.coroutines.launch
  */
 class ProfileActivity : AppCompatActivity() {
 
-    // ViewBinding para acceder a los elementos de activity_login.xml
+    // ViewBinding para acceder a los elementos de activity_profile.xml
     private lateinit var binding: ActivityProfileBinding
 
     // Instancia del usuario service
@@ -63,7 +63,7 @@ class ProfileActivity : AppCompatActivity() {
         mostrarNombreFotoYCorreoUsuario()
         configurarBotonTema()
         configurarBotonLogout()
-        configurarBotonEditarPerfil()
+        goToEditProfile()
         actualizarIconoTema()
     }
 
@@ -93,6 +93,8 @@ class ProfileActivity : AppCompatActivity() {
                         .error(R.drawable.ic_person) // si falla, muestra el ícono por defecto
                         .circleCrop()
                         .into(imagenPerfil)
+                } else {
+                    imagenPerfil.setImageResource(R.drawable.ic_person)
                 }
             }
         }
@@ -102,10 +104,10 @@ class ProfileActivity : AppCompatActivity() {
      * Método qye configura el botón de editar perfil para que abra la actividad
      * EditProfileActivity y cierre la actual.
      */
-    private fun configurarBotonEditarPerfil() {
+    private fun goToEditProfile() {
         binding.profileBtnEdit.setOnClickListener {
             binding.profileBtnEdit.isEnabled = false
-            val intent = Intent(this, EditProfileActivity::class.java)
+            val intent = Intent(this@ProfileActivity, EditProfileActivity::class.java)
             startActivity(intent)
             finish()
         }

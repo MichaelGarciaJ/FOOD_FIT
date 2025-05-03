@@ -58,9 +58,11 @@
     <string name="editProfileIvAvatar">Imagen del usuario</string>
     <string name="editProfileFabChangePhoto">Icono de cámara</string>
     <string name="editProfileNameLayout">Nuevo nombre</string>
-    <string name="editProfileEmailLayout">Nuevo correo electrónico</string>
     <string name="editProfileBtnCancel">Cancelar</string>
     <string name="editProfileBtnSave">Guardar</string>
+    <string name="editProfileCurrentPasswordLayout">Contraseña actual</string>
+    <string name="editProfileRepeatPasswordLayout">Repite nueva contraseña</string>
+    <string name="editProfileNewPasswordLayout">Nueva contraseña</string>
 
 
 </resources>

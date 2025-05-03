@@ -35,6 +35,11 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/editProfileCustomToolbar">
 
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true">
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -43,28 +48,27 @@
                 <!-- Avatar del usuario -->
                 <FrameLayout
                     android:id="@+id/avatarContainer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/editProfileIvAvatar"
-                        android:layout_width="150dp"
-                        android:layout_height="150dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
                         android:contentDescription="@string/editProfileIvAvatar"
-                        android:scaleType="centerCrop"
                         android:src="@drawable/ic_person"
                         app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/editProfileBtnChangePhoto"
                         style="@style/Widget.Material3.Button.Icon"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
+                        android:layout_width="36dp"
+                        android:layout_height="36dp"
                         android:layout_gravity="bottom|end"
-                        android:layout_margin="12dp"
+                        android:layout_margin="4dp"
                         android:backgroundTint="?attr/colorPrimaryContainer"
                         android:contentDescription="@string/editProfileFabChangePhoto"
                         android:insetTop="0dp"
@@ -100,28 +104,81 @@
                         android:textColorHint="?attr/colorOnSurfaceVariant" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Campo para nuevo correo -->
+                <!-- Campo para contraseña actual -->
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/editProfileEmailLayout"
+                    android:id="@+id/editProfileCurrentPasswordLayout"
                     style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:hint="@string/editProfileEmailLayout"
+                    android:hint="@string/editProfileCurrentPasswordLayout"
                     app:boxStrokeColor="?attr/colorPrimary"
-                    app:endIconMode="clear_text"
+                    app:endIconMode="password_toggle"
                     app:endIconTint="?attr/colorPrimary"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/editProfileNameLayout"
-                    app:startIconDrawable="@drawable/ic_email"
+                    app:startIconDrawable="@drawable/ic_password"
                     app:startIconTint="?attr/colorPrimary">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/editProfileEtEmail"
+                        android:id="@+id/editProfileEtCurrentPassword"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textEmailAddress"
+                        android:inputType="textPassword"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textColorHint="?attr/colorOnSurfaceVariant" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <!-- Campo para nueva contraseña -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/editProfileNewPasswordLayout"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:hint="@string/editProfileNewPasswordLayout"
+                    app:boxStrokeColor="?attr/colorPrimary"
+                    app:endIconMode="password_toggle"
+                    app:endIconTint="?attr/colorPrimary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/editProfileCurrentPasswordLayout"
+                    app:startIconDrawable="@drawable/ic_password"
+                    app:startIconTint="?attr/colorPrimary">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editProfileEtNewPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:textColor="?attr/colorOnSurface"
+                        android:textColorHint="?attr/colorOnSurfaceVariant" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Campo para repetir nueva contraseña -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/editProfileRepeatPasswordLayout"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:hint="@string/editProfileRepeatPasswordLayout"
+                    app:boxStrokeColor="?attr/colorPrimary"
+                    app:endIconMode="password_toggle"
+                    app:endIconTint="?attr/colorPrimary"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/editProfileNewPasswordLayout"
+                    app:startIconDrawable="@drawable/ic_password"
+                    app:startIconTint="?attr/colorPrimary">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editProfileEtRepeatPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
                         android:textColor="?attr/colorOnSurface"
                         android:textColorHint="?attr/colorOnSurfaceVariant" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -136,7 +193,7 @@
                     android:weightSum="2"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/editProfileEmailLayout">
+                    app:layout_constraintTop_toBottomOf="@id/editProfileRepeatPasswordLayout">
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/editProfileBtnCancel"
@@ -165,6 +222,7 @@
                 </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+            </ScrollView>
         </com.google.android.material.card.MaterialCardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
