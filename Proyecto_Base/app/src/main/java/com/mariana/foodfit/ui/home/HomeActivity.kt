@@ -1,9 +1,13 @@
 package com.mariana.foodfit.ui.home
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.mariana.foodfit.R
+import com.mariana.foodfit.data.entity.FoodItem
 import com.mariana.foodfit.databinding.ActivityHomeBinding
+import com.mariana.foodfit.ui.adapters.FoodAdapter
 import com.mariana.foodfit.utils.ToolbarUtils
 
 class HomeActivity : AppCompatActivity() {
@@ -18,5 +22,19 @@ class HomeActivity : AppCompatActivity() {
 
         // Configuramos el botón de menú para abrir/cerrar el drawer
         ToolbarUtils.configurarDrawerToggle(binding.homeCustomToolbar, binding.homeDrawerLayout)
+
+        val recyclerView = findViewById<RecyclerView>(R.id.homeRecyclerView)
+        recyclerView.layoutManager = GridLayoutManager(this, 2) // Dos columnas
+
+        val foodItems = listOf(
+            FoodItem(R.drawable.ic_favorite, "Ensalada", "Fresca y saludable", false),
+            FoodItem(R.drawable.ic_favorite, "Pasta", "Deliciosa al dente", true),
+            FoodItem(R.drawable.ic_favorite, "Sopa", "Caliente y reconfortante", false),
+            // Añade más elementos aquí
+        )
+
+        val adapter = FoodAdapter(foodItems)
+        recyclerView.adapter = adapter
+
     }
 }
