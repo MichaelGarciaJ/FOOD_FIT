@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.mariana.foodfit.R
 import com.mariana.foodfit.data.entity.FoodItem
@@ -33,7 +32,7 @@ class FoodAdapter(private val items: List<FoodItem>) :
         holder.subtitle.text = item.subtitle
 
         val favoriteIconRes = if (item.isFavorite) {
-            ContextCompat.getColor(holder.itemView.context, R.color.md_theme_primary)
+            R.drawable.ic_favorite_background
         } else {
             R.drawable.ic_favorite
         }

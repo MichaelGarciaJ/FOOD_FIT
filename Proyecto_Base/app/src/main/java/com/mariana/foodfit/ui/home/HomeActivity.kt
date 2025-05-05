@@ -27,9 +27,9 @@ class HomeActivity : AppCompatActivity() {
         recyclerView.layoutManager = GridLayoutManager(this, 2) // Dos columnas
 
         val foodItems = listOf(
-            FoodItem(R.drawable.ic_favorite, "Ensalada", "Fresca y saludable", false),
-            FoodItem(R.drawable.ic_favorite, "Pasta", "Deliciosa al dente", true),
-            FoodItem(R.drawable.ic_favorite, "Sopa", "Caliente y reconfortante", false),
+            FoodItem(R.drawable.logofoodfit_night, "Ensalada", "Fresca y saludable", false),
+            FoodItem(R.drawable.logofoodfit_night, "Pasta", "Deliciosa al dente", true),
+            FoodItem(R.drawable.logofoodfit_night, "Sopa", "Caliente y reconfortante", false),
             // Añade más elementos aquí
         )
 
