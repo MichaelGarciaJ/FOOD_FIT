@@ -64,5 +64,10 @@
     <string name="editProfileRepeatPasswordLayout">Repite nueva contraseña</string>
     <string name="editProfileNewPasswordLayout">Nueva contraseña</string>
 
+    <!-- HOME-->
+    <string name="homeIcon">Icono de Home</string>
+
+    <!-- BREAKFAST-->
+    <string name="breakfastIcon">Icono de desayuno</string>
 
 </resources>

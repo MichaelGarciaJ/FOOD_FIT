@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="start"
     app:headerLayout="@layout/menu_lateral_header"
+    app:itemIconTint="?attr/colorPrimary"
     app:menu="@menu/menu_lateral_items">
 
 </com.google.android.material.navigation.NavigationView>

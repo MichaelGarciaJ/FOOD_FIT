@@ -14,6 +14,7 @@ import com.mariana.foodfit.R
 import com.mariana.foodfit.data.service.UsuarioService
 import com.mariana.foodfit.databinding.FragmentMenuLateralBinding
 import com.mariana.foodfit.ui.home.HomeActivity
+import com.mariana.foodfit.ui.meals.breakfast.BreakfastActivity
 import com.mariana.foodfit.ui.profile.ProfileActivity
 import com.mariana.foodfit.utils.Utils
 import kotlinx.coroutines.launch
@@ -61,18 +62,11 @@ class MenuLateralFragment : Fragment() {
 
             when (menuItem.itemId) {
                 R.id.menuHome -> {
-                    // Solo abre HomeActivity si no estamos ya en ella
-                    if (requireActivity() !is HomeActivity) {
-                        val intent = Intent(requireActivity(), HomeActivity::class.java)
-                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                        startActivity(intent)
-                    } else {
-                        Utils.mostrarMensaje(context, "Ya estas en Home")
-                    }
+                    navigateToActivity(HomeActivity::class.java)
                 }
 
                 R.id.menuHomeDesayuno -> {
-                    Utils.mostrarMensaje(context, "Desayuno")
+                    navigateToActivity(BreakfastActivity::class.java)
                 }
 
                 R.id.menuHomeComida -> {
@@ -100,14 +94,7 @@ class MenuLateralFragment : Fragment() {
                 }
 
                 R.id.menuHomePerfil -> {
-                    // Solo abre ProfileActivity si no estamos ya en ella
-                    if (requireActivity() !is ProfileActivity) {
-                        val intent = Intent(requireActivity(), ProfileActivity::class.java)
-                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                        startActivity(intent)
-                    } else {
-                        Utils.mostrarMensaje(context, "Ya estas en Perfil")
-                    }
+                    navigateToActivity(ProfileActivity::class.java)
                 }
             }
             // Rehabilita el menú después de 500ms
@@ -116,6 +103,22 @@ class MenuLateralFragment : Fragment() {
             }, 500)
 
             true
+        }
+    }
+
+    /**
+     * Método que maneja la navegación hacia otra Activity. Si ya estamos en ella, muestra un mensaje.
+     *
+     * @param targetActivity La clase de la Activity de destino.
+     */
+    private fun navigateToActivity(targetActivity: Class<*>) {
+        // Solo abre la activity si no estamos em ella.
+        if (requireActivity()::class.java != targetActivity) {
+            val intent = Intent(requireContext(), targetActivity)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            startActivity(intent)
+        } else {
+            Utils.mostrarMensaje(context, "Ya estás en esta sección")
         }
     }
 
