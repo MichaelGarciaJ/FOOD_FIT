@@ -92,4 +92,12 @@ dependencies {
     // Google Sign-In (Play Services Auth)
     implementation("com.google.android.gms:play-services-auth:20.7.0")
 
+    implementation("com.google.firebase:firebase-firestore-ktx")
+    // si usas fotos desde Firebase Storage
+    implementation("com.google.firebase:firebase-storage-ktx")
+
+    // Retrofit
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+
 }

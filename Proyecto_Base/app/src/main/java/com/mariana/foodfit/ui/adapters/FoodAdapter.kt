@@ -1,16 +1,17 @@
-package com.mariana.foodfit.ui.adapters
-
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.mariana.foodfit.R
 import com.mariana.foodfit.data.entity.FoodItem
 
-class FoodAdapter(private val items: List<FoodItem>) :
-    RecyclerView.Adapter<FoodAdapter.FoodViewHolder>() {
+class FoodAdapter(
+    private val items: List<FoodItem>,
+    private val onFavoriteClick: (FoodItem) -> Unit
+) : RecyclerView.Adapter<FoodAdapter.FoodViewHolder>() {
 
     class FoodViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val image: ImageView = itemView.findViewById(R.id.itemFoodImage)
@@ -27,7 +28,13 @@ class FoodAdapter(private val items: List<FoodItem>) :
 
     override fun onBindViewHolder(holder: FoodViewHolder, position: Int) {
         val item = items[position]
-        holder.image.setImageResource(item.imageResId)
+
+        // Cargar imagen desde URL si hay, si no usa placeholder
+        Glide.with(holder.image.context)
+            .load(item.fotoUrl)
+            .placeholder(R.drawable.ic_home) // Asegúrate de tener un placeholder en drawable
+            .into(holder.image)
+
         holder.title.text = item.title
         holder.subtitle.text = item.subtitle
 
@@ -41,6 +48,7 @@ class FoodAdapter(private val items: List<FoodItem>) :
         holder.favoriteIcon.setOnClickListener {
             item.isFavorite = !item.isFavorite
             notifyItemChanged(position)
+            onFavoriteClick(item)
         }
     }
 
