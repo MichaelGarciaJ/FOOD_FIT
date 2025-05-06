@@ -1,6 +1,6 @@
 package com.mariana.foodfit.data.entity
 
-data class FoodItem(
+data class PlatilloVistaItem(
     val id: String,
     val fotoUrl: String,
     val title: String,

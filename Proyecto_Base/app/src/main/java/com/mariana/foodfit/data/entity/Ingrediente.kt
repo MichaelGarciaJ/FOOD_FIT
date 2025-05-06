@@ -1,9 +1,9 @@
 package com.mariana.foodfit.data.entity
 
 data class Ingrediente(
-    val id: String = "",
+    val idIngrediente: String,
     val nombre: String = "",
     val precio: Double = 0.0,
     val fotoUrl: String = "",
-    val nutrientes: Map<String, String> = emptyMap()
+    val nutrientes: Map<String, String>? = emptyMap()
 )

@@ -1,6 +1,6 @@
 package com.mariana.foodfit.ui.home
 
-import FoodAdapter
+import PlatilloVistaAdapter
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -9,8 +9,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.mariana.foodfit.R
-import com.mariana.foodfit.data.entity.FoodItem
-import com.mariana.foodfit.data.service.ApiToFirestoreService
+import com.mariana.foodfit.data.entity.PlatilloVistaItem
+import com.mariana.foodfit.data.service.IngredienteService
+import com.mariana.foodfit.data.service.MercadonaApiService
 import com.mariana.foodfit.data.service.PlatilloService
 import com.mariana.foodfit.databinding.ActivityHomeBinding
 import com.mariana.foodfit.utils.ToolbarUtils
@@ -23,6 +24,8 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
     private lateinit var recyclerView: RecyclerView
     private val platilloService = PlatilloService()
+    private val ingredienteService = IngredienteService()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,20 +39,17 @@ class HomeActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.homeRecyclerView)
         recyclerView.layoutManager = GridLayoutManager(this, 2) // Dos columnas
 
-        // Cargar platillos al iniciar
-        cargarPlatillosDesdeFirestore()
+        verificarYImportarDatosSiNecesario()
 
-        // ⚠ SOLO PARA PRUEBAS → comenta esto cuando ya tengas datos cargados
-         importarDatosDeApis()
     }
 
     private fun cargarPlatillosDesdeFirestore() {
         lifecycleScope.launch {
             val platillos = platilloService.getPlatillos()
-            val adapter = FoodAdapter(platillos.map {
-                FoodItem(
+            val adapter = PlatilloVistaAdapter(platillos.map {
+                PlatilloVistaItem(
                     id = it.idPlatillo,
-                    fotoUrl = it.fotoUrl,
+                    fotoUrl = it.fotoUrl ?: "",
                     title = it.nombre,
                     subtitle = it.categoria,
                     isFavorite = it.isFavorite
@@ -62,21 +62,41 @@ class HomeActivity : AppCompatActivity() {
     }
 
 
-    private fun onFavoriteClick(foodItem: FoodItem) {
+    private fun onFavoriteClick(platilloVistaItem: PlatilloVistaItem) {
         lifecycleScope.launch {
             val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return@launch
             platilloService.toggleFavorito(
                 userId = userId,
-                platilloId = foodItem.id,
-                isFavorite = !foodItem.isFavorite
+                platilloId = platilloVistaItem.id,
+                isFavorite = !platilloVistaItem.isFavorite
             )
         }
     }
 
-    private fun importarDatosDeApis() {
-        val apiService = ApiToFirestoreService()
+
+    private fun verificarYImportarDatosSiNecesario() {
         CoroutineScope(Dispatchers.IO).launch {
-            apiService.importarProductosMercadona()
+            val ingredientesVacios = ingredienteService.getAllIngredientes().isEmpty()
+            val platillosVacios = platilloService.getPlatillos().isEmpty()
+
+            if (ingredientesVacios || platillosVacios) {
+                Log.d("HomeActivity", "Colecciones vacías, importando datos desde la API...")
+                val apiService = MercadonaApiService(
+                    ingredienteService = ingredienteService,
+                    platilloService = platilloService
+                )
+                apiService.importarProductosMercadona()
+                launch(Dispatchers.Main) {
+                    cargarPlatillosDesdeFirestore()
+                }
+            } else {
+                Log.d("HomeActivity", "Colecciones ya tienen datos, cargando desde Firestore...")
+                launch(Dispatchers.Main) {
+                    cargarPlatillosDesdeFirestore()
+                }
+            }
         }
     }
+
+
 }

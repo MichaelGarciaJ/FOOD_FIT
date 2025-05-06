@@ -6,12 +6,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.mariana.foodfit.R
-import com.mariana.foodfit.data.entity.FoodItem
+import com.mariana.foodfit.data.entity.PlatilloVistaItem
 
-class FoodAdapter(
-    private val items: List<FoodItem>,
-    private val onFavoriteClick: (FoodItem) -> Unit
-) : RecyclerView.Adapter<FoodAdapter.FoodViewHolder>() {
+class PlatilloVistaAdapter(
+    private val items: List<PlatilloVistaItem>,
+    private val onFavoriteClick: (PlatilloVistaItem) -> Unit
+) : RecyclerView.Adapter<PlatilloVistaAdapter.FoodViewHolder>() {
 
     class FoodViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val image: ImageView = itemView.findViewById(R.id.itemFoodImage)
@@ -33,6 +33,7 @@ class FoodAdapter(
         Glide.with(holder.image.context)
             .load(item.fotoUrl)
             .placeholder(R.drawable.ic_home) // Asegúrate de tener un placeholder en drawable
+            .error(R.drawable.ic_cancel)
             .into(holder.image)
 
         holder.title.text = item.title
