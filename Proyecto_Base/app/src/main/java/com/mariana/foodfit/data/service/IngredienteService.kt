@@ -33,13 +33,15 @@ class IngredienteService {
 
     suspend fun addIngrediente(ingrediente: Ingrediente): String {
         return try {
-            val docRef = ingredientesCollection.add(ingrediente).await()
-            docRef.id // Devuelve el ID generado en Firestore
+            val docRef = ingredientesCollection.document(ingrediente.idIngrediente)
+            docRef.set(ingrediente).await()
+            docRef.id
         } catch (e: Exception) {
-            Log.e("Firestore", "Error al agregar ingrediente: ${e.message}")
-            ""
+            Log.e("Firestore", "Error al agregar ingrediente: ${e.message}", e)
+            throw e
         }
     }
+
 
     private fun QuerySnapshot.toIngredientes(): List<Ingrediente> {
         return try {

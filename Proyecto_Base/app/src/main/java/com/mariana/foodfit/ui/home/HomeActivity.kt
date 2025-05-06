@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.mariana.foodfit.R
+import com.mariana.foodfit.data.entity.Ingrediente
 import com.mariana.foodfit.data.entity.PlatilloVistaItem
 import com.mariana.foodfit.data.service.IngredienteService
 import com.mariana.foodfit.data.service.MercadonaApiService
@@ -38,6 +39,19 @@ class HomeActivity : AppCompatActivity() {
 
         recyclerView = findViewById(R.id.homeRecyclerView)
         recyclerView.layoutManager = GridLayoutManager(this, 2) // Dos columnas
+
+//        val testIngrediente = Ingrediente(
+//            idIngrediente = "test123",
+//            nombre = "Test Ingrediente",
+//            precio = 1.0,
+//            fotoUrl = "",
+//            nutrientes = mapOf("calorias" to "100")
+//        )
+//
+//        lifecycleScope.launch {
+//            val id = ingredienteService.addIngrediente(testIngrediente)
+//            Log.d("Firestore", "TEST Ingrediente guardado con ID: $id")
+//        }
 
         verificarYImportarDatosSiNecesario()
 
