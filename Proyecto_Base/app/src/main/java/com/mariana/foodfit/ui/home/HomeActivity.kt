@@ -53,7 +53,15 @@ class HomeActivity : AppCompatActivity() {
 //            Log.d("Firestore", "TEST Ingrediente guardado con ID: $id")
 //        }
 
-        verificarYImportarDatosSiNecesario()
+//        verificarYImportarDatosSiNecesario()
+
+        // Desde donde llames el servicio:
+        val mercadonaApiService = MercadonaApiService(ingredienteService)
+
+        lifecycleScope.launch {
+            mercadonaApiService.buscarYGuardarSiCorresponde("Aceite de oliva virgen extra Hacendado")
+        }
+
 
     }
 
@@ -88,29 +96,29 @@ class HomeActivity : AppCompatActivity() {
     }
 
 
-    private fun verificarYImportarDatosSiNecesario() {
-        CoroutineScope(Dispatchers.IO).launch {
-            val ingredientesVacios = ingredienteService.getAllIngredientes().isEmpty()
-            val platillosVacios = platilloService.getPlatillos().isEmpty()
-
-            if (ingredientesVacios || platillosVacios) {
-                Log.d("HomeActivity", "Colecciones vacías, importando datos desde la API...")
-                val apiService = MercadonaApiService(
-                    ingredienteService = ingredienteService,
-                    platilloService = platilloService
-                )
-                apiService.importarProductosMercadona()
-                launch(Dispatchers.Main) {
-                    cargarPlatillosDesdeFirestore()
-                }
-            } else {
-                Log.d("HomeActivity", "Colecciones ya tienen datos, cargando desde Firestore...")
-                launch(Dispatchers.Main) {
-                    cargarPlatillosDesdeFirestore()
-                }
-            }
-        }
-    }
+//    private fun verificarYImportarDatosSiNecesario() {
+//        CoroutineScope(Dispatchers.IO).launch {
+//            val ingredientesVacios = ingredienteService.getAllIngredientes().isEmpty()
+//            val platillosVacios = platilloService.getPlatillos().isEmpty()
+//
+//            if (ingredientesVacios || platillosVacios) {
+//                Log.d("HomeActivity", "Colecciones vacías, importando datos desde la API...")
+//                val apiService = MercadonaApiService(
+//                    ingredienteService = ingredienteService,
+//                    platilloService = platilloService
+//                )
+//                apiService.importarProductosMercadona()
+//                launch(Dispatchers.Main) {
+//                    cargarPlatillosDesdeFirestore()
+//                }
+//            } else {
+//                Log.d("HomeActivity", "Colecciones ya tienen datos, cargando desde Firestore...")
+//                launch(Dispatchers.Main) {
+//                    cargarPlatillosDesdeFirestore()
+//                }
+//            }
+//        }
+//    }
 
 
 }

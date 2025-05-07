@@ -1,16 +1,14 @@
 package com.mariana.foodfit.data.api
 
-import com.mariana.foodfit.data.api.model.CategoriesResponse
-import com.mariana.foodfit.data.api.model.CategoryDetailResponse
-import com.mariana.foodfit.data.api.model.ProductsResponse
+
 import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface IMercadonaApiService {
-
     @GET("categories/")
-    suspend fun getCategories(): CategoriesResponse
+    suspend fun getCategories(): Map<String, Any>
 
-    @GET("categories/{categoryId}")
-    suspend fun getCategoryById(@Path("categoryId") categoryId: String): ProductsResponse
+    @GET("categories/{id}")
+    suspend fun getCategoryById(@Path("id") id: Int): Map<String, Any>
 }
+
