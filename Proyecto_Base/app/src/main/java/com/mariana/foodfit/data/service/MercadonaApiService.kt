@@ -2,6 +2,9 @@ package com.mariana.foodfit.data.service
 
 import android.util.Log
 import com.mariana.foodfit.data.api.ApiClient
+import com.mariana.foodfit.data.api.model.PriceProduct
+import com.mariana.foodfit.data.api.model.ProductDetailResponse
+import com.mariana.foodfit.data.entity.Ingrediente
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
@@ -14,26 +17,49 @@ class MercadonaApiService(
 
     suspend fun importarProductosMercadona() = withContext(Dispatchers.IO) {
         try {
-            val rootCats = mercadonaApi.getCategories().results
-            Log.d("Firestore", "Root categories: ${rootCats.size}")
+            val categoriaPrincipal = mercadonaApi.getCategories().results
+            Log.d("Firestore", "Root categories: ${categoriaPrincipal.size}")
 
-            rootCats.take(10).forEach { root ->
+            categoriaPrincipal.take(10).forEach { dentroCategoriaPrincipal ->
                 Log.d("Firestore", "Procesando categoría principal")
 
-                root.categories?.take(10)?.forEach { subCategory ->
-                    Log.d(
-                        "Firestore",
-                        "Dentro de subcategoría"
-                    )
+                dentroCategoriaPrincipal.categories?.take(10)?.forEach { categoriaSecundaria ->
 
                     // Obtenemos el ID para navegar.
-                    val idCategory = subCategory.id
+                    val idSubCategory = categoriaSecundaria.id
                     Log.d(
                         "Firestore",
-                        "Procesando subcategoría (ID: ${idCategory}))"
+                        "Procesando subcategoría (ID: ${idSubCategory}))"
                     )
 
+                    try {
+                        val dentroCategoriaSecundaria =
+                            mercadonaApi.getCategoryById(idSubCategory).categories
 
+                        dentroCategoriaSecundaria.take(10).forEach { dentroProductoPrincipal ->
+                            Log.d("Firestore", "Procesando producto principal")
+
+                            dentroProductoPrincipal.products?.take(10)
+                                ?.forEach { productoPrincipal ->
+                                    val id = productoPrincipal.id;
+                                    val nombreProducto = productoPrincipal.display_name;
+                                    val fotoProducto = productoPrincipal.thumbnail;
+                                    val precioProducto =
+                                        productoPrincipal.price_instructions.bulk_price
+
+                                    Log.d(
+                                        "Firestore",
+                                        "ID: ${id} - NOMBRE: ${nombreProducto} - FOTO: ${fotoProducto} - PRECIO: ${precioProducto}"
+                                    )
+                                    saveProductToServices(productoPrincipal);
+
+                                }
+                        }
+
+
+                    } catch (e: Exception) {
+                        Log.e("Firestore", "Error al obtener la subcategoria: ${e}")
+                    }
                     delay(300) // Throttle para no saturar la API
                 }
             }
@@ -43,30 +69,24 @@ class MercadonaApiService(
     }
 
 
-//    private suspend fun saveProductToServices(product: ProductResponse, categoryPath: String) {
-//        Log.d("Firestore", "Entra el método???")
-//        try {
-//
-//            Log.d("Firestore", "Y AQUÍ Entra el método???")
-//            val price = product.price_instructions?.toDoubleOrNull() ?: 0.0
-//            Log.d("Firestore", "Producto: ${product.display_name}, price: $price")
-//
-//
-//            val ingrediente = Ingrediente(
-//                idIngrediente = product.id,
-//                nombre = product.display_name,
-//                precio = price,
-//                fotoUrl = product.thumbnail,
-//                nutrientes = mapOf(
-//                    "calorias" to "0",
-//                    "proteinas" to "0",
-//                    "carbohidratos" to "0",
-//                    "grasas" to "0"
-//                )
-//            )
-//
-//            val ingredienteId = ingredienteService.addIngrediente(ingrediente)
-//            Log.d("Firestore", "Ingrediente guardado con ID: $ingredienteId")
+    private suspend fun saveProductToServices(product: ProductDetailResponse) {
+        try {
+
+            val ingrediente = Ingrediente(
+                idIngrediente = product.id,
+                nombre = product.display_name,
+                precio = product.price_instructions.bulk_price,
+                fotoUrl = product.thumbnail,
+                nutrientes = mapOf(
+                    "calorias" to "0",
+                    "proteinas" to "0",
+                    "carbohidratos" to "0",
+                    "grasas" to "0"
+                )
+            )
+
+            val ingredienteId = ingredienteService.addIngrediente(ingrediente)
+            Log.d("Firestore", "Ingrediente guardado con ID: $ingredienteId")
 
 //            if (ingredienteId.isNotEmpty()) {
 //                val platillo = Platillo(
@@ -90,8 +110,8 @@ class MercadonaApiService(
 //            } else {
 //                Log.e("Firestore", "Error: ingrediente no guardado, se omite platillo")
 //            }
-//        } catch (e: Exception) {
-//            Log.e("Firestore", "Error en saveProductToServices", e)
-//        }
-//    }
+        } catch (e: Exception) {
+            Log.e("Firestore", "Error en saveProductToServices", e)
+        }
+    }
 }
