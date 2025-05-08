@@ -2,22 +2,18 @@ package com.mariana.foodfit.ui.home
 
 import PlatilloVistaAdapter
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.mariana.foodfit.R
-import com.mariana.foodfit.data.entity.Ingrediente
 import com.mariana.foodfit.data.entity.PlatilloVistaItem
 import com.mariana.foodfit.data.service.IngredienteService
-import com.mariana.foodfit.data.service.MercadonaApiService
+import com.mariana.foodfit.data.api.service.MercadonaApiService
 import com.mariana.foodfit.data.service.PlatilloService
 import com.mariana.foodfit.databinding.ActivityHomeBinding
 import com.mariana.foodfit.utils.ToolbarUtils
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class HomeActivity : AppCompatActivity() {

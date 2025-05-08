@@ -1,4 +1,4 @@
-package com.mariana.foodfit.data.api
+package com.mariana.foodfit.data.api.service
 
 
 import com.mariana.foodfit.data.api.model.CategoriesResponse

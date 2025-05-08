@@ -1,9 +1,10 @@
-package com.mariana.foodfit.data.service
+package com.mariana.foodfit.data.api.service
 
 import android.util.Log
-import com.mariana.foodfit.data.api.ApiClient
+import com.mariana.foodfit.data.api.client.MercadonaApiClient
 import com.mariana.foodfit.data.api.model.ProductDetailResponse
 import com.mariana.foodfit.data.entity.Ingrediente
+import com.mariana.foodfit.data.service.IngredienteService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -15,19 +16,19 @@ import kotlinx.coroutines.withContext
 class MercadonaApiService(
     private val ingredienteService: IngredienteService
 ) {
-    private val api = ApiClient.mercadonaApi
+    private val api = MercadonaApiClient.mercadonaApi
 
     object BusquedaContador {
         val contador = mutableMapOf<String, Int>()
     }
 
     suspend fun buscarYGuardarSiCorresponde(nombreBuscado: String) = withContext(Dispatchers.IO) {
-        Log.d("Busqueda", "Inicio búsqueda: $nombreBuscado")
+        Log.d("MercadonaApi", "Inicio búsqueda: $nombreBuscado")
         val cleanTarget = limpiar(nombreBuscado)
 
         val producto = buscarProductoEnCategorias(cleanTarget)
         if (producto == null) {
-            Log.w("Busqueda", "No hallado: $nombreBuscado")
+            Log.w("MercadonaApi", "No hallado: $nombreBuscado")
             return@withContext
         }
 
@@ -35,7 +36,7 @@ class MercadonaApiService(
         if (veces >= 3) {
             val ingrediente = convertirAModeloIngrediente(producto)
             val newId = ingredienteService.addIngrediente(ingrediente)
-            Log.d("Busqueda", "Ingrediente guardado con ID $newId")
+            Log.d("MercadonaApi", "Ingrediente guardado con ID $newId")
         }
     }
 
@@ -60,7 +61,7 @@ class MercadonaApiService(
     private fun incrementarContador(nombre: String): Int {
         val veces = (BusquedaContador.contador[nombre] ?: 0) + 1
         BusquedaContador.contador[nombre] = veces
-        Log.d("Busqueda", "Veces buscado '$nombre': $veces")
+        Log.d("MercadonaApi", "Veces buscado '$nombre': $veces")
         return veces
     }
 

@@ -1,12 +1,13 @@
-package com.mariana.foodfit.data.api
+package com.mariana.foodfit.data.api.client
 
+import com.mariana.foodfit.data.api.service.IMercadonaApiService
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
-object ApiClient {
+object MercadonaApiClient {
 
     private const val BASE_URL = "https://tienda.mercadona.es/api/"
 
