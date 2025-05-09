@@ -4,7 +4,6 @@ import android.util.Log
 import com.mariana.foodfit.data.api.client.MercadonaApiClient
 import com.mariana.foodfit.data.api.model.ProductDetailResponse
 import com.mariana.foodfit.data.entity.Ingrediente
-import com.mariana.foodfit.data.service.IngredienteService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -13,33 +12,29 @@ import kotlinx.coroutines.withContext
  * Lleva un contador en memoria de cuántas veces se ha buscado cada nombre,
  * y cuando supera el umbral (3) lo guarda en Firestore usando IngredienteService.
  */
-class MercadonaApiService(
-    private val ingredienteService: IngredienteService
-) {
+class MercadonaApiService {
     private val api = MercadonaApiClient.mercadonaApi
 
-    object BusquedaContador {
-        val contador = mutableMapOf<String, Int>()
-    }
-
-    suspend fun buscarYGuardarSiCorresponde(nombreBuscado: String) = withContext(Dispatchers.IO) {
+    suspend fun buscarIngredientePorNombre(nombreBuscado: String): Map<String, Any>? = withContext(Dispatchers.IO) {
         Log.d("MercadonaApi", "Inicio búsqueda: $nombreBuscado")
         val cleanTarget = limpiar(nombreBuscado)
 
         val producto = buscarProductoEnCategorias(cleanTarget)
         if (producto == null) {
             Log.w("MercadonaApi", "No hallado: $nombreBuscado")
-            return@withContext
+            return@withContext null
         }
 
-        val veces = incrementarContador(nombreBuscado)
-        if (veces >= 3) {
-            val ingrediente = convertirAModeloIngrediente(producto)
-            val newId = ingredienteService.addIngrediente(ingrediente)
-            Log.d("MercadonaApi", "Ingrediente guardado con ID $newId")
-        }
+        val ingredienteMap = mapOf(
+            "idIngrediente" to producto.id,
+            "nombre" to producto.display_name,
+            "precio" to producto.price_instructions.bulk_price,
+            "fotoIngrediente" to producto.thumbnail,
+        )
+
+        Log.d("MercadonaApi", "Ingrediente encontrado: $ingredienteMap")
+        ingredienteMap
     }
-
     private suspend fun buscarProductoEnCategorias(cleanTarget: String): ProductDetailResponse? {
         val rootCategories = api.getCategories().results
 
@@ -56,13 +51,6 @@ class MercadonaApiService(
             }
         }
         return null
-    }
-
-    private fun incrementarContador(nombre: String): Int {
-        val veces = (BusquedaContador.contador[nombre] ?: 0) + 1
-        BusquedaContador.contador[nombre] = veces
-        Log.d("MercadonaApi", "Veces buscado '$nombre': $veces")
-        return veces
     }
 
     private fun convertirAModeloIngrediente(producto: ProductDetailResponse): Ingrediente {

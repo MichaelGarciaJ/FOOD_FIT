@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.mariana.foodfit.R
+import com.mariana.foodfit.data.api.service.MercadonaApiService
 import com.mariana.foodfit.data.entity.PlatilloVistaItem
 import com.mariana.foodfit.data.service.IngredienteService
-import com.mariana.foodfit.data.api.service.MercadonaApiService
 import com.mariana.foodfit.data.service.PlatilloService
 import com.mariana.foodfit.databinding.ActivityHomeBinding
 import com.mariana.foodfit.utils.ToolbarUtils
@@ -52,10 +52,10 @@ class HomeActivity : AppCompatActivity() {
 //        verificarYImportarDatosSiNecesario()
 
         // Desde donde llames el servicio:
-        val mercadonaApiService = MercadonaApiService(ingredienteService)
+        val mercadonaApiService = MercadonaApiService()
 
         lifecycleScope.launch {
-            mercadonaApiService.buscarYGuardarSiCorresponde("Aceite de oliva virgen extra Hacendado")
+            mercadonaApiService.buscarIngredientePorNombre("Aceite de oliva virgen extra Hacendado")
         }
 
 

@@ -5,11 +5,10 @@ import com.mariana.foodfit.data.api.client.EdamanApiClient
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class EdamanApiService(
-    private val appId: String,
-    private val appKey: String
-) {
+class EdamanApiService{
     private val api = EdamanApiClient.edamamApi
+    private val appId: String = ""
+    private val appKey: String = ""
 
     suspend fun obtenerNutrientesMap(nombre: String): Map<String, String> = withContext(Dispatchers.IO) {
         val response = api.searchFood(appId, appKey, nombre)

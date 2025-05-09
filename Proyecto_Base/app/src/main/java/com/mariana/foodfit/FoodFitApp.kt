@@ -9,6 +9,8 @@ import com.mariana.foodfit.utils.ThemeUtils
  */
 class FoodFitApp: Application() {
 
+    // CONTADOR DE INGREDIENTES AQUÍ si se busca más de dos veces.
+
     /**
      * Método llamado cuando se crea la aplicación.
      * Aplica el tema (claro/oscuro/sistema) guardado en las preferencias.
