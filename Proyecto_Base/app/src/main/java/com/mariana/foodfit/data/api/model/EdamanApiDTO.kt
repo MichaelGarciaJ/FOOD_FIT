@@ -26,11 +26,3 @@ data class EdamamNutrients(
     val FIBTG: Double?
 )
 
-data class EdamanNutrientsFailed(
-    val calorias: String,
-    val proteinas: String,
-    val grasas: String,
-    val carbohidratos: String,
-    val fibra: String
-)
-

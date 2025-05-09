@@ -44,7 +44,9 @@ class PlatilloService {
 
     suspend fun addPlatillo(platillo: Platillo): String {
         return try {
-            val docRef = platillosCollection.add(platillo).await()
+            val docRef = platillosCollection.document() // genera un nuevo ID
+            val platilloWithId = platillo.copy(idPlatillo = docRef.id)
+            docRef.set(platilloWithId).await()
             docRef.id // Devuelve el ID generado en Firestore
         } catch (e: Exception) {
             Log.e("Firestore", "Error al agregar platillo: ${e.message}")
@@ -94,22 +96,17 @@ class PlatilloService {
      * Extensión para convertir QuerySnapshot a List<Platillo>
      */
     private fun QuerySnapshot.toPlatillos(): List<Platillo> {
-        return try {
-            this.documents.mapNotNull { doc ->
-                try {
-                    doc.toObject(Platillo::class.java)?.let { platillo ->
-                        platillo.copy(idPlatillo = doc.id)
-                    }
-                } catch (e: Exception) {
-                    Log.e("Firestore", "Error mapeando documento ${doc.id}", e)
-                    null
-                }
+        return this.documents.mapNotNull { doc ->
+            try {
+                // Deserializa el platillo completo
+                val platillo = doc.toObject(Platillo::class.java)
+                // Aquí puedes agregar lógica adicional de validación si lo deseas
+                platillo?.copy(idPlatillo = doc.id)
+            } catch (e: Exception) {
+                Log.e("Firestore", "Error mapeando documento ${doc.id}", e)
+                null
             }
-        } catch (e: Exception) {
-            Log.e("Firestore", "Error en conversión de documentos", e)
-            emptyList()
         }
     }
-
 
 }

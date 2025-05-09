@@ -7,28 +7,25 @@ import kotlinx.coroutines.withContext
 
 class EdamanApiService{
     private val api = EdamanApiClient.edamamApi
-    private val appId: String = ""
-    private val appKey: String = ""
+    private val appId: String = "d2374919"
+    private val appKey: String = "db94865ca22c0e9efd27483378cef763"
 
-    suspend fun obtenerNutrientesMap(nombre: String): Map<String, String> = withContext(Dispatchers.IO) {
+    suspend fun obtenerNutrientes(nombre: String): Map<String, Double> = withContext(Dispatchers.IO) {
         val response = api.searchFood(appId, appKey, nombre)
 
         val nutrientes = response.parsed.firstOrNull()?.food?.nutrients
             ?: response.hints.firstOrNull()?.food?.nutrients
 
         val result = mapOf(
-            "calorias" to nutrientes?.ENERC_KCAL.toDisplayString(),
-            "proteinas" to nutrientes?.PROCNT.toDisplayString(),
-            "grasas" to nutrientes?.FAT.toDisplayString(),
-            "carbohidratos" to nutrientes?.CHOCDF.toDisplayString(),
-            "fibra" to nutrientes?.FIBTG.toDisplayString()
+            "calorias" to (nutrientes?.ENERC_KCAL ?: 0.0),
+            "proteinas" to (nutrientes?.PROCNT ?: 0.0),
+            "grasas" to (nutrientes?.FAT ?: 0.0),
+            "carbohidratos" to (nutrientes?.CHOCDF ?: 0.0),
+            "fibra" to (nutrientes?.FIBTG ?: 0.0)
         )
 
-        Log.d("Edamam", "Nutrientes Map para '$nombre': $result")
+        Log.d("Edaman", "Nutrientes Map para '$nombre': $result")
         result
     }
-
-    private fun Double?.toDisplayString(): String = this?.toString() ?: "-"
-
 
 }

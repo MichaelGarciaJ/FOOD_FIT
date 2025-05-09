@@ -3,14 +3,11 @@ package com.mariana.foodfit.data.api.service
 import android.util.Log
 import com.mariana.foodfit.data.api.client.MercadonaApiClient
 import com.mariana.foodfit.data.api.model.ProductDetailResponse
-import com.mariana.foodfit.data.entity.Ingrediente
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 /**
  * Servicio que busca un producto por nombre en la API de Mercadona.
- * Lleva un contador en memoria de cuántas veces se ha buscado cada nombre,
- * y cuando supera el umbral (3) lo guarda en Firestore usando IngredienteService.
  */
 class MercadonaApiService {
     private val api = MercadonaApiClient.mercadonaApi
@@ -29,7 +26,7 @@ class MercadonaApiService {
             "idIngrediente" to producto.id,
             "nombre" to producto.display_name,
             "precio" to producto.price_instructions.bulk_price,
-            "fotoIngrediente" to producto.thumbnail,
+            "fotoUrl" to producto.thumbnail,
         )
 
         Log.d("MercadonaApi", "Ingrediente encontrado: $ingredienteMap")
@@ -51,21 +48,6 @@ class MercadonaApiService {
             }
         }
         return null
-    }
-
-    private fun convertirAModeloIngrediente(producto: ProductDetailResponse): Ingrediente {
-        return Ingrediente(
-            idIngrediente = producto.id,
-            nombre = producto.display_name,
-            precio = producto.price_instructions.bulk_price,
-            fotoUrl = producto.thumbnail,
-            nutrientes = mapOf(
-                "calorias" to "0",
-                "proteinas" to "0",
-                "carbohidratos" to "0",
-                "grasas" to "0"
-            )
-        )
     }
 
     private fun limpiar(s: String): String =

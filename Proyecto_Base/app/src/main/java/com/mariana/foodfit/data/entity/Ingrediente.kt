@@ -5,5 +5,9 @@ data class Ingrediente(
     val nombre: String = "",
     val precio: Double = 0.0,
     val fotoUrl: String = "",
-    val nutrientes: Map<String, String>? = emptyMap()
+    val calorias: Double = 0.0,
+    val proteinas: Double = 0.0,
+    val grasas : Double = 0.0,
+    val carbohidratos: Double = 0.0,
+    val fibra: Double = 0.0
 )

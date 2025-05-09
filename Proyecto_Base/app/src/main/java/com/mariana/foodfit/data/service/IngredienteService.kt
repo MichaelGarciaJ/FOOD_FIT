@@ -4,6 +4,7 @@ import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.mariana.foodfit.data.entity.Ingrediente
+import com.mariana.foodfit.data.entity.Platillo
 import kotlinx.coroutines.tasks.await
 
 class IngredienteService {
@@ -20,6 +21,27 @@ class IngredienteService {
             null
         }
     }
+
+    suspend fun getIngredienteByNombre(nombre: String): Ingrediente? {
+        return try {
+            val snapshot = ingredientesCollection
+                .whereEqualTo("nombre", nombre)
+                .limit(1)
+                .get()
+                .await()
+
+            if (!snapshot.isEmpty) {
+                val doc = snapshot.documents.first()
+                doc.toObject(Ingrediente::class.java)?.copy(idIngrediente = doc.id)
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            Log.e("Firestore", "Error al buscar ingrediente por nombre '$nombre': ${e.message}", e)
+            null
+        }
+    }
+
 
     suspend fun getAllIngredientes(): List<Ingrediente> {
         return try {
@@ -44,20 +66,16 @@ class IngredienteService {
 
 
     private fun QuerySnapshot.toIngredientes(): List<Ingrediente> {
-        return try {
-            this.documents.mapNotNull { doc ->
-                try {
-                    doc.toObject(Ingrediente::class.java)?.let { ingrediente ->
-                        ingrediente.copy(idIngrediente = doc.id)
-                    }
-                } catch (e: Exception) {
-                    Log.e("Firestore", "Error mapeando documento ${doc.id}", e)
-                    null
-                }
+        return this.documents.mapNotNull { doc ->
+            try {
+                // Deserializa el platillo completo
+                val ingrediente = doc.toObject(Ingrediente::class.java)
+                // Aquí puedes agregar lógica adicional de validación si lo deseas
+                ingrediente?.copy(idIngrediente = doc.id)
+            } catch (e: Exception) {
+                Log.e("Firestore", "Error mapeando documento ${doc.id}", e)
+                null
             }
-        } catch (e: Exception) {
-            Log.e("Firestore", "Error en conversión de documentos", e)
-            emptyList()
         }
     }
 
