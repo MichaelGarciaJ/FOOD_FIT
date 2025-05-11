@@ -70,6 +70,15 @@
     <!-- BREAKFAST -->
     <string name="breakfastIcon">Icono de desayuno</string>
 
+    <!-- LUNCH -->
+    <string name="lunchIcon">Icono de comida</string>
+    
+    <!-- DINNER -->
+    <string name="dinnerIcon">Icono de cena</string>
+
+    <!-- SNACK -->
+    <string name="snackIcon">Icono de snack</string>
+
     <!-- ITEM FOOD-->
     <string name="itemFoodImage">Imagén del platillo</string>
     <string name="itemFoodTitle">Nombre del platillo</string>

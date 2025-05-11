@@ -1,4 +1,4 @@
-package com.mariana.foodfit.ui.home
+package com.mariana.foodfit.ui.meals.snack
 
 import PlatilloVistaAdapter
 import android.os.Bundle
@@ -10,35 +10,34 @@ import com.google.firebase.auth.FirebaseAuth
 import com.mariana.foodfit.R
 import com.mariana.foodfit.data.entity.PlatilloVistaItem
 import com.mariana.foodfit.data.service.PlatilloService
-import com.mariana.foodfit.databinding.ActivityHomeBinding
+import com.mariana.foodfit.databinding.ActivitySnackBinding
 import com.mariana.foodfit.utils.ToolbarUtils
 import kotlinx.coroutines.launch
 
-class HomeActivity : AppCompatActivity() {
+class SnackActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityHomeBinding
+    private lateinit var binding: ActivitySnackBinding
     private lateinit var recyclerView: RecyclerView
     private val platilloService = PlatilloService()
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityHomeBinding.inflate(layoutInflater)
+        binding = ActivitySnackBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         // Configurar menú lateral
-        ToolbarUtils.configurarDrawerToggle(binding.homeCustomToolbar, binding.homeDrawerLayout)
+        ToolbarUtils.configurarDrawerToggle(binding.snackCustomToolbar, binding.snackDrawerLayout)
 
-        recyclerView = findViewById(R.id.homeRecyclerView)
+        recyclerView = findViewById(R.id.snackRecyclerView)
         recyclerView.layoutManager = GridLayoutManager(this, 2) // Dos columnas
 
-        cargarTodoPlatillosFirestore()
+        cargarSnackPlatillosFirestore()
+
     }
 
-    private fun cargarTodoPlatillosFirestore() {
+    private fun cargarSnackPlatillosFirestore() {
         lifecycleScope.launch {
-            val platillos = platilloService.getPlatillos()
+            val platillos = platilloService.getPlatillosPorCategoria("Snack")
             val adapter = PlatilloVistaAdapter(platillos.map {
                 PlatilloVistaItem(
                     id = it.idPlatillo,

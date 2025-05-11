@@ -34,10 +34,25 @@
             android:exported="false"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" /> <!-- Actividades de la aplicación -->
         <activity
+            android:name=".ui.meals.snack.SnackActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.meals.dinner.DinnerActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".ui.meals.lunch.LunchActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
             android:name=".ui.meals.breakfast.BreakfastActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".ui.profile.EditProfileActivity"
             android:exported="false"

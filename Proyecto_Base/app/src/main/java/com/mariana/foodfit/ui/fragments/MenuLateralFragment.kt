@@ -15,6 +15,9 @@ import com.mariana.foodfit.data.service.UsuarioService
 import com.mariana.foodfit.databinding.FragmentMenuLateralBinding
 import com.mariana.foodfit.ui.home.HomeActivity
 import com.mariana.foodfit.ui.meals.breakfast.BreakfastActivity
+import com.mariana.foodfit.ui.meals.dinner.DinnerActivity
+import com.mariana.foodfit.ui.meals.lunch.LunchActivity
+import com.mariana.foodfit.ui.meals.snack.SnackActivity
 import com.mariana.foodfit.ui.profile.ProfileActivity
 import com.mariana.foodfit.utils.Utils
 import kotlinx.coroutines.launch
@@ -70,15 +73,15 @@ class MenuLateralFragment : Fragment() {
                 }
 
                 R.id.menuHomeComida -> {
-                    Utils.mostrarMensaje(context, "Comida")
+                    navigateToActivity(LunchActivity::class.java)
                 }
 
                 R.id.menuHomeCena -> {
-                    Utils.mostrarMensaje(context, "Cena")
+                    navigateToActivity(DinnerActivity::class.java)
                 }
 
                 R.id.menuHomeSnack -> {
-                    Utils.mostrarMensaje(context, "Snack")
+                    navigateToActivity(SnackActivity::class.java)
                 }
 
                 R.id.menuHomeCrear -> {

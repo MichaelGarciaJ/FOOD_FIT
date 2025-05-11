@@ -1,4 +1,4 @@
-package com.mariana.foodfit.ui.home
+package com.mariana.foodfit.ui.meals.lunch
 
 import PlatilloVistaAdapter
 import android.os.Bundle
@@ -10,35 +10,34 @@ import com.google.firebase.auth.FirebaseAuth
 import com.mariana.foodfit.R
 import com.mariana.foodfit.data.entity.PlatilloVistaItem
 import com.mariana.foodfit.data.service.PlatilloService
-import com.mariana.foodfit.databinding.ActivityHomeBinding
+import com.mariana.foodfit.databinding.ActivityLunchBinding
 import com.mariana.foodfit.utils.ToolbarUtils
 import kotlinx.coroutines.launch
 
-class HomeActivity : AppCompatActivity() {
+class LunchActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityHomeBinding
+    private lateinit var binding: ActivityLunchBinding
     private lateinit var recyclerView: RecyclerView
     private val platilloService = PlatilloService()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityHomeBinding.inflate(layoutInflater)
+        binding = ActivityLunchBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         // Configurar menú lateral
-        ToolbarUtils.configurarDrawerToggle(binding.homeCustomToolbar, binding.homeDrawerLayout)
+        ToolbarUtils.configurarDrawerToggle(binding.lunchCustomToolbar, binding.lunchDrawerLayout)
 
-        recyclerView = findViewById(R.id.homeRecyclerView)
+        recyclerView = findViewById(R.id.lunchRecyclerView)
         recyclerView.layoutManager = GridLayoutManager(this, 2) // Dos columnas
 
-        cargarTodoPlatillosFirestore()
+        cargarComidaPlatillosFirestore()
     }
 
-    private fun cargarTodoPlatillosFirestore() {
+    private fun cargarComidaPlatillosFirestore() {
         lifecycleScope.launch {
-            val platillos = platilloService.getPlatillos()
+            val platillos = platilloService.getPlatillosPorCategoria("Comida")
             val adapter = PlatilloVistaAdapter(platillos.map {
                 PlatilloVistaItem(
                     id = it.idPlatillo,
@@ -64,5 +63,4 @@ class HomeActivity : AppCompatActivity() {
             )
         }
     }
-
 }
