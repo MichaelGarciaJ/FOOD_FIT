@@ -7,10 +7,15 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
+/**
+ * Cliente de red para conectarse con la API de Mercadona.
+ */
+
 object MercadonaApiClient {
 
     private const val BASE_URL = "https://tienda.mercadona.es/api/"
 
+    // Cliente HTTP personalizado con encabezados y tiempo de espera
     private val client = OkHttpClient.Builder()
         .connectTimeout(30, TimeUnit.SECONDS)
         .readTimeout(30, TimeUnit.SECONDS)
@@ -23,7 +28,7 @@ object MercadonaApiClient {
         })
         .build()
 
-
+    // Instancia de la interfaz de servicio de Mercadona
     val mercadonaApi: IMercadonaApiService by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -32,4 +37,5 @@ object MercadonaApiClient {
             .build()
             .create(IMercadonaApiService::class.java)
     }
+
 }

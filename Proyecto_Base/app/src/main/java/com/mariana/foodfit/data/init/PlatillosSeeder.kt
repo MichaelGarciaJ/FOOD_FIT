@@ -10,8 +10,13 @@ import com.mariana.foodfit.data.entity.Platillo
 import com.mariana.foodfit.data.service.IngredienteService
 import com.mariana.foodfit.data.service.PlatilloService
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 
+/**
+ * Clase encargada de construir y registrar platillos completos en Firestore,
+ * incluyendo sus ingredientes, propiedades nutricionales y fotos.
+ */
 class PlatillosSeeder(
     private val platilloService: PlatilloService = PlatilloService(),
     private val ingredienteService: IngredienteService = IngredienteService(),
@@ -21,6 +26,10 @@ class PlatillosSeeder(
     private val apertiumApiService: ApertiumApiService = ApertiumApiService()
 ) {
 
+    /**
+     * Método que crea un platillo completo si no existe previamente en la base de datos.
+     * Agrega los ingredientes y obtiene la información nutricional y visual correspondiente.
+     */
     suspend fun crearPlatilloCompleto(
         nombrePlatillo: String,
         categoria: String,
@@ -86,6 +95,8 @@ class PlatillosSeeder(
                 unidad = unidad
             )
             ingredientesList.add(ingredientePlatilloFinal)
+
+            delay(5000)
         }
 
         // Obtenemos la foto del platillo al final
@@ -116,4 +127,5 @@ class PlatillosSeeder(
         val idPlatillo = platilloService.addPlatillo(platillo)
         Log.d("PlatillosSeeder", "Platillo guardado en Firestore con ID $idPlatillo")
     }
+
 }

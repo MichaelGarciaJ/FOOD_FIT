@@ -8,6 +8,8 @@ import com.mariana.foodfit.data.init.PlatillosSeeder
 import com.mariana.foodfit.utils.ThemeUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 
@@ -17,22 +19,36 @@ import kotlinx.coroutines.tasks.await
  */
 class FoodFitApp : Application() {
 
+    // Scope controlado, atado al ciclo de vida de la aplicación
+    private val appScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+
     /**
      * Método llamado cuando se crea la aplicación.
-     * Aplica el tema (claro/oscuro/sistema) guardado en las preferencias.
+     * Aplica el tema visual guardado por el usuario y lanza la inicialización de datos.
      */
     override fun onCreate() {
         super.onCreate()
         ThemeUtils.applySavedTheme(this)
-
         inicializarPlatillos()
     }
 
+    /**
+     * Método llamado cuando la app se termina (cerrada por completo).
+     * Se cancelan las tareas en segundo plano para liberar recursos.
+     */
+    override fun onTerminate() {
+        super.onTerminate()
+        appScope.cancel()
+    }
+
+    /**
+     * Método que inicializa los platillos predeterminados si la base de datos está vacía.
+     */
     private fun inicializarPlatillos() {
         val db = FirebaseFirestore.getInstance()
         val collection = db.collection("platillos")
 
-        CoroutineScope(Dispatchers.IO).launch {
+        appScope.launch {
             try {
                 val snapshot = collection.limit(1).get().await()
                 if (!snapshot.isEmpty) {

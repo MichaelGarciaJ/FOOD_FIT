@@ -6,9 +6,13 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 
+/**
+ * Cliente de red para conectarse con la API de Edamam (información nutricional).
+ */
 object EdamanApiClient {
     private const val BASE_URL = "https://api.edamam.com/"
 
+    // Cliente HTTP con configuración de tiempos y headers personalizados
     private val client = OkHttpClient.Builder()
         .connectTimeout(30, TimeUnit.SECONDS)
         .readTimeout(30, TimeUnit.SECONDS)
@@ -21,6 +25,7 @@ object EdamanApiClient {
         }
         .build()
 
+    // Instancia de la interfaz de servicio de Edamam
     val edamamApi: IEdamanApiService by lazy {
         Retrofit.Builder()
             .baseUrl(BASE_URL)

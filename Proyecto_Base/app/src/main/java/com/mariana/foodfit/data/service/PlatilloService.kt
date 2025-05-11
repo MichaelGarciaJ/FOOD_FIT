@@ -6,12 +6,20 @@ import com.google.firebase.firestore.QuerySnapshot
 import com.mariana.foodfit.data.entity.Platillo
 import kotlinx.coroutines.tasks.await
 
+/**
+ * Servicio que gestiona las operaciones relacionadas con los platillos.
+ */
 class PlatilloService {
 
     private val db = FirebaseFirestore.getInstance()
     private val platillosCollection = db.collection("platillos")
     private val usuariosCollection = db.collection("usuarios")
 
+    /**
+     * Método que recupera todos los platillos almacenados en la colección "platillos".
+     *
+     * @return Lista de objetos Platillo o una lista vacía si hay un error.
+     */
     suspend fun getPlatillos(): List<Platillo> {
         return try {
             val platillos = platillosCollection.get().await() // Obtener todos los platillos
@@ -22,7 +30,12 @@ class PlatilloService {
         }
     }
 
-
+    /**
+     * Método que recupera los platillos que pertenecen a una categoría específica.
+     *
+     * @param categoria Categoría a filtrar.
+     * @return Lista de platillos que coinciden con la categoría o una lista vacía.
+     */
     suspend fun getPlatillosPorCategoria(categoria: String): List<Platillo> {
         return try {
             platillosCollection
@@ -34,6 +47,12 @@ class PlatilloService {
         }
     }
 
+    /**
+     * Método que recupera un platillo específico por su ID.
+     *
+     * @param id ID del platillo (document ID en Firestore).
+     * @return Objeto Platillo correspondiente o null si no se encuentra o hay un error.
+     */
     suspend fun getPlatilloById(id: String): Platillo? {
         return try {
             platillosCollection.document(id).get().await().toObject(Platillo::class.java)?.copy(idPlatillo = id)
@@ -42,6 +61,12 @@ class PlatilloService {
         }
     }
 
+    /**
+     * Método que agrega un nuevo platillo a Firestore con un ID generado automáticamente.
+     *
+     * @param platillo Objeto Platillo que se desea agregar.
+     * @return ID generado del nuevo platillo, o cadena vacía si falla.
+     */
     suspend fun addPlatillo(platillo: Platillo): String {
         return try {
             val docRef = platillosCollection.document() // genera un nuevo ID
@@ -54,6 +79,13 @@ class PlatilloService {
         }
     }
 
+    /**
+     * Método que agrega o elimina un platillo de los favoritos de un usuario.
+     *
+     * @param userId ID del usuario.
+     * @param platilloId ID del platillo a marcar o desmarcar como favorito.
+     * @param isFavorite Indica si se debe agregar (true) o eliminar (false) de favoritos.
+     */
     suspend fun toggleFavorito(userId: String, platilloId: String, isFavorite: Boolean) {
         val userRef = usuariosCollection.document(userId)
         val favoritosRef = userRef.collection("platillosFavoritos").document(platilloId)
@@ -65,6 +97,12 @@ class PlatilloService {
         }
     }
 
+    /**
+     * Método que recupera todos los platillos marcados como favoritos por un usuario.
+     *
+     * @param userId ID del usuario.
+     * @return Lista de objetos Platillo favoritos del usuario o lista vacía si falla.
+     */
     suspend fun getPlatillosFavoritos(userId: String): List<Platillo> {
         return try {
             usuariosCollection.document(userId)
@@ -80,6 +118,12 @@ class PlatilloService {
         }
     }
 
+    /**
+     * Método que busca platillos que contengan un ingrediente específico en su lista de ingredientes.
+     *
+     * @param ingrediente Nombre del ingrediente.
+     * @return Lista de platillos que contienen el ingrediente.
+     */
     suspend fun buscarPorIngrediente(ingrediente: String): List<Platillo> {
         return try {
             platillosCollection
@@ -93,7 +137,9 @@ class PlatilloService {
     }
 
     /**
-     * Extensión para convertir QuerySnapshot a List<Platillo>
+     * Método que convierte un QuerySnapshot en una lista de objetos Platillo.
+     *
+     * @return Lista de objetos Platillo válidos.
      */
     private fun QuerySnapshot.toPlatillos(): List<Platillo> {
         return this.documents.mapNotNull { doc ->
