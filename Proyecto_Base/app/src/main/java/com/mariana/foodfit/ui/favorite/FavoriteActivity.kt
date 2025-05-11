@@ -1,8 +1,11 @@
-package com.mariana.foodfit.ui.home
+package com.mariana.foodfit.ui.favorite
 
 import PlatilloVistaAdapter
 import android.os.Bundle
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -10,13 +13,14 @@ import com.google.firebase.auth.FirebaseAuth
 import com.mariana.foodfit.R
 import com.mariana.foodfit.data.entity.PlatilloVistaItem
 import com.mariana.foodfit.data.service.PlatilloService
+import com.mariana.foodfit.databinding.ActivityFavoriteBinding
 import com.mariana.foodfit.databinding.ActivityHomeBinding
 import com.mariana.foodfit.utils.ToolbarUtils
 import kotlinx.coroutines.launch
 
-class HomeActivity : AppCompatActivity() {
+class FavoriteActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityHomeBinding
+    private lateinit var binding: ActivityFavoriteBinding
     private lateinit var recyclerView: RecyclerView
     private val platilloService = PlatilloService()
     private lateinit var platilloAdapter: PlatilloVistaAdapter
@@ -25,22 +29,23 @@ class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityHomeBinding.inflate(layoutInflater)
+        binding = ActivityFavoriteBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         // Configurar menú lateral
-        ToolbarUtils.configurarDrawerToggle(binding.homeCustomToolbar, binding.homeDrawerLayout)
+        ToolbarUtils.configurarDrawerToggle(binding.favoriteCustomToolbar, binding.favoriteDrawerLayout)
 
-        recyclerView = findViewById(R.id.homeRecyclerView)
+        recyclerView = findViewById(R.id.favoriteRecyclerView)
         recyclerView.layoutManager = GridLayoutManager(this, 2) // Dos columnas
 
-        cargarTodoPlatillosFirestore()
+        cargarFavoritoPlatillosFirestore()
+
     }
 
-    private fun cargarTodoPlatillosFirestore() {
+    private fun cargarFavoritoPlatillosFirestore() {
         lifecycleScope.launch {
             val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return@launch
-            val platillos = platilloService.getPlatillos()
+            val platillos = platilloService.getPlatillosFavoritos(userId)
             val favoritosIds = platilloService.getFavoritosIds(userId)
 
             listaPlatillos = platillos.map {
@@ -58,7 +63,6 @@ class HomeActivity : AppCompatActivity() {
             platilloAdapter.submitList(listaPlatillos.toList()) // enviar copia inmutable
         }
     }
-
 
     private fun onFavoriteClick(platilloVistaItem: PlatilloVistaItem) {
         lifecycleScope.launch {

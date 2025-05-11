@@ -35,7 +35,7 @@ class PlatilloVistaAdapter(
          * Método que vincula los datos de un PlatilloVistaItem con las vistas del layout.
          *
          * @param item Objeto PlatilloVistaItem que contiene la información del platillo.
-         * @param onFavoriteClick Callback que se ejecuta al pulsar el ícono de favorito.
+         * @param onFavoriteClick Callback que se ejecuta al pulsar el ícono de favoñrito.
          */
         fun bind(item: PlatilloVistaItem, onFavoriteClick: (PlatilloVistaItem) -> Unit) {
             Glide.with(image.context)

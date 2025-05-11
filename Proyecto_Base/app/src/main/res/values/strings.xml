@@ -72,12 +72,15 @@
 
     <!-- LUNCH -->
     <string name="lunchIcon">Icono de comida</string>
-    
+
     <!-- DINNER -->
     <string name="dinnerIcon">Icono de cena</string>
 
     <!-- SNACK -->
     <string name="snackIcon">Icono de snack</string>
+
+    <!-- FAVORITE -->
+    <string name="favoriteIcon">Icono de favorito</string>
 
     <!-- ITEM FOOD-->
     <string name="itemFoodImage">Imagén del platillo</string>

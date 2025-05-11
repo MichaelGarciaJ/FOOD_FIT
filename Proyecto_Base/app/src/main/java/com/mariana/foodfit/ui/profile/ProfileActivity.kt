@@ -8,7 +8,9 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.firebase.auth.FirebaseAuth
 import com.mariana.foodfit.R
+import com.mariana.foodfit.data.service.PlatilloService
 import com.mariana.foodfit.data.service.UsuarioService
 import com.mariana.foodfit.databinding.ActivityProfileBinding
 import com.mariana.foodfit.ui.auth.LoginActivity
@@ -27,6 +29,9 @@ class ProfileActivity : AppCompatActivity() {
 
     // Instancia del usuario service
     private val usuarioService = UsuarioService()
+
+    // Instancia del platillo service
+    private val platilloService = PlatilloService()
 
     // Cliente de autenticación de Google
     private lateinit var googleSignInClient: GoogleSignInClient
@@ -59,6 +64,7 @@ class ProfileActivity : AppCompatActivity() {
 
         // Configura los distintos elementos de la interfaz
         mostrarNombreFotoYCorreoUsuario()
+        mostrarCantidadDeFavoritos()
         configurarBotonTema()
         configurarBotonLogout()
         goToEditProfile()
@@ -68,7 +74,7 @@ class ProfileActivity : AppCompatActivity() {
     /**
      * Método que recupera los datos del usuario desde el servicio y muestra su nombre,
      * correo e imagen de perfil en la interfaz.
-     * */
+     */
     private fun mostrarNombreFotoYCorreoUsuario() {
         val textoNombre = binding.profileTvName
         val imagenPerfil = binding.profileIvAvatar
@@ -95,6 +101,19 @@ class ProfileActivity : AppCompatActivity() {
                     imagenPerfil.setImageResource(R.drawable.ic_person)
                 }
             }
+        }
+    }
+
+    /**
+     * Método que recupera la cantidad de favoritos del usuario desde el servicio y muestra su cantidad.
+     */
+    private fun mostrarCantidadDeFavoritos() {
+        lifecycleScope.launch {
+            val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return@launch
+            val favoritosIds = platilloService.getFavoritosIds(userId)
+            val cantidad = favoritosIds.size
+
+            binding.profileTvFavoritesCount.text = cantidad.toString()
         }
     }
 

@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.mariana.foodfit.R
 import com.mariana.foodfit.data.service.UsuarioService
 import com.mariana.foodfit.databinding.FragmentMenuLateralBinding
+import com.mariana.foodfit.ui.favorite.FavoriteActivity
 import com.mariana.foodfit.ui.home.HomeActivity
 import com.mariana.foodfit.ui.meals.breakfast.BreakfastActivity
 import com.mariana.foodfit.ui.meals.dinner.DinnerActivity
@@ -89,7 +90,7 @@ class MenuLateralFragment : Fragment() {
                 }
 
                 R.id.menuHomeFavoritos -> {
-                    Utils.mostrarMensaje(context, "Favoritos")
+                    navigateToActivity(FavoriteActivity::class.java)
                 }
 
                 R.id.menuHomeMenu -> {
