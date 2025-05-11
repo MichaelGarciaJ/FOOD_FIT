@@ -98,6 +98,19 @@ class PlatilloService {
     }
 
     /**
+     * Método que obtiene los IDs de todos los platillos marcados como favoritos por un usuario.
+     *
+     * @param userId ID del usuario.
+     * @return Conjunto de IDs de platillos favoritos del usuario o un conjunto vacío si ocurre un error.
+     */
+    suspend fun getFavoritosIds(userId: String): Set<String> {
+        val userRef = usuariosCollection.document(userId)
+        val snapshot = userRef.collection("platillosFavoritos").get().await()
+        return snapshot.documents.mapNotNull { it.id }.toSet()
+    }
+
+
+    /**
      * Método que recupera todos los platillos marcados como favoritos por un usuario.
      *
      * @param userId ID del usuario.
