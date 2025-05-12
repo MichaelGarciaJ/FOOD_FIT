@@ -82,11 +82,13 @@
     <!-- FAVORITE -->
     <string name="favoriteIcon">Icono de favorito</string>
 
+    <!-- FOOD PLATE INFO -->
+    <string name="foodPlateInfoIvIcon">Icono / Imagén del platillo de comida</string>
+
     <!-- ITEM FOOD-->
     <string name="itemFoodImage">Imagén del platillo</string>
     <string name="itemFoodTitle">Nombre del platillo</string>
     <string name="itemFoodFavoriteIcon">Icono de favorito</string>
     <string name="itemFoodSubtitle">Categoría del platillo</string>
-
 
 </resources>
