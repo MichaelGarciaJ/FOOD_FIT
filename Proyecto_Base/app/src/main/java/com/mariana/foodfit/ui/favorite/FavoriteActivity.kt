@@ -1,20 +1,16 @@
 package com.mariana.foodfit.ui.favorite
 
-import PlatilloVistaAdapter
+import com.mariana.foodfit.ui.adapters.platilloView.PlatilloVistaAdapter
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.mariana.foodfit.R
-import com.mariana.foodfit.data.entity.PlatilloVistaItem
+import com.mariana.foodfit.ui.meals.model.PlatilloVistaItem
 import com.mariana.foodfit.data.service.PlatilloService
 import com.mariana.foodfit.databinding.ActivityFavoriteBinding
-import com.mariana.foodfit.databinding.ActivityHomeBinding
 import com.mariana.foodfit.utils.ToolbarUtils
 import kotlinx.coroutines.launch
 

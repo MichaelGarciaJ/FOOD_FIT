@@ -58,7 +58,7 @@ data object PlatillosInitialData {
                 ingredientes = listOf(
                     IngredientePlatillo("Pan de molde 100% integral Hacendado", 1, "60 g"),
                     IngredientePlatillo("Aguacate", 1, "70 g"),
-                    IngredientePlatillo("Huevos medianos M", 1, "2 unidades"),
+                    IngredientePlatillo("Huevos medianos M", 1, "2 und"),
                     IngredientePlatillo("Sal fina de mesa Hacendado", 1, "1 g"),
                     IngredientePlatillo("Pimienta negra molida Hacendado", 1, "0.5 g")
                 ),
@@ -96,7 +96,7 @@ data object PlatillosInitialData {
                 ingredientes = listOf(
                     IngredientePlatillo("Garbanzo cocido Hacendado", 1, "100 g"),
                     IngredientePlatillo("Atún claro al natural Hacendado", 1, "80 g"),
-                    IngredientePlatillo("Huevos medianos M", 1, "2 unidades"),
+                    IngredientePlatillo("Huevos medianos M", 1, "2 und"),
                     IngredientePlatillo("Tomates cherry", 1, "50 g"),
                     IngredientePlatillo("Ensalada mezcla brotes tiernos", 1, "30 g"),
                     IngredientePlatillo("Aceite de oliva virgen extra Hacendado", 1, "5 ml"),
@@ -147,7 +147,7 @@ data object PlatillosInitialData {
                         1,
                         "100g"
                     ),
-                    IngredientePlatillo("Huevos medianos M", 1, "2 unidades"),
+                    IngredientePlatillo("Huevos medianos M", 1, "2 und"),
                     IngredientePlatillo("Aceite de oliva virgen extra Hacendado", 1, "5 ml"),
                     IngredientePlatillo("Sal fina de mesa Hacendado", 1, "1 g"),
                     IngredientePlatillo("Pimienta negra molida Hacendado", 1, "0.5 g"),

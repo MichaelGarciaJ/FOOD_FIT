@@ -50,5 +50,5 @@ data class ProductDetailResponse(
  * Información de precio del producto, incluyendo precio por unidad.
  */
 data class PriceProduct(
-    val bulk_price: Double
+    val unit_price: Double
 )

@@ -8,79 +8,251 @@
     tools:context=".ui.meals.foodPlateInfo.FoodPlateInfoActivity">
 
     <!-- Contenido principal -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/foodPlateInfoCl"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <!-- Custom Toolbar arriba -->
         <com.mariana.foodfit.ui.custom.CustomToolbar
             android:id="@+id/foodPlateInfoCustomToolbar"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimaryContainer"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:background="?attr/colorPrimaryContainer" />
 
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_margin="10dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/foodPlateInfoCustomToolbar">
+            android:layout_height="match_parent"
+            android:fillViewport="true"
+            android:padding="16dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:paddingBottom="24dp">
 
                 <!-- Imágen del platillo -->
                 <ImageView
                     android:id="@+id/foodPlateInfoIvIcon"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="10dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="24dp"
                     android:contentDescription="@string/foodPlateInfoIvIcon"
-                    android:src="@drawable/ic_food_no"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/favoriteCustomToolbar"
-                    app:tint="?attr/colorPrimary" />
+                    android:src="@drawable/ic_food_no" />
 
                 <!-- Texto título del platilo + icono favorito -->
                 <LinearLayout
+                    android:id="@+id/foodPlateInfoLy2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/itemFoodTitle"
+                        android:id="@+id/foodPlateInfoFoodTitle"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="@string/itemFoodTitle"
-                        android:textAppearance="?attr/textAppearanceBodyLarge"
+                        android:textAppearance="?attr/textAppearanceHeadlineSmall"
                         android:textColor="?attr/colorOnSurface" />
 
                     <ImageView
-                        android:id="@+id/itemFoodFavoriteIcon"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
+                        android:id="@+id/foodPlateInfoFoodFavoriteIcon"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:clickable="true"
                         android:contentDescription="@string/itemFoodFavoriteIcon"
+                        android:focusable="true"
                         android:src="@drawable/ic_favorite"
                         app:tint="?attr/colorPrimary" />
                 </LinearLayout>
 
+                <!-- Texto categoría -->
+                <TextView
+                    android:id="@+id/foodPlateInfoCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="16dp"
+                    android:text="@string/foodPlateInfoCategory"
+                    android:textAppearance="?attr/textAppearanceBodyMedium"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
+
+                <!-- Sección Ingredientes -->
+                <TextView
+                    android:id="@+id/foodPlateInfoIngredientsTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="@string/foodPlateInfoIngredientsTitle"
+                    android:textAppearance="?attr/textAppearanceTitleMedium"
+                    android:textColor="?attr/colorOnSurface" />
+
+                <!-- Encabezado de ingredientes -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="4dp"
+                    android:paddingVertical="4dp">
+
+                    <TextView
+                        android:layout_width="26dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Cant"
+                        android:textAppearance="?attr/textAppearanceLabelSmall"
+                        android:textColor="?attr/colorOnSurfaceVariant" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="start"
+                        android:paddingStart="8dp"
+                        android:text="Ingrediente"
+                        android:textAppearance="?attr/textAppearanceLabelSmall"
+                        android:textColor="?attr/colorOnSurfaceVariant" />
+
+                    <TextView
+                        android:layout_width="62dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="Und"
+                        android:textAppearance="?attr/textAppearanceLabelSmall"
+                        android:textColor="?attr/colorOnSurfaceVariant" />
+
+                    <TextView
+                        android:layout_width="64dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:text="Precio"
+                        android:textAppearance="?attr/textAppearanceLabelSmall"
+                        android:textColor="?attr/colorOnSurfaceVariant" />
+                </LinearLayout>
+
+                <!-- RecyclerView ingredientes -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/foodPlateInfoIngredientsRv"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginBottom="24dp"
+                    android:layout_weight="1"
+                    android:nestedScrollingEnabled="false"
+                    android:overScrollMode="never"
+                    tools:listitem="@layout/item_ingredient" />
+
+                <!-- Texto detalles ingredientes -->
+                <TextView
+                    android:id="@+id/foodPlateInfoDetailFoodTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="@string/foodPlateInfoDetailFoodTitle"
+                    android:textAppearance="?attr/textAppearanceTitleMedium"
+                    android:textColor="?attr/colorOnSurface" />
+
+                <!-- Encabezado detalles de ingredientes -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="4dp"
+                    android:paddingVertical="4dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="2"
+                        android:gravity="start"
+                        android:text="Ingrediente"
+                        android:textAppearance="?attr/textAppearanceLabelSmall"
+                        android:textColor="?attr/colorOnSurfaceVariant" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Kcal"
+                        android:textAppearance="?attr/textAppearanceLabelSmall"
+                        android:textColor="?attr/colorOnSurfaceVariant" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Gr"
+                        android:textAppearance="?attr/textAppearanceLabelSmall"
+                        android:textColor="?attr/colorOnSurfaceVariant" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Carb"
+                        android:textAppearance="?attr/textAppearanceLabelSmall"
+                        android:textColor="?attr/colorOnSurfaceVariant" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Fib"
+                        android:textAppearance="?attr/textAppearanceLabelSmall"
+                        android:textColor="?attr/colorOnSurfaceVariant" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Prot"
+                        android:textAppearance="?attr/textAppearanceLabelSmall"
+                        android:textColor="?attr/colorOnSurfaceVariant" />
+                </LinearLayout>
+
+                <!-- RecyclerView detalles ingredientes -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/foodPlateInfoIngredientsRv2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="24dp"
+                    android:nestedScrollingEnabled="false"
+                    android:overScrollMode="never"
+                    tools:listitem="@layout/item_detail_ingredient" />
+
+                <!-- Texto preparación -->
+                <TextView
+                    android:id="@+id/foodPlateInfoPreparationTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:text="@string/foodPlateInfoPreparationTitle"
+                    android:textAppearance="?attr/textAppearanceTitleMedium"
+                    android:textColor="?attr/colorOnSurface" />
+
+                <!-- RecyclerView preparación -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/foodPlateInfoIngredientsRv3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="24dp"
+                    android:nestedScrollingEnabled="false"
+                    android:overScrollMode="never"
+                    tools:listitem="@layout/item_preparation" />
 
             </LinearLayout>
         </ScrollView>
 
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
     <!-- Fragmento del menú lateral -->
     <androidx.fragment.app.FragmentContainerView

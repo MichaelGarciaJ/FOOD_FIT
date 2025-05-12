@@ -33,7 +33,7 @@ class MercadonaApiService {
             val ingredienteMap = mapOf(
                 "idIngrediente" to producto.id,
                 "nombre" to producto.display_name,
-                "precio" to producto.price_instructions.bulk_price,
+                "precio" to producto.price_instructions.unit_price,
                 "fotoUrl" to producto.thumbnail,
             )
 

@@ -7,6 +7,9 @@ plugins {
 
     /* Persistencia de datos con Room */
     kotlin("kapt")
+
+    /* Agrega esto para usar @Parcelize */
+    id("kotlin-parcelize")
 }
 
 android {

@@ -1,14 +1,13 @@
 package com.mariana.foodfit.ui.meals.dinner
 
-import PlatilloVistaAdapter
+import com.mariana.foodfit.ui.adapters.platilloView.PlatilloVistaAdapter
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
-import com.mariana.foodfit.R
-import com.mariana.foodfit.data.entity.PlatilloVistaItem
+import com.mariana.foodfit.ui.meals.model.PlatilloVistaItem
 import com.mariana.foodfit.data.service.PlatilloService
 import com.mariana.foodfit.databinding.ActivityDinnerBinding
 import com.mariana.foodfit.utils.ToolbarUtils
@@ -31,7 +30,7 @@ class DinnerActivity : AppCompatActivity() {
         // Configurar menú lateral
         ToolbarUtils.configurarDrawerToggle(binding.dinnerCustomToolbar, binding.dinnerDrawerLayout)
 
-        recyclerView = findViewById(R.id.dinnerRecyclerView)
+        recyclerView = binding.dinnerRecyclerView
         recyclerView.layoutManager = GridLayoutManager(this, 2) // Dos columnas
 
         cargarCenaPlatillosFirestore()

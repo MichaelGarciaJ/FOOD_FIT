@@ -84,11 +84,17 @@
 
     <!-- FOOD PLATE INFO -->
     <string name="foodPlateInfoIvIcon">Icono / Imagén del platillo de comida</string>
+    <string name="foodPlateInfoIngredientsTitle">Ingredientes</string>
+    <string name="foodPlateInfoCategory">Categoría</string>
+    <string name="foodPlateInfoPreparationTitle">Preparación</string>
+    <string name="foodPlateInfoDetailFoodTitle">Detalles de los ingredientes</string>
 
     <!-- ITEM FOOD-->
     <string name="itemFoodImage">Imagén del platillo</string>
     <string name="itemFoodTitle">Nombre del platillo</string>
     <string name="itemFoodFavoriteIcon">Icono de favorito</string>
     <string name="itemFoodSubtitle">Categoría del platillo</string>
+
+
 
 </resources>

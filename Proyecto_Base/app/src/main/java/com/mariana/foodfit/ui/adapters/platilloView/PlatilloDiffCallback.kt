@@ -1,7 +1,7 @@
-package com.mariana.foodfit.ui.adapters
+package com.mariana.foodfit.ui.adapters.platilloView
 
 import androidx.recyclerview.widget.DiffUtil
-import com.mariana.foodfit.data.entity.PlatilloVistaItem
+import com.mariana.foodfit.ui.meals.model.PlatilloVistaItem
 
 /**
  * Callback personalizado para optimizar las actualizaciones del RecyclerView que muestra platillos.

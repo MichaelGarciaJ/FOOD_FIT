@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingVertical="8dp"
+    android:paddingHorizontal="4dp">
+
+    <!-- Cantidad -->
+    <TextView
+        android:id="@+id/itemIngredientQuantity"
+        android:layout_width="26dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="1" />
+
+    <!-- Nombre del ingrediente -->
+    <TextView
+        android:id="@+id/itemIngredientName"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:paddingStart="8dp"
+        android:gravity="start"
+        android:text="Tomate" />
+
+    <!-- Unidad -->
+    <TextView
+        android:id="@+id/itemIngredientUnit"
+        android:layout_width="62dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="gr" />
+
+    <!-- Precio -->
+    <TextView
+        android:id="@+id/itemIngredientPrice"
+        android:layout_width="62dp"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:text="0.50€" />
+</LinearLayout>

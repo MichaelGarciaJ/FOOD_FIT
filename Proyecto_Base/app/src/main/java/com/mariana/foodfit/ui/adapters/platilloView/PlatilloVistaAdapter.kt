@@ -1,3 +1,7 @@
+package com.mariana.foodfit.ui.adapters.platilloView
+
+import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,8 +11,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.mariana.foodfit.R
-import com.mariana.foodfit.data.entity.PlatilloVistaItem
-import com.mariana.foodfit.ui.adapters.PlatilloDiffCallback
+import com.mariana.foodfit.ui.meals.model.PlatilloVistaItem
+import com.mariana.foodfit.ui.meals.foodPlateInfo.FoodPlateInfoActivity
 
 /**
  * Adaptador que gestiona la visualización de una lista de platillos en un RecyclerView.
@@ -19,6 +23,9 @@ import com.mariana.foodfit.ui.adapters.PlatilloDiffCallback
 class PlatilloVistaAdapter(
     private val onFavoriteClick: (PlatilloVistaItem) -> Unit
 ) : ListAdapter<PlatilloVistaItem, PlatilloVistaAdapter.FoodViewHolder>(PlatilloDiffCallback()) {
+
+    // Variable para bloquear clics
+    private var isClickLocked = false
 
     /**
      * ViewHolder personalizado que representa cada ítem (platillo) de la lista.
@@ -37,7 +44,7 @@ class PlatilloVistaAdapter(
          * @param item Objeto PlatilloVistaItem que contiene la información del platillo.
          * @param onFavoriteClick Callback que se ejecuta al pulsar el ícono de favoñrito.
          */
-        fun bind(item: PlatilloVistaItem, onFavoriteClick: (PlatilloVistaItem) -> Unit) {
+        fun bind(item: PlatilloVistaItem, onFavoriteClick: (PlatilloVistaItem) -> Unit, onItemClick: (PlatilloVistaItem) -> Unit) {
             Glide.with(image.context)
                 .load(item.fotoUrl)
                 .placeholder(R.drawable.ic_food_no)
@@ -53,6 +60,10 @@ class PlatilloVistaAdapter(
 
             favoriteIcon.setOnClickListener {
                 onFavoriteClick(item)
+            }
+
+            itemView.setOnClickListener {
+                onItemClick(item)
             }
         }
     }
@@ -77,8 +88,29 @@ class PlatilloVistaAdapter(
      * @param position Posición del ítem en la lista.
      */
     override fun onBindViewHolder(holder: FoodViewHolder, position: Int) {
-        holder.bind(getItem(position), onFavoriteClick)
+        val item = getItem(position)
+
+        holder.bind(item, onFavoriteClick) { clickedItem ->
+            // Prevenir múltiples clics
+            if (isClickLocked) return@bind
+
+            // Bloquear clics
+            isClickLocked = true
+
+            // Abrir la actividad con un pequeño retraso para permitir la animación de transición
+            val context = holder.itemView.context
+            val intent = Intent(context, FoodPlateInfoActivity::class.java)
+
+            // Pasar datos
+            Log.d("PlatilloVistaAdapter", "Platillo: ${clickedItem.id}")
+            intent.putExtra("PLATILLO", clickedItem.id)
+            context.startActivity(intent)
+
+            // Liberar el bloqueo de clic después de un pequeño retraso (500ms)
+            holder.itemView.postDelayed({
+                isClickLocked = false
+            }, 500)
+        }
+
     }
-
-
 }

@@ -109,7 +109,6 @@ class PlatilloService {
         return snapshot.documents.mapNotNull { it.id }.toSet()
     }
 
-
     /**
      * Método que recupera todos los platillos marcados como favoritos por un usuario.
      *
