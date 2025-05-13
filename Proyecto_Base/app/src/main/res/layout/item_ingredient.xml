@@ -1,42 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:paddingVertical="8dp"
-    android:paddingHorizontal="4dp">
+    android:layout_marginBottom="4dp"
+    app:cardBackgroundColor="?attr/colorSurfaceContainerLow"
+    app:cardElevation="0dp"
+    app:strokeColor="?attr/colorOutlineVariant"
+    app:strokeWidth="0.5dp">
 
-    <!-- Cantidad -->
-    <TextView
-        android:id="@+id/itemIngredientQuantity"
-        android:layout_width="26dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="1" />
+        android:orientation="horizontal"
+        android:paddingVertical="12dp"
+        android:paddingHorizontal="12dp">
 
-    <!-- Nombre del ingrediente -->
-    <TextView
-        android:id="@+id/itemIngredientName"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="wrap_content"
-        android:paddingStart="8dp"
-        android:gravity="start"
-        android:text="Tomate" />
+        <!-- Cantidad -->
+        <TextView
+            android:id="@+id/itemIngredientQuantity"
+            android:layout_width="26dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="1"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            android:textColor="?attr/colorOnSurface" />
 
-    <!-- Unidad -->
-    <TextView
-        android:id="@+id/itemIngredientUnit"
-        android:layout_width="62dp"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="gr" />
+        <!-- Nombre del ingrediente -->
+        <TextView
+            android:id="@+id/itemIngredientName"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:paddingStart="8dp"
+            android:gravity="start"
+            android:text="Tomate"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            android:textColor="?attr/colorOnSurface" />
 
-    <!-- Precio -->
-    <TextView
-        android:id="@+id/itemIngredientPrice"
-        android:layout_width="62dp"
-        android:layout_height="wrap_content"
-        android:gravity="end"
-        android:text="0.50€" />
-</LinearLayout>
+        <!-- Unidad -->
+        <TextView
+            android:id="@+id/itemIngredientUnit"
+            android:layout_width="62dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="gr"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            android:textColor="?attr/colorOnSurfaceVariant" />
+
+        <!-- Precio -->
+        <TextView
+            android:id="@+id/itemIngredientPrice"
+            android:layout_width="62dp"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:text="0.50€"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            android:textColor="?attr/colorPrimary" />
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>

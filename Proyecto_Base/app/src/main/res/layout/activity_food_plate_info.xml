@@ -5,6 +5,7 @@
     android:id="@+id/foodPlateInfoDrawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/colorSurface"
     tools:context=".ui.meals.foodPlateInfo.FoodPlateInfoActivity">
 
     <!-- Contenido principal -->
@@ -13,14 +14,15 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <!-- Custom Toolbar arriba -->
+        <!-- Custom Toolbar con elevación -->
         <com.mariana.foodfit.ui.custom.CustomToolbar
             android:id="@+id/foodPlateInfoCustomToolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimaryContainer" />
+            android:background="?attr/colorPrimaryContainer"
+            android:elevation="4dp" />
 
-        <ScrollView
+        <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fillViewport="true"
@@ -32,18 +34,28 @@
                 android:orientation="vertical"
                 android:paddingBottom="24dp">
 
-                <!-- Imágen del platillo -->
-                <ImageView
-                    android:id="@+id/foodPlateInfoIvIcon"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
+                <!-- Contenedor de imagen con forma circular y sombra -->
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginTop="16dp"
                     android:layout_marginBottom="24dp"
-                    android:contentDescription="@string/foodPlateInfoIvIcon"
-                    android:src="@drawable/ic_food_no" />
+                    android:elevation="8dp"
+                    android:outlineProvider="background">
 
-                <!-- Texto título del platilo + icono favorito -->
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/foodPlateInfoIvIcon"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:contentDescription="@string/foodPlateInfoIvIcon"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/ic_food_no"
+                        app:strokeColor="?attr/colorOutlineVariant"
+                        app:strokeWidth="1dp" />
+                </FrameLayout>
+
+                <!-- Sección de título y favoritos -->
                 <LinearLayout
                     android:id="@+id/foodPlateInfoLy2"
                     android:layout_width="match_parent"
@@ -61,26 +73,42 @@
                         android:textAppearance="?attr/textAppearanceHeadlineSmall"
                         android:textColor="?attr/colorOnSurface" />
 
-                    <ImageView
-                        android:id="@+id/foodPlateInfoFoodFavoriteIcon"
+                    <com.google.android.material.card.MaterialCardView
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:clickable="true"
-                        android:contentDescription="@string/itemFoodFavoriteIcon"
                         android:focusable="true"
-                        android:src="@drawable/ic_favorite"
-                        app:tint="?attr/colorPrimary" />
+                        app:cardBackgroundColor="?attr/colorSecondaryContainer"
+                        app:cardCornerRadius="24dp"
+                        app:rippleColor="?attr/colorOnSecondaryContainer">
+
+                        <ImageView
+                            android:id="@+id/foodPlateInfoFoodFavoriteIcon"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_gravity="center"
+                            android:contentDescription="@string/itemFoodFavoriteIcon"
+                            android:src="@drawable/ic_favorite"
+                            app:tint="?attr/colorOnSecondaryContainer" />
+                    </com.google.android.material.card.MaterialCardView>
                 </LinearLayout>
 
-                <!-- Texto categoría -->
-                <TextView
+                <!-- Categoría con chip -->
+                <com.google.android.material.chip.Chip
                     android:id="@+id/foodPlateInfoCategory"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     android:text="@string/foodPlateInfoCategory"
-                    android:textAppearance="?attr/textAppearanceBodyMedium"
-                    android:textColor="?attr/colorOnSurfaceVariant" />
+                    app:chipBackgroundColor="?attr/colorTertiaryContainer"
+                    app:chipStrokeColor="?attr/colorOutlineVariant" />
+
+                <!-- Divider -->
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="16dp"
+                    app:color="?attr/colorOutlineVariant" />
 
                 <!-- Sección Ingredientes -->
                 <TextView
@@ -90,63 +118,78 @@
                     android:layout_marginBottom="8dp"
                     android:text="@string/foodPlateInfoIngredientsTitle"
                     android:textAppearance="?attr/textAppearanceTitleMedium"
-                    android:textColor="?attr/colorOnSurface" />
+                    android:textColor="?attr/colorPrimary" />
 
-                <!-- Encabezado de ingredientes -->
-                <LinearLayout
+                <!-- Encabezado de ingredientes con fondo -->
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingHorizontal="4dp"
-                    android:paddingVertical="4dp">
+                    android:layout_marginBottom="8dp"
+                    app:cardBackgroundColor="?attr/colorSecondaryContainer"
+                    app:cardElevation="0dp"
+                    app:strokeColor="?attr/colorSecondary"
+                    app:strokeWidth="1dp">
 
-                    <TextView
-                        android:layout_width="26dp"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="Cant"
-                        android:textAppearance="?attr/textAppearanceLabelSmall"
-                        android:textColor="?attr/colorOnSurfaceVariant" />
+                        android:orientation="horizontal"
+                        android:padding="12dp">
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="start"
-                        android:paddingStart="8dp"
-                        android:text="Ingrediente"
-                        android:textAppearance="?attr/textAppearanceLabelSmall"
-                        android:textColor="?attr/colorOnSurfaceVariant" />
+                        <TextView
+                            android:layout_width="26dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="Cant"
+                            android:textAppearance="?attr/textAppearanceLabelSmall"
+                            android:textColor="?attr/colorOnSurfaceVariant" />
 
-                    <TextView
-                        android:layout_width="62dp"
-                        android:layout_height="wrap_content"
-                        android:gravity="center"
-                        android:text="Und"
-                        android:textAppearance="?attr/textAppearanceLabelSmall"
-                        android:textColor="?attr/colorOnSurfaceVariant" />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="start"
+                            android:paddingStart="8dp"
+                            android:text="Ingrediente"
+                            android:textAppearance="?attr/textAppearanceLabelSmall"
+                            android:textColor="?attr/colorOnSurfaceVariant" />
 
-                    <TextView
-                        android:layout_width="64dp"
-                        android:layout_height="wrap_content"
-                        android:gravity="end"
-                        android:text="Precio"
-                        android:textAppearance="?attr/textAppearanceLabelSmall"
-                        android:textColor="?attr/colorOnSurfaceVariant" />
-                </LinearLayout>
+                        <TextView
+                            android:layout_width="62dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="Und"
+                            android:textAppearance="?attr/textAppearanceLabelSmall"
+                            android:textColor="?attr/colorOnSurfaceVariant" />
+
+                        <TextView
+                            android:layout_width="62dp"
+                            android:layout_height="wrap_content"
+                            android:gravity="end"
+                            android:text="Precio"
+                            android:textAppearance="?attr/textAppearanceLabelSmall"
+                            android:textColor="?attr/colorOnSurfaceVariant" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
                 <!-- RecyclerView ingredientes -->
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/foodPlateInfoIngredientsRv"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="24dp"
-                    android:layout_weight="1"
                     android:nestedScrollingEnabled="false"
                     android:overScrollMode="never"
                     tools:listitem="@layout/item_ingredient" />
 
-                <!-- Texto detalles ingredientes -->
+                <!-- Divider -->
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="16dp"
+                    app:color="?attr/colorOutlineVariant" />
+
+                <!-- Sección Detalles Nutricionales -->
                 <TextView
                     android:id="@+id/foodPlateInfoDetailFoodTitle"
                     android:layout_width="match_parent"
@@ -154,70 +197,79 @@
                     android:layout_marginBottom="8dp"
                     android:text="@string/foodPlateInfoDetailFoodTitle"
                     android:textAppearance="?attr/textAppearanceTitleMedium"
-                    android:textColor="?attr/colorOnSurface" />
+                    android:textColor="?attr/colorPrimary" />
 
-                <!-- Encabezado detalles de ingredientes -->
-                <LinearLayout
+                <!-- Encabezado detalles -->
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingHorizontal="4dp"
-                    android:paddingVertical="4dp">
+                    android:layout_marginBottom="8dp"
+                    app:cardBackgroundColor="?attr/colorSecondaryContainer"
+                    app:cardElevation="0dp"
+                    app:strokeColor="?attr/colorSecondary"
+                    app:strokeWidth="1dp">
 
-                    <TextView
-                        android:layout_width="0dp"
+                    <LinearLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="2"
-                        android:gravity="start"
-                        android:text="Ingrediente"
-                        android:textAppearance="?attr/textAppearanceLabelSmall"
-                        android:textColor="?attr/colorOnSurfaceVariant" />
+                        android:orientation="horizontal"
+                        android:padding="12dp">
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Kcal"
-                        android:textAppearance="?attr/textAppearanceLabelSmall"
-                        android:textColor="?attr/colorOnSurfaceVariant" />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:gravity="start"
+                            android:text="Ingrediente"
+                            android:textAppearance="?attr/textAppearanceLabelSmall"
+                            android:textColor="?attr/colorOnSurfaceVariant" />
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Gr"
-                        android:textAppearance="?attr/textAppearanceLabelSmall"
-                        android:textColor="?attr/colorOnSurfaceVariant" />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="Kcal"
+                            android:textAppearance="?attr/textAppearanceLabelSmall"
+                            android:textColor="?attr/colorOnSurfaceVariant" />
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Carb"
-                        android:textAppearance="?attr/textAppearanceLabelSmall"
-                        android:textColor="?attr/colorOnSurfaceVariant" />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="Gr"
+                            android:textAppearance="?attr/textAppearanceLabelSmall"
+                            android:textColor="?attr/colorOnSurfaceVariant" />
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Fib"
-                        android:textAppearance="?attr/textAppearanceLabelSmall"
-                        android:textColor="?attr/colorOnSurfaceVariant" />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="Carb"
+                            android:textAppearance="?attr/textAppearanceLabelSmall"
+                            android:textColor="?attr/colorOnSurfaceVariant" />
 
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:gravity="center"
-                        android:text="Prot"
-                        android:textAppearance="?attr/textAppearanceLabelSmall"
-                        android:textColor="?attr/colorOnSurfaceVariant" />
-                </LinearLayout>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="Fib"
+                            android:textAppearance="?attr/textAppearanceLabelSmall"
+                            android:textColor="?attr/colorOnSurfaceVariant" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:text="Prot"
+                            android:textAppearance="?attr/textAppearanceLabelSmall"
+                            android:textColor="?attr/colorOnSurfaceVariant" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
                 <!-- RecyclerView detalles ingredientes -->
                 <androidx.recyclerview.widget.RecyclerView
@@ -229,7 +281,14 @@
                     android:overScrollMode="never"
                     tools:listitem="@layout/item_detail_ingredient" />
 
-                <!-- Texto preparación -->
+                <!-- Divider -->
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="16dp"
+                    app:color="?attr/colorOutlineVariant" />
+
+                <!-- Sección Preparación -->
                 <TextView
                     android:id="@+id/foodPlateInfoPreparationTitle"
                     android:layout_width="match_parent"
@@ -237,7 +296,7 @@
                     android:layout_marginBottom="8dp"
                     android:text="@string/foodPlateInfoPreparationTitle"
                     android:textAppearance="?attr/textAppearanceTitleMedium"
-                    android:textColor="?attr/colorOnSurface" />
+                    android:textColor="?attr/colorPrimary" />
 
                 <!-- RecyclerView preparación -->
                 <androidx.recyclerview.widget.RecyclerView
@@ -250,7 +309,7 @@
                     tools:listitem="@layout/item_preparation" />
 
             </LinearLayout>
-        </ScrollView>
+        </androidx.core.widget.NestedScrollView>
 
     </LinearLayout>
 
