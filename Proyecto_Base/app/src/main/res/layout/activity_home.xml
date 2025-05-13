@@ -7,49 +7,56 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.HomeActivity">
 
-    <!-- Contenido principal -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/homeCl"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/homeSwipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- Custom Toolbar arriba -->
-        <com.mariana.foodfit.ui.custom.CustomToolbar
-            android:id="@+id/homeCustomToolbar"
-            android:layout_width="0dp"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimaryContainer"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <!-- Icono ic_home-->
-        <ImageView
-            android:id="@+id/homeIcon"
-            android:layout_width="72dp"
-            android:layout_height="72dp"
-            android:layout_marginTop="10dp"
-            android:contentDescription="@string/homeIcon"
-            android:src="@drawable/ic_home"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/homeCustomToolbar"
-            app:tint="?attr/colorPrimary" />
-
-        <!-- Recyclerview para platillos de comidas-->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/homeRecyclerView"
+        <!-- Contenido principal -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/homeCl"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_margin="16dp"
-            android:clipToPadding="false"
-            android:paddingBottom="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/homeIcon" />
+            android:layout_height="match_parent">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <!-- Custom Toolbar arriba -->
+            <com.mariana.foodfit.ui.custom.CustomToolbar
+                android:id="@+id/homeCustomToolbar"
+                android:layout_width="0dp"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimaryContainer"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- Icono ic_home-->
+            <ImageView
+                android:id="@+id/homeIcon"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_marginTop="10dp"
+                android:contentDescription="@string/homeIcon"
+                android:src="@drawable/ic_home"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/homeCustomToolbar"
+                app:tint="?attr/colorPrimary" />
+
+            <!-- Recyclerview para platillos de comidas-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/homeRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="16dp"
+                android:clipToPadding="false"
+                android:paddingBottom="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/homeIcon" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 
     <!-- Fragmento del menú lateral -->
     <androidx.fragment.app.FragmentContainerView

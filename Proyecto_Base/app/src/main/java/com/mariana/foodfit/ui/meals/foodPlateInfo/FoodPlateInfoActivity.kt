@@ -52,6 +52,9 @@ class FoodPlateInfoActivity : AppCompatActivity() {
             binding.foodPlateInfoDrawerLayout
         )
 
+        // Ocultar el icono búsqueda del toolbar
+        binding.foodPlateInfoCustomToolbar.mostrarBusqueda(false)
+
         // Inicializamos los RecyclerView
         recyclerViewIngredientes = binding.foodPlateInfoIngredientsRv
         recyclerViewDetailIngr = binding.foodPlateInfoIngredientsRv2

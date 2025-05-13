@@ -3,7 +3,9 @@ package com.mariana.foodfit.ui.custom
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.widget.ImageView
 import androidx.appcompat.widget.Toolbar
+import com.mariana.foodfit.R
 import com.mariana.foodfit.databinding.ToolbarCustomBinding
 
 /**
@@ -25,21 +27,15 @@ class CustomToolbar @JvmOverloads constructor(
     }
 
     /**
-     * Método que cambia el título del toolbar.
-     *
-     * @param titulo Texto que se mostrará como título.
-     */
-    fun setTitulo(titulo: String) {
-        binding.toolbarTvTitulo.text = titulo
-    }
-
-    /**
      * Método que permite asignar un listener al botón de menú.
      *
      * @param listener Función a ejecutar al hacer clic en el botón menú.
      */
     fun setOnMenuClickListener(listener: () -> Unit) {
-        binding.toolbarIbMenu.setOnClickListener { listener() }
+        val searchIcon = findViewById<ImageView>(R.id.toolbarIbMenu)
+        searchIcon?.setOnClickListener {
+            listener()
+        }
     }
 
     /**
@@ -48,7 +44,10 @@ class CustomToolbar @JvmOverloads constructor(
      * @param listener Función a ejecutar al hacer clic en el botón búsqueda.
      */
     fun setOnBusquedaClickListener(listener: () -> Unit) {
-        binding.toolbarIbBusqueda.setOnClickListener { listener() }
+        val searchIcon = findViewById<ImageView>(R.id.toolbarIbBusqueda)
+        searchIcon?.setOnClickListener {
+            listener()
+        }
     }
 
     /**
@@ -58,15 +57,6 @@ class CustomToolbar @JvmOverloads constructor(
      */
     fun mostrarBusqueda(visible: Boolean) {
         binding.toolbarIbBusqueda.visibility = if (visible) VISIBLE else GONE
-    }
-
-    /**
-     * Método que muestra u oculta el botón de menú.
-     *
-     * @param visible True para mostrar, False para ocultar.
-     */
-    fun mostrarMenu(visible: Boolean) {
-        binding.toolbarIbMenu.visibility = if (visible) VISIBLE else GONE
     }
 
 }

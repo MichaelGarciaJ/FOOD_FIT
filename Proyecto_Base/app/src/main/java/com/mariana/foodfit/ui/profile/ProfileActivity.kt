@@ -62,6 +62,9 @@ class ProfileActivity : AppCompatActivity() {
             binding.profileDrawerLayout
         )
 
+        // Ocultar el icono búsqueda del toolbar
+        binding.profileCustomToolbar.mostrarBusqueda(false)
+
         // Configura los distintos elementos de la interfaz
         mostrarNombreFotoYCorreoUsuario()
         mostrarCantidadDeFavoritos()

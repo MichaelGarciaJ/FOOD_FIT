@@ -7,49 +7,55 @@
     android:layout_height="match_parent"
     tools:context=".ui.meals.snack.SnackActivity">
 
-    <!-- Contenido principal -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/snackCl"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/snackSwipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- Custom Toolbar arriba -->
-        <com.mariana.foodfit.ui.custom.CustomToolbar
-            android:id="@+id/snackCustomToolbar"
-            android:layout_width="0dp"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimaryContainer"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <!-- Icono ic_snack-->
-        <ImageView
-            android:id="@+id/snackIcon"
-            android:layout_width="72dp"
-            android:layout_height="72dp"
-            android:layout_marginTop="10dp"
-            android:contentDescription="@string/snackIcon"
-            android:src="@drawable/ic_snack"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/snackCustomToolbar"
-            app:tint="?attr/colorPrimary" />
-
-        <!-- Recyclerview para platillos de comidas-->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/snackRecyclerView"
+        <!-- Contenido principal -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/snackCl"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_margin="16dp"
-            android:clipToPadding="false"
-            android:paddingBottom="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/snackIcon" />
+            android:layout_height="match_parent">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <!-- Custom Toolbar arriba -->
+            <com.mariana.foodfit.ui.custom.CustomToolbar
+                android:id="@+id/snackCustomToolbar"
+                android:layout_width="0dp"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimaryContainer"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- Icono ic_snack-->
+            <ImageView
+                android:id="@+id/snackIcon"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_marginTop="10dp"
+                android:contentDescription="@string/snackIcon"
+                android:src="@drawable/ic_snack"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/snackCustomToolbar"
+                app:tint="?attr/colorPrimary" />
+
+            <!-- Recyclerview para platillos de comidas-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/snackRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="16dp"
+                android:clipToPadding="false"
+                android:paddingBottom="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/snackIcon" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <!-- Fragmento del menú lateral -->
     <androidx.fragment.app.FragmentContainerView

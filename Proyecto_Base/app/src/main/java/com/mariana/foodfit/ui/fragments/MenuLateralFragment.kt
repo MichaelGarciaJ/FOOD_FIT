@@ -119,7 +119,7 @@ class MenuLateralFragment : Fragment() {
         // Solo abre la activity si no estamos em ella.
         if (requireActivity()::class.java != targetActivity) {
             val intent = Intent(requireContext(), targetActivity)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
         } else {
             Utils.mostrarMensaje(context, "Ya estás en esta sección")

@@ -62,6 +62,9 @@ class EditProfileActivity : AppCompatActivity() {
             binding.editProfileDrawerLayout
         )
 
+        // Ocultar el icono búsqueda del toolbar
+        binding.editProfileCustomToolbar.mostrarBusqueda(false)
+
         // Configura los distintos elementos de la interfaz
         deshabilitarPasswordGoogle()
         mostrarDatosActualesUsuario()

@@ -24,4 +24,11 @@ object ToolbarUtils {
             }
         }
     }
+
+    fun configurarBusqueda(toolbar: CustomToolbar, accionBusqueda: () -> Unit) {
+        toolbar.setOnBusquedaClickListener {
+            accionBusqueda()
+        }
+    }
+
 }

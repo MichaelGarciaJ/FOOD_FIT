@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "849686616005",
+    "project_id": "foodfit-b4c42",
+    "storage_bucket": "foodfit-b4c42.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:849686616005:android:03fc99d959144a62739dac",
+        "android_client_info": {
+          "package_name": "com.mariana.foodfit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "849686616005-1ofrie5r8169rtmqoj014tsasphdcif2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mariana.foodfit",
+            "certificate_hash": "2954e462086ac25b113aac73859a47bfa73cfd17"
+          }
+        },
+        {
+          "client_id": "849686616005-4d4rm9c9fq2vv2f5clafcpb7e5osu7rt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDiXOshD7_K0M7UZx-GztOTOvYzg-l9vzY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "849686616005-4d4rm9c9fq2vv2f5clafcpb7e5osu7rt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

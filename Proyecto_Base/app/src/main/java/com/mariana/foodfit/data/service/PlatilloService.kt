@@ -131,24 +131,6 @@ class PlatilloService {
     }
 
     /**
-     * Método que busca platillos que contengan un ingrediente específico en su lista de ingredientes.
-     *
-     * @param ingrediente Nombre del ingrediente.
-     * @return Lista de platillos que contienen el ingrediente.
-     */
-    suspend fun buscarPorIngrediente(ingrediente: String): List<Platillo> {
-        return try {
-            platillosCollection
-                .whereArrayContains("ingredientes", ingrediente)
-                .get()
-                .await()
-                .toPlatillos()
-        } catch (e: Exception) {
-            emptyList()
-        }
-    }
-
-    /**
      * Método que convierte un QuerySnapshot en una lista de objetos Platillo.
      *
      * @return Lista de objetos Platillo válidos.

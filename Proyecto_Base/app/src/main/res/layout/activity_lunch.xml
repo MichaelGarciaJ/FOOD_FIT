@@ -7,49 +7,55 @@
     android:layout_height="match_parent"
     tools:context=".ui.meals.lunch.LunchActivity">
 
-    <!-- Contenido principal -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/lunchCl"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/lunchSwipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- Custom Toolbar arriba -->
-        <com.mariana.foodfit.ui.custom.CustomToolbar
-            android:id="@+id/lunchCustomToolbar"
-            android:layout_width="0dp"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimaryContainer"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <!-- Icono ic_lunch-->
-        <ImageView
-            android:id="@+id/lunchIcon"
-            android:layout_width="72dp"
-            android:layout_height="72dp"
-            android:layout_marginTop="10dp"
-            android:contentDescription="@string/lunchIcon"
-            android:src="@drawable/ic_lunch"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lunchCustomToolbar"
-            app:tint="?attr/colorPrimary" />
-
-        <!-- Recyclerview para platillos de comidas-->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/lunchRecyclerView"
+        <!-- Contenido principal -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/lunchCl"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_margin="16dp"
-            android:clipToPadding="false"
-            android:paddingBottom="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/lunchIcon" />
+            android:layout_height="match_parent">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <!-- Custom Toolbar arriba -->
+            <com.mariana.foodfit.ui.custom.CustomToolbar
+                android:id="@+id/lunchCustomToolbar"
+                android:layout_width="0dp"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimaryContainer"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- Icono ic_lunch-->
+            <ImageView
+                android:id="@+id/lunchIcon"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_marginTop="10dp"
+                android:contentDescription="@string/lunchIcon"
+                android:src="@drawable/ic_lunch"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lunchCustomToolbar"
+                app:tint="?attr/colorPrimary" />
+
+            <!-- Recyclerview para platillos de comidas-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/lunchRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="16dp"
+                android:clipToPadding="false"
+                android:paddingBottom="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lunchIcon" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <!-- Fragmento del menú lateral -->
     <androidx.fragment.app.FragmentContainerView

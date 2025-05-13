@@ -7,50 +7,55 @@
     android:layout_height="match_parent"
     tools:context=".ui.meals.breakfast.BreakfastActivity">
 
-    <!-- Contenido principal -->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/breakfastCl"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/breakfastSwipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <!-- Custom Toolbar arriba -->
-        <com.mariana.foodfit.ui.custom.CustomToolbar
-            android:id="@+id/breakfastCustomToolbar"
-            android:layout_width="0dp"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimaryContainer"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <!-- Icono ic_breakfast-->
-        <ImageView
-            android:id="@+id/breakfastIcon"
-            android:layout_width="72dp"
-            android:layout_height="72dp"
-            android:layout_marginTop="10dp"
-            android:contentDescription="@string/breakfastIcon"
-            android:src="@drawable/ic_breakfast"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/breakfastCustomToolbar"
-            app:tint="?attr/colorPrimary" />
-
-        <!-- Recyclerview para platillos de comidas-->
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/breakfastRecyclerView"
+        <!-- Contenido principal -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/breakfastCl"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_margin="16dp"
-            android:clipToPadding="false"
-            android:paddingBottom="16dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/breakfastIcon" />
+            android:layout_height="match_parent">
 
+            <!-- Custom Toolbar arriba -->
+            <com.mariana.foodfit.ui.custom.CustomToolbar
+                android:id="@+id/breakfastCustomToolbar"
+                android:layout_width="0dp"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimaryContainer"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <!-- Icono ic_breakfast-->
+            <ImageView
+                android:id="@+id/breakfastIcon"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_marginTop="10dp"
+                android:contentDescription="@string/breakfastIcon"
+                android:src="@drawable/ic_breakfast"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/breakfastCustomToolbar"
+                app:tint="?attr/colorPrimary" />
+
+            <!-- Recyclerview para platillos de comidas-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/breakfastRecyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_margin="16dp"
+                android:clipToPadding="false"
+                android:paddingBottom="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/breakfastIcon" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <!-- Fragmento del menú lateral -->
     <androidx.fragment.app.FragmentContainerView
