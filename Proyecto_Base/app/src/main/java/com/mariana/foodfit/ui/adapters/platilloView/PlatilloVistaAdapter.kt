@@ -22,6 +22,7 @@ import com.mariana.foodfit.ui.meals.foodPlateInfo.FoodPlateInfoActivity
  */
 class PlatilloVistaAdapter(
     private val onFavoriteClick: (PlatilloVistaItem) -> Unit
+
 ) : ListAdapter<PlatilloVistaItem, PlatilloVistaAdapter.FoodViewHolder>(PlatilloDiffCallback()) {
 
     // Variable para bloquear clics

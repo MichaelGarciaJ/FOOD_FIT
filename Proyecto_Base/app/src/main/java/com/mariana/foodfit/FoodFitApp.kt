@@ -71,7 +71,7 @@ class FoodFitApp : Application() {
                         ingredientesPlatillo = platillo.ingredientes,
                         pasosPreparacion = platillo.pasos,
                         isFavorito = false,
-                        creadoPor = "sistema"
+                        creadoPor = "Sistema"
                     )
                 }
 

@@ -1,5 +1,6 @@
 package com.mariana.foodfit.ui.adapters.ingredient
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,11 +26,12 @@ class IngredientAdapter :
         return IngredientViewHolder(view)
     }
 
+    @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: IngredientViewHolder, position: Int) {
         val item = getItem(position)
         holder.quantity.text = item.cantidad.toString()
         holder.name.text = item.nombre
         holder.unit.text = item.unidad
-        holder.price.text = item.precio.toString()
+        holder.price.text = item.precio.toString() + " €"
     }
 }

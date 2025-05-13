@@ -23,7 +23,7 @@
             android:layout_width="26dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="1"
+            android:text="@string/itemIngredientQuantity"
             android:textAppearance="?attr/textAppearanceBodyMedium"
             android:textColor="?attr/colorOnSurface" />
 
@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:paddingStart="8dp"
             android:gravity="start"
-            android:text="Tomate"
+            android:text="@string/itemIngredientName"
             android:textAppearance="?attr/textAppearanceBodyMedium"
             android:textColor="?attr/colorOnSurface" />
 
@@ -45,7 +45,7 @@
             android:layout_width="62dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="gr"
+            android:text="@string/itemIngredientUnit"
             android:textAppearance="?attr/textAppearanceBodyMedium"
             android:textColor="?attr/colorOnSurfaceVariant" />
 
@@ -55,7 +55,7 @@
             android:layout_width="62dp"
             android:layout_height="wrap_content"
             android:gravity="end"
-            android:text="0.50€"
+            android:text="@string/itemIngredientPrice"
             android:textAppearance="?attr/textAppearanceBodyMedium"
             android:textColor="?attr/colorPrimary" />
     </LinearLayout>

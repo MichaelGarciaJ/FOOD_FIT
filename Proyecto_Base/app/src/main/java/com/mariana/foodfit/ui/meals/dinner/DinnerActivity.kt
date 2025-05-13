@@ -33,8 +33,14 @@ class DinnerActivity : AppCompatActivity() {
         recyclerView = binding.dinnerRecyclerView
         recyclerView.layoutManager = GridLayoutManager(this, 2) // Dos columnas
 
-        cargarCenaPlatillosFirestore()
+        // Crear adaptador una vez
+        platilloAdapter = PlatilloVistaAdapter { onFavoriteClick(it) }
+        recyclerView.adapter = platilloAdapter
+    }
 
+    override fun onResume() {
+        super.onResume()
+        cargarCenaPlatillosFirestore()
     }
 
     private fun cargarCenaPlatillosFirestore() {
@@ -53,9 +59,8 @@ class DinnerActivity : AppCompatActivity() {
                 )
             }.toMutableList()
 
-            platilloAdapter = PlatilloVistaAdapter { onFavoriteClick(it) }
-            recyclerView.adapter = platilloAdapter
-            platilloAdapter.submitList(listaPlatillos.toList()) // Copia inmutable
+            // Usamos el adaptador ya existente, solo actualizamos la lista
+            platilloAdapter.submitList(listaPlatillos.toList())
         }
     }
 

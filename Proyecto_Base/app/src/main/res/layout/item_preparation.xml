@@ -10,12 +10,13 @@
     app:strokeColor="?attr/colorOutlineVariant"
     app:strokeWidth="0.5dp">
 
+    <!--Texto de pasos de preparación -->
     <TextView
         android:id="@+id/itemPreparationText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
-        android:text="1. Lava los tomates."
+        android:text="@string/itemPreparationText"
         android:textAppearance="?attr/textAppearanceBodyMedium"
         android:textColor="?attr/colorOnSurface"
         android:lineSpacingMultiplier="1.2" />

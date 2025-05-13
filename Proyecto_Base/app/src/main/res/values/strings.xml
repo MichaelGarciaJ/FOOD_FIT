@@ -95,6 +95,21 @@
     <string name="itemFoodFavoriteIcon">Icono de favorito</string>
     <string name="itemFoodSubtitle">Categoría del platillo</string>
 
+    <!-- ITEM PREPARATION -->
+    <string name="itemPreparationText">1. Lava los tomates.</string>
+
+    <!-- ITEM INGREDIENT -->
+    <string name="itemIngredientQuantity">1</string>
+    <string name="itemIngredientName">Tomate</string>
+    <string name="itemIngredientUnit">gr</string>
+    <string name="itemIngredientPrice">0.50€</string>
+
+    <!-- ITEM DETAIL INGREDIENT -->
+    <string name="itemDetailCalories">25</string>
+    <string name="itemDetailFat">0.2</string>
+    <string name="itemDetailCarbs">5</string>
+    <string name="itemDetailFiber">1.5</string>
+    <string name="itemDetailProtein">1</string>
 
 
 </resources>

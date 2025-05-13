@@ -33,6 +33,13 @@ class HomeActivity : AppCompatActivity() {
         recyclerView = binding.homeRecyclerView
         recyclerView.layoutManager = GridLayoutManager(this, 2) // Dos columnas
 
+        // Crear adaptador una vez
+        platilloAdapter = PlatilloVistaAdapter { onFavoriteClick(it) }
+        recyclerView.adapter = platilloAdapter
+    }
+
+    override fun onResume() {
+        super.onResume()
         cargarTodoPlatillosFirestore()
     }
 
@@ -52,9 +59,8 @@ class HomeActivity : AppCompatActivity() {
                 )
             }.toMutableList()
 
-            platilloAdapter = PlatilloVistaAdapter { onFavoriteClick(it) }
-            recyclerView.adapter = platilloAdapter
-            platilloAdapter.submitList(listaPlatillos.toList()) // enviar copia inmutable
+            // Usamos el adaptador ya existente, solo actualizamos la lista
+            platilloAdapter.submitList(listaPlatillos.toList())
         }
     }
 

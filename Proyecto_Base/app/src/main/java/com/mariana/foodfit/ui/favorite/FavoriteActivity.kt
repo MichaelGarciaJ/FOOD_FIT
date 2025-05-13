@@ -34,8 +34,14 @@ class FavoriteActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.favoriteRecyclerView)
         recyclerView.layoutManager = GridLayoutManager(this, 2) // Dos columnas
 
-        cargarFavoritoPlatillosFirestore()
+        // Crear adaptador una vez
+        platilloAdapter = PlatilloVistaAdapter { onFavoriteClick(it) }
+        recyclerView.adapter = platilloAdapter
+    }
 
+    override fun onResume() {
+        super.onResume()
+        cargarFavoritoPlatillosFirestore()
     }
 
     private fun cargarFavoritoPlatillosFirestore() {
@@ -54,9 +60,8 @@ class FavoriteActivity : AppCompatActivity() {
                 )
             }.toMutableList()
 
-            platilloAdapter = PlatilloVistaAdapter { onFavoriteClick(it) }
-            recyclerView.adapter = platilloAdapter
-            platilloAdapter.submitList(listaPlatillos.toList()) // enviar copia inmutable
+            // Usamos el adaptador ya existente, solo actualizamos la lista
+            platilloAdapter.submitList(listaPlatillos.toList())
         }
     }
 
