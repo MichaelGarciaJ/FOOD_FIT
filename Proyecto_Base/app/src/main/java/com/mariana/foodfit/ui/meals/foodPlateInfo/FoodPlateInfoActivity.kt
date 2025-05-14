@@ -1,8 +1,11 @@
 package com.mariana.foodfit.ui.meals.foodPlateInfo
 
 import android.content.Intent
+import android.graphics.Canvas
 import android.graphics.Color
+import android.graphics.Paint
 import android.graphics.pdf.PdfDocument
+import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -24,13 +27,16 @@ import com.mariana.foodfit.ui.meals.model.Ingredient
 import com.mariana.foodfit.ui.meals.model.IngredientDetail
 import com.mariana.foodfit.ui.meals.model.PlatilloVistaItem
 import com.mariana.foodfit.ui.meals.model.PreparationStep
+import com.mariana.foodfit.utils.PDFGenerator
 import com.mariana.foodfit.utils.ToolbarUtils
+import com.mariana.foodfit.utils.Utils
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
+import java.util.Date
 
 class FoodPlateInfoActivity : AppCompatActivity() {
 
@@ -59,6 +65,9 @@ class FoodPlateInfoActivity : AppCompatActivity() {
             binding.foodPlateInfoDrawerLayout
         )
 
+        // Configurar el SwipeRefreshLayout
+        configurarSwipeRefresh()
+
         // Ocultar el icono búsqueda del toolbar
         binding.foodPlateInfoCustomToolbar.mostrarBusqueda(false)
 
@@ -81,13 +90,14 @@ class FoodPlateInfoActivity : AppCompatActivity() {
         recyclerViewDetailIngr.adapter = ingredientDetailAdapter
         recyclerViewPreparacion.adapter = preparationAdapter
 
-        // Obtener el ID del platillo pasado desde la otra actividad
-        val platilloId = intent.getStringExtra("PLATILLO") ?: return
-
-        // Cargar los datos del platillo
-        loadPlatilloData(platilloId)
-
         setupShareButton()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.foodPlateInfoShareButton.isEnabled = true
+
+        refrescarContenido()
     }
 
     private fun loadPlatilloData(platilloId: String) {
@@ -156,7 +166,8 @@ class FoodPlateInfoActivity : AppCompatActivity() {
                             val precioString = String.format("%.2f", ingrediente.precio)
                             val caloriasString = String.format("%.2f", ingrediente.calorias)
                             val grasasString = String.format("%.2f", ingrediente.grasas)
-                            val carbohidratosString = String.format("%.2f", ingrediente.carbohidratos)
+                            val carbohidratosString =
+                                String.format("%.2f", ingrediente.carbohidratos)
                             val fibraString = String.format("%.2f", ingrediente.fibra)
                             val proteinasString = String.format("%.2f", ingrediente.proteinas)
 
@@ -232,28 +243,28 @@ class FoodPlateInfoActivity : AppCompatActivity() {
     }
 
     private fun setupShareButton() {
-        binding.shareButton.setOnClickListener {
+        binding.foodPlateInfoShareButton.setOnClickListener {
+            binding.foodPlateInfoShareButton.isEnabled = false
             platilloVista?.let { platillo ->
                 // Crear el texto a compartir
                 val shareText = """
                 🍽 ${platillo.title}
                 📂 Categoría: ${platillo.subtitle}
                 
-                ¡Descubre este platillo en FoodFit!
+                ¡Descubre este platillo descargando en Food Fit!
             """.trimIndent()
 
                 // Crear un cuadro de diálogo para elegir qué compartir
-                val options = arrayOf("Solo texto", "PDF con texto")
+                val options = arrayOf("Mensaje", "PDF")
                 val builder = android.app.AlertDialog.Builder(this)
+
                 builder.setTitle("¿Qué deseas compartir?")
                     .setItems(options) { dialog, which ->
                         when (which) {
                             0 -> {
-                                // Solo texto
                                 shareTextOnly(shareText)
                             }
                             1 -> {
-                                // PDF con texto
                                 sharePdfWithText(shareText)
                             }
                         }
@@ -274,7 +285,14 @@ class FoodPlateInfoActivity : AppCompatActivity() {
     }
 
     private fun sharePdfWithText(shareText: String) {
-        val pdfFile = generatePdf(shareText)
+        val pdfFile = PDFGenerator.generateRecipePDF(
+            context = this,
+            platilloVista = platilloVista,
+            ingredients = ingredientAdapter.currentList,
+            ingredientDetails = ingredientDetailAdapter.currentList,
+            preparationSteps = preparationAdapter.currentList
+        )
+
         if (pdfFile != null) {
             val pdfUri = FileProvider.getUriForFile(
                 this,
@@ -282,53 +300,40 @@ class FoodPlateInfoActivity : AppCompatActivity() {
                 pdfFile
             )
 
-            val intent = Intent().apply {
-                action = Intent.ACTION_SEND
+            val intent = Intent(Intent.ACTION_SEND).apply {
+                type = "application/pdf"
                 putExtra(Intent.EXTRA_STREAM, pdfUri)
                 putExtra(Intent.EXTRA_TEXT, shareText)
-                type = "application/pdf"
+                putExtra(Intent.EXTRA_SUBJECT, "Información del platillo")
                 flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+                clipData = android.content.ClipData.newUri(contentResolver, "PDF", pdfUri)
             }
 
-            val shareIntent = Intent.createChooser(intent, "Compartir PDF con:")
-            startActivity(shareIntent)
+            val chooser = Intent.createChooser(intent, "Compartir con:")
+            startActivity(chooser)
         }
     }
 
-    private fun generatePdf(shareText: String): File? {
-        // Crear un documento PDF
-        val pdfDocument = PdfDocument()
+    private fun refrescarContenido() {
+        val platilloId = intent.getStringExtra("PLATILLO") ?: return
+        binding.foodPlateInfoSwipeRefreshLayout.isRefreshing = true
 
-        // Definir tamaño de la página
-        val pageInfo = PdfDocument.PageInfo.Builder(600, 800, 1).create()
-        val page = pdfDocument.startPage(pageInfo)
-
-        val canvas = page.canvas
-        canvas.drawColor(Color.WHITE)  // Fondo blanco
-
-        val paint = android.graphics.Paint()
-        paint.color = Color.BLACK
-        paint.textSize = 16f
-
-        // Dibujar el texto en el PDF
-        canvas.drawText("Detalles del Platillo", 50f, 50f, paint)
-        canvas.drawText("Platillo: $shareText", 50f, 100f, paint)
-
-        // Finalizar la página
-        pdfDocument.finishPage(page)
-
-        // Guardar el archivo PDF
-        val pdfFile = File(getExternalFilesDir(null), "platillo_info.pdf")
-        try {
-            pdfDocument.writeTo(FileOutputStream(pdfFile))
-            pdfDocument.close()
-            return pdfFile
-        } catch (e: IOException) {
-            Log.e("FoodPlateInfoActivity", "Error al guardar el PDF: ${e.message}")
-            return null
+        lifecycleScope.launch {
+            loadPlatilloData(platilloId)
+            binding.foodPlateInfoSwipeRefreshLayout.isRefreshing = false
         }
     }
 
+
+    private fun configurarSwipeRefresh() {
+        binding.foodPlateInfoSwipeRefreshLayout.setColorSchemeColors(
+            getColor(R.color.md_theme_primary)
+        )
+
+        binding.foodPlateInfoSwipeRefreshLayout.setOnRefreshListener {
+            refrescarContenido()
+        }
+    }
 
 
 }
