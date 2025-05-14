@@ -1,8 +1,12 @@
 package com.mariana.foodfit.ui.meals.foodPlateInfo
 
+import android.content.Intent
+import android.graphics.Color
+import android.graphics.pdf.PdfDocument
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.FileProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -24,6 +28,9 @@ import com.mariana.foodfit.utils.ToolbarUtils
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 
 class FoodPlateInfoActivity : AppCompatActivity() {
 
@@ -79,6 +86,8 @@ class FoodPlateInfoActivity : AppCompatActivity() {
 
         // Cargar los datos del platillo
         loadPlatilloData(platilloId)
+
+        setupShareButton()
     }
 
     private fun loadPlatilloData(platilloId: String) {
@@ -221,4 +230,105 @@ class FoodPlateInfoActivity : AppCompatActivity() {
     private fun convertToDouble(value: String?): Double {
         return value?.replace(",", ".")?.toDoubleOrNull() ?: 0.0
     }
+
+    private fun setupShareButton() {
+        binding.shareButton.setOnClickListener {
+            platilloVista?.let { platillo ->
+                // Crear el texto a compartir
+                val shareText = """
+                🍽 ${platillo.title}
+                📂 Categoría: ${platillo.subtitle}
+                
+                ¡Descubre este platillo en FoodFit!
+            """.trimIndent()
+
+                // Crear un cuadro de diálogo para elegir qué compartir
+                val options = arrayOf("Solo texto", "PDF con texto")
+                val builder = android.app.AlertDialog.Builder(this)
+                builder.setTitle("¿Qué deseas compartir?")
+                    .setItems(options) { dialog, which ->
+                        when (which) {
+                            0 -> {
+                                // Solo texto
+                                shareTextOnly(shareText)
+                            }
+                            1 -> {
+                                // PDF con texto
+                                sharePdfWithText(shareText)
+                            }
+                        }
+                    }
+                    .show()
+            }
+        }
+    }
+
+    private fun shareTextOnly(shareText: String) {
+        val intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, shareText)
+            type = "text/plain"
+        }
+        val shareIntent = Intent.createChooser(intent, "Compartir platillo con:")
+        startActivity(shareIntent)
+    }
+
+    private fun sharePdfWithText(shareText: String) {
+        val pdfFile = generatePdf(shareText)
+        if (pdfFile != null) {
+            val pdfUri = FileProvider.getUriForFile(
+                this,
+                "${packageName}.fileprovider",
+                pdfFile
+            )
+
+            val intent = Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_STREAM, pdfUri)
+                putExtra(Intent.EXTRA_TEXT, shareText)
+                type = "application/pdf"
+                flags = Intent.FLAG_GRANT_READ_URI_PERMISSION
+            }
+
+            val shareIntent = Intent.createChooser(intent, "Compartir PDF con:")
+            startActivity(shareIntent)
+        }
+    }
+
+    private fun generatePdf(shareText: String): File? {
+        // Crear un documento PDF
+        val pdfDocument = PdfDocument()
+
+        // Definir tamaño de la página
+        val pageInfo = PdfDocument.PageInfo.Builder(600, 800, 1).create()
+        val page = pdfDocument.startPage(pageInfo)
+
+        val canvas = page.canvas
+        canvas.drawColor(Color.WHITE)  // Fondo blanco
+
+        val paint = android.graphics.Paint()
+        paint.color = Color.BLACK
+        paint.textSize = 16f
+
+        // Dibujar el texto en el PDF
+        canvas.drawText("Detalles del Platillo", 50f, 50f, paint)
+        canvas.drawText("Platillo: $shareText", 50f, 100f, paint)
+
+        // Finalizar la página
+        pdfDocument.finishPage(page)
+
+        // Guardar el archivo PDF
+        val pdfFile = File(getExternalFilesDir(null), "platillo_info.pdf")
+        try {
+            pdfDocument.writeTo(FileOutputStream(pdfFile))
+            pdfDocument.close()
+            return pdfFile
+        } catch (e: IOException) {
+            Log.e("FoodPlateInfoActivity", "Error al guardar el PDF: ${e.message}")
+            return null
+        }
+    }
+
+
+
 }

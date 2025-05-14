@@ -308,7 +308,29 @@
                     android:overScrollMode="never"
                     tools:listitem="@layout/item_preparation" />
 
+                <!-- Divider -->
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="16dp"
+                    app:color="?attr/colorOutlineVariant" />
+
+                <!-- Botón de Compartir -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/shareButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:text="Compartir Platillo"
+                    android:textColor="?attr/colorOnSecondaryContainer"
+                    app:icon="@drawable/ic_share"
+                    app:iconTint="?attr/colorOnSecondaryContainer"
+                    app:backgroundTint="?attr/colorSecondaryContainer"
+                    app:cornerRadius="8dp"
+                    style="@style/Widget.Material3.Button"/>
+
             </LinearLayout>
+
         </androidx.core.widget.NestedScrollView>
 
     </LinearLayout>
