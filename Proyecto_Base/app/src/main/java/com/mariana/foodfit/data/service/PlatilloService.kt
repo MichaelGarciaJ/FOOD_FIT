@@ -1,6 +1,7 @@
 package com.mariana.foodfit.data.service
 
 import android.util.Log
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.mariana.foodfit.data.entity.Platillo
@@ -55,7 +56,8 @@ class PlatilloService {
      */
     suspend fun getPlatilloById(id: String): Platillo? {
         return try {
-            platillosCollection.document(id).get().await().toObject(Platillo::class.java)?.copy(idPlatillo = id)
+            platillosCollection.document(id).get().await().toObject(Platillo::class.java)
+                ?.copy(idPlatillo = id)
         } catch (e: Exception) {
             null
         }
@@ -76,57 +78,6 @@ class PlatilloService {
         } catch (e: Exception) {
             Log.e("Firestore", "Error al agregar platillo: ${e.message}")
             ""
-        }
-    }
-
-    /**
-     * Método que agrega o elimina un platillo de los favoritos de un usuario.
-     *
-     * @param userId ID del usuario.
-     * @param platilloId ID del platillo a marcar o desmarcar como favorito.
-     * @param isFavorite Indica si se debe agregar (true) o eliminar (false) de favoritos.
-     */
-    suspend fun toggleFavorito(userId: String, platilloId: String, isFavorite: Boolean) {
-        val userRef = usuariosCollection.document(userId)
-        val favoritosRef = userRef.collection("platillosFavoritos").document(platilloId)
-
-        if (isFavorite) {
-            favoritosRef.set(mapOf("platilloId" to platilloId, "timestamp" to System.currentTimeMillis())).await()
-        } else {
-            favoritosRef.delete().await()
-        }
-    }
-
-    /**
-     * Método que obtiene los IDs de todos los platillos marcados como favoritos por un usuario.
-     *
-     * @param userId ID del usuario.
-     * @return Conjunto de IDs de platillos favoritos del usuario o un conjunto vacío si ocurre un error.
-     */
-    suspend fun getFavoritosIds(userId: String): Set<String> {
-        val userRef = usuariosCollection.document(userId)
-        val snapshot = userRef.collection("platillosFavoritos").get().await()
-        return snapshot.documents.mapNotNull { it.id }.toSet()
-    }
-
-    /**
-     * Método que recupera todos los platillos marcados como favoritos por un usuario.
-     *
-     * @param userId ID del usuario.
-     * @return Lista de objetos Platillo favoritos del usuario o lista vacía si falla.
-     */
-    suspend fun getPlatillosFavoritos(userId: String): List<Platillo> {
-        return try {
-            usuariosCollection.document(userId)
-                .collection("platillosFavoritos")
-                .get()
-                .await()
-                .documents
-                .mapNotNull { doc ->
-                    getPlatilloById(doc.id) // Reutiliza la función existente
-                }
-        } catch (e: Exception) {
-            emptyList()
         }
     }
 

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.mariana.foodfit.R
+import com.mariana.foodfit.data.service.PlatilloFavoritoService
 import com.mariana.foodfit.ui.meals.model.PlatilloVistaItem
 import com.mariana.foodfit.data.service.PlatilloService
 import com.mariana.foodfit.databinding.ActivityFavoriteBinding
@@ -21,6 +22,7 @@ class FavoriteActivity : AppCompatActivity() {
     private lateinit var binding: ActivityFavoriteBinding
     private lateinit var recyclerView: RecyclerView
     private val platilloService = PlatilloService()
+    private val platilloFavoritoService = PlatilloFavoritoService()
     private lateinit var platilloAdapter: PlatilloVistaAdapter
     private var listaPlatillos: MutableList<PlatilloVistaItem> = mutableListOf()
     private val ingredientesPorPlatillo = mutableMapOf<String, List<String>>()
@@ -62,7 +64,7 @@ class FavoriteActivity : AppCompatActivity() {
         lifecycleScope.launch {
             val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return@launch
             val platillos = platilloService.getPlatillos()
-            val favoritosIds = platilloService.getFavoritosIds(userId)
+            val favoritosIds = platilloFavoritoService.getFavoritosIds(userId)
 
             todosPlatillos = platillos.map {
                 ingredientesPorPlatillo[it.idPlatillo] = it.ingredientes.map { ingr -> ingr.nombre }
@@ -83,8 +85,8 @@ class FavoriteActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return@launch
-            val platillos = platilloService.getPlatillosFavoritos(userId)
-            val favoritosIds = platilloService.getFavoritosIds(userId)
+            val platillos = platilloFavoritoService.getPlatillosFavoritos(userId)
+            val favoritosIds = platilloFavoritoService.getFavoritosIds(userId)
 
             listaPlatillos = platillos.map {
                 PlatilloVistaItem(
@@ -108,7 +110,7 @@ class FavoriteActivity : AppCompatActivity() {
             val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return@launch
             val nuevoEstado = !platilloVistaItem.isFavorite
 
-            platilloService.toggleFavorito(
+            platilloFavoritoService.toggleFavorito(
                 userId = userId,
                 platilloId = platilloVistaItem.id,
                 isFavorite = nuevoEstado

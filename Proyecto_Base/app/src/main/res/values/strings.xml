@@ -87,7 +87,12 @@
     <string name="foodPlateInfoIngredientsTitle">Ingredientes</string>
     <string name="foodPlateInfoCategory">Categoría</string>
     <string name="foodPlateInfoPreparationTitle">Preparación</string>
-    <string name="foodPlateInfoDetailFoodTitle">Detalles de los ingredientes</string>
+    <string name="foodPlateInfoDetailFoodTitle">Detalles Nutricionales</string>
+    <string name="foodPlateInfoShareButton">Compartir platillo</string>
+    <string name="foodPlateInfoCommentsTitle">Comentarios</string>
+    <string name="foodPlateInfoCommentInput">Escribe tu comentario</string>
+    <string name="foodPlateInfoSubmitCommentButton">Comentar</string>
+    <string name="foodPlateInfoBtnMostrarMasComentarios">Mostrar más comentarios</string>
 
     <!-- ITEM FOOD-->
     <string name="itemFoodImage">Imagén del platillo</string>
@@ -110,6 +115,11 @@
     <string name="itemDetailCarbs">5</string>
     <string name="itemDetailFiber">1.5</string>
     <string name="itemDetailProtein">1</string>
+
+    <!-- ITEM COMMENT -->
+    <string name="itemCommentUsername">Usuario</string>
+    <string name="itemCommentText">Este platillo es delicioso, me encantó!</string>
+    <string name="itemCommentTimestamp">Hace 2 horas</string>
 
 
 </resources>

@@ -125,15 +125,6 @@ class UsuarioService {
         usuariosCollection.document(uid).update(data).await()
     }
 
-    /**
-     * Método que elimina un usuario de Firestore por su ID.
-     *
-     * @param id ID del usuario (UID de Firebase Auth).
-     */
-    suspend fun delete(id: String) {
-        usuariosCollection.document(id).delete().await()
-    }
-
     // ====================================================
     // MÉTODOS DE AUTENTICACIÓN CON GOOGLE
     // ====================================================

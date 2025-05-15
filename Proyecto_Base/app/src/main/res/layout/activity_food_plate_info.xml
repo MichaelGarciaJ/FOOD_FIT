@@ -320,6 +320,89 @@
                         android:layout_marginBottom="16dp"
                         app:color="?attr/colorOutlineVariant" />
 
+                    <!-- Sección de Comentarios -->
+                    <TextView
+                        android:id="@+id/foodPlateInfoCommentsTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:text="@string/foodPlateInfoCommentsTitle"
+                        android:textAppearance="?attr/textAppearanceTitleMedium"
+                        android:textColor="?attr/colorPrimary" />
+
+                    <!-- RecyclerView para mostrar los comentarios -->
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/foodPlateInfoCommentsRv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="24dp"
+                        android:nestedScrollingEnabled="false"
+                        android:overScrollMode="never"
+                        tools:listitem="@layout/item_comment" />
+
+                    <!-- Botón para mostrar más/menos comentarios -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/foodPlateInfoBtnMostrarMasComentarios"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="16dp"
+                        android:layout_gravity="center_horizontal"
+                        android:text="@string/foodPlateInfoBtnMostrarMasComentarios"
+                        android:visibility="gone"
+                        app:strokeColor="?attr/colorPrimary"
+                        app:strokeWidth="1dp"
+                        app:backgroundTint="?attr/colorSurfaceContainerLow"
+                        android:textColor="?attr/colorPrimary"
+                        app:rippleColor="?attr/colorSecondaryContainer" />
+
+                    <!-- Espacio para agregar un comentario -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="24dp"
+                        android:orientation="horizontal"
+                        android:padding="10dp">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/foodPlateInfoCommentInputLayout"
+                            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            app:boxBackgroundColor="?attr/colorSurfaceContainerHigh"
+                            app:boxStrokeColor="?attr/colorPrimary"
+                            app:hintTextColor="?attr/colorOnSurfaceVariant">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/foodPlateInfoCommentInput"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="@string/foodPlateInfoCommentInput"
+                                android:inputType="textCapSentences|textMultiLine"
+                                android:textColor="?attr/colorOnSurface" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/foodPlateInfoSubmitCommentButton"
+                            style="@style/Widget.Material3.Button.Icon"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:insetTop="0dp"
+                            android:insetBottom="0dp"
+                            app:backgroundTint="?attr/colorSecondaryContainer"
+                            app:icon="@drawable/ic_send"
+                            app:iconTint="?attr/colorOnSecondaryContainer"
+                            app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full" />
+                    </LinearLayout>
+
+                    <!-- Divider -->
+                    <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="16dp"
+                        app:color="?attr/colorOutlineVariant" />
+
                     <!-- Botón de Compartir -->
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/foodPlateInfoShareButton"
@@ -327,7 +410,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="16dp"
-                        android:text="Compartir platillo"
+                        android:text="@string/foodPlateInfoShareButton"
                         android:textColor="?attr/colorOnSecondaryContainer"
                         app:backgroundTint="?attr/colorSecondaryContainer"
                         app:cornerRadius="8dp"

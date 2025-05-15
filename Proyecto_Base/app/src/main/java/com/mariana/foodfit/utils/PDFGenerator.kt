@@ -106,7 +106,12 @@ object PDFGenerator {
         }
 
         // Función para dibujar texto con manejo de múltiples líneas y saltos de página
-        fun drawTextLine(text: String, paint: Paint, x: Float = leftMargin, maxWidth: Float = usableWidth): Float {
+        fun drawTextLine(
+            text: String,
+            paint: Paint,
+            x: Float = leftMargin,
+            maxWidth: Float = usableWidth
+        ): Float {
             val lines = breakTextIntoLines(text, paint, maxWidth)
             for (line in lines) {
                 if (checkSpace(lineSpacing)) {
@@ -166,11 +171,22 @@ object PDFGenerator {
                 color = headerColor
                 style = Paint.Style.FILL
             }
-            canvas.drawRect(startX, yPosition, startX + tableWidth, yPosition + headerHeight, headerPaint)
+            canvas.drawRect(
+                startX,
+                yPosition,
+                startX + tableWidth,
+                yPosition + headerHeight,
+                headerPaint
+            )
 
             var x = startX
             for (i in headers.indices) {
-                canvas.drawText(headers[i], x + 4f, yPosition + headerHeight * 0.7f, tableHeaderPaint)
+                canvas.drawText(
+                    headers[i],
+                    x + 4f,
+                    yPosition + headerHeight * 0.7f,
+                    tableHeaderPaint
+                )
                 x += columnWidths[i]
             }
             yPosition += headerHeight
@@ -194,14 +210,25 @@ object PDFGenerator {
                     // Si cambiamos de página, debemos volver a dibujar los encabezados de tabla
                     x = startX
                     for (i in headers.indices) {
-                        canvas.drawText(headers[i], x + 4f, yPosition + headerHeight * 0.7f, tableHeaderPaint)
+                        canvas.drawText(
+                            headers[i],
+                            x + 4f,
+                            yPosition + headerHeight * 0.7f,
+                            tableHeaderPaint
+                        )
                         x += columnWidths[i]
                     }
                     yPosition += headerHeight
                 }
 
                 // Dibujar fila
-                canvas.drawRect(startX, yPosition, startX + tableWidth, yPosition + rowHeight, rowPaint)
+                canvas.drawRect(
+                    startX,
+                    yPosition,
+                    startX + tableWidth,
+                    yPosition + rowHeight,
+                    rowPaint
+                )
 
                 x = startX
                 for ((colIndex, cellText) in row.withIndex()) {
@@ -216,7 +243,13 @@ object PDFGenerator {
                 }
 
                 // Dibujar bordes
-                canvas.drawRect(startX, yPosition, startX + tableWidth, yPosition + rowHeight, borderPaint)
+                canvas.drawRect(
+                    startX,
+                    yPosition,
+                    startX + tableWidth,
+                    yPosition + rowHeight,
+                    borderPaint
+                )
 
                 // Dibujar líneas verticales
                 x = startX
@@ -315,7 +348,12 @@ object PDFGenerator {
             textSize = 9f
             textAlign = Paint.Align.CENTER
         }
-        canvas.drawText("© ${SimpleDateFormat("yyyy").format(Date())} FoodFit", pageWidth / 2f, yPosition, footerPaint)
+        canvas.drawText(
+            "© ${SimpleDateFormat("yyyy").format(Date())} FoodFit",
+            pageWidth / 2f,
+            yPosition,
+            footerPaint
+        )
 
         // Finalizar documento
         pdfDocument.finishPage(page)

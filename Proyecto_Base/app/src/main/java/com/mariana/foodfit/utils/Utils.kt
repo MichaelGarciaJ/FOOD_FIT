@@ -26,15 +26,14 @@ class Utils {
 
         /**
          * Método para validar el nombre de usuario.
-         * Permite letras, números, guiones, guiones bajos y un solo espacio entre palabras.
-         * No permite espacios al inicio ni al final ni múltiples espacios seguidos.
+         * Permite letras, números, guiones y guiones bajos.
          *
          * @param username El nombre de usuario que se quiere validar.
          * @return true si el nombre de usuario es válido, false si no cumple con las condiciones.
          */
         fun validarNombreUsuario(username: String): Boolean {
             val limpio = username.trim()
-            val regex = Regex("^[a-zA-Z0-9_-]+( [a-zA-Z0-9_-]+)?$")
+            val regex = Regex("^[a-zA-Z0-9 _-]+$")
             return limpio.length in 3..20 && regex.matches(limpio)
         }
 

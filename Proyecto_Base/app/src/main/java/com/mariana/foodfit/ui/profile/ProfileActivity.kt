@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.firebase.auth.FirebaseAuth
 import com.mariana.foodfit.R
+import com.mariana.foodfit.data.service.PlatilloFavoritoService
 import com.mariana.foodfit.data.service.PlatilloService
 import com.mariana.foodfit.data.service.UsuarioService
 import com.mariana.foodfit.databinding.ActivityProfileBinding
@@ -32,6 +33,8 @@ class ProfileActivity : AppCompatActivity() {
 
     // Instancia del platillo service
     private val platilloService = PlatilloService()
+    private val platilloFavoritoService = PlatilloFavoritoService()
+
 
     // Cliente de autenticación de Google
     private lateinit var googleSignInClient: GoogleSignInClient
@@ -113,7 +116,7 @@ class ProfileActivity : AppCompatActivity() {
     private fun mostrarCantidadDeFavoritos() {
         lifecycleScope.launch {
             val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return@launch
-            val favoritosIds = platilloService.getFavoritosIds(userId)
+            val favoritosIds = platilloFavoritoService.getFavoritosIds(userId)
             val cantidad = favoritosIds.size
 
             binding.profileTvFavoritesCount.text = cantidad.toString()
