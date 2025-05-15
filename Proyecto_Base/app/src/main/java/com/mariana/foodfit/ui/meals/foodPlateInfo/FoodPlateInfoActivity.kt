@@ -49,8 +49,6 @@ class FoodPlateInfoActivity : AppCompatActivity() {
     private var cantidadMostrada = 3
     private val incremento = 3
 
-
-
     private val usuarioService = UsuarioService()
     private val platilloService = PlatilloService()
     private val platilloFavoritoService = PlatilloFavoritoService()
@@ -96,7 +94,13 @@ class FoodPlateInfoActivity : AppCompatActivity() {
         ingredientAdapter = IngredientAdapter()
         ingredientDetailAdapter = IngredientDetailAdapter()
         preparationAdapter = PreparationAdapter()
-        commentAdapter = CommentAdapter()
+
+        val currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
+
+        commentAdapter = CommentAdapter(currentUserId) { comentario ->
+            eliminarComentario(comentario)
+        }
+        recyclerViewComments.adapter = commentAdapter
 
         // Asignamos los adaptadores a los RecyclerViews
         recyclerViewIngredientes.adapter = ingredientAdapter
@@ -268,6 +272,29 @@ class FoodPlateInfoActivity : AppCompatActivity() {
         }
     }
 
+    private fun eliminarComentario(comentario: Comentario) {
+        val platilloId = platilloVista?.id ?: return
+
+        lifecycleScope.launch {
+            val confirm = android.app.AlertDialog.Builder(this@FoodPlateInfoActivity)
+                .setTitle("Eliminar comentario")
+                .setMessage("¿Estás seguro de que deseas eliminar este comentario?")
+                .setPositiveButton("Sí", null)
+                .setNegativeButton("Cancelar", null)
+                .show()
+
+            confirm.getButton(android.app.AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+                lifecycleScope.launch {
+                    val exito = comentarioService.deleteComentario(platilloId, comentario.id)
+                    if (exito) {
+                        loadComentarios(platilloId)
+                    }
+                    confirm.dismiss()
+                }
+            }
+        }
+    }
+
     private fun setupCommentSubmitButton() {
         binding.foodPlateInfoSubmitCommentButton.setOnClickListener {
             binding.foodPlateInfoSubmitCommentButton.isEnabled = false
@@ -275,7 +302,8 @@ class FoodPlateInfoActivity : AppCompatActivity() {
             val textoComentario = binding.foodPlateInfoCommentInput.text.toString().trim()
             if (textoComentario.isEmpty()) return@setOnClickListener
 
-            val usuarioFirebase = FirebaseAuth.getInstance().currentUser ?: return@setOnClickListener
+            val usuarioFirebase =
+                FirebaseAuth.getInstance().currentUser ?: return@setOnClickListener
 
             lifecycleScope.launch {
                 val usuario = usuarioService.getCurrentUser()
@@ -418,6 +446,5 @@ class FoodPlateInfoActivity : AppCompatActivity() {
             refrescarContenido()
         }
     }
-
 
 }

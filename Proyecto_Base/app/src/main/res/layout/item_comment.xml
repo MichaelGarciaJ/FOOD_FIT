@@ -10,68 +10,82 @@
     app:strokeColor="?attr/colorOutlineVariant"
     app:strokeWidth="0.5dp">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:padding="12dp">
 
-        <!-- Cabecera con avatar y nombre -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <!-- Avatar circular con icono de usuario -->
-            <com.google.android.material.imageview.ShapeableImageView
-                android:id="@+id/itemCommentUserAvatar"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:src="@drawable/ic_person"
-                app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
-                app:strokeColor="?attr/colorOutlineVariant"
-                app:strokeWidth="1dp" />
-
-            <!-- Nombre de usuario -->
-            <TextView
-                android:id="@+id/itemCommentUsername"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="@string/itemCommentUsername"
-                android:textAppearance="?attr/textAppearanceLabelMedium"
-                android:textColor="?attr/colorPrimary" />
-        </LinearLayout>
-
-        <!-- Texto del comentario -->
-        <TextView
-            android:id="@+id/itemCommentText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="44dp"
-            android:lineSpacingMultiplier="1.2"
-            android:text="@string/itemCommentText"
-            android:textAppearance="?attr/textAppearanceBodyMedium"
-            android:textColor="?attr/colorOnSurface" />
-
-        <!-- Fecha -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="44dp"
+        <!-- Botón de eliminar comentario -->
+        <ImageButton
+            android:id="@+id/itemCommentDeleteButton"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentEnd="true"
             android:layout_marginTop="4dp"
-            android:orientation="horizontal">
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/itemCommentDeleteButton"
+            android:padding="4dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_cancel"
+            app:tint="?attr/colorOnSurfaceVariant" />
+
+        <!-- Contenido del comentario (avatar, nombre, texto, fecha) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@id/itemCommentDeleteButton"
+            android:orientation="vertical">
+
+            <!-- Cabecera con avatar y nombre -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <!-- Avatar circular -->
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/itemCommentUserAvatar"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:src="@drawable/ic_person"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearance.Material3.Corner.Full"
+                    app:strokeColor="?attr/colorOutlineVariant"
+                    app:strokeWidth="1dp" />
+
+                <!-- Nombre de usuario -->
+                <TextView
+                    android:id="@+id/itemCommentUsername"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/itemCommentUsername"
+                    android:textAppearance="?attr/textAppearanceLabelMedium"
+                    android:textColor="?attr/colorPrimary" />
+            </LinearLayout>
+
+            <!-- Texto del comentario -->
+            <TextView
+                android:id="@+id/itemCommentText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="44dp"
+                android:lineSpacingMultiplier="1.2"
+                android:text="@string/itemCommentText"
+                android:textAppearance="?attr/textAppearanceBodyMedium"
+                android:textColor="?attr/colorOnSurface" />
 
             <!-- Fecha -->
             <TextView
                 android:id="@+id/itemCommentTimestamp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="44dp"
+                android:layout_marginTop="4dp"
                 android:text="@string/itemCommentTimestamp"
                 android:textAppearance="?attr/textAppearanceLabelSmall"
                 android:textColor="?attr/colorOnSurfaceVariant" />
         </LinearLayout>
-    </LinearLayout>
+    </RelativeLayout>
 </com.google.android.material.card.MaterialCardView>

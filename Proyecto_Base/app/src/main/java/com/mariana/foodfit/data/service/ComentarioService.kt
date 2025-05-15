@@ -6,7 +6,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.mariana.foodfit.data.entity.Comentario
 import kotlinx.coroutines.tasks.await
-import java.util.Date
 
 class ComentarioService {
 
@@ -15,29 +14,18 @@ class ComentarioService {
 
     suspend fun getComentarios(platilloId: String): List<Comentario> {
         return try {
-            platillosCollection.document(platilloId)
+            val snapshot = platillosCollection.document(platilloId)
                 .collection("comentarios")
                 .orderBy("fecha", Query.Direction.DESCENDING)
                 .get()
                 .await()
-                .toObjects(Comentario::class.java)
+
+            snapshot.documents.map { doc ->
+                val comentario = doc.toObject(Comentario::class.java)
+                comentario?.copy(id = doc.id) ?: Comentario()
+            }
         } catch (e: Exception) {
             Log.e("Firestore", "Error al obtener comentarios: ${e.message}")
-            emptyList()
-        }
-    }
-
-    suspend fun getPrimerosComentarios(platilloId: String, limite: Long = 3): List<Comentario> {
-        return try {
-            platillosCollection.document(platilloId)
-                .collection("comentarios")
-                .orderBy("fecha", Query.Direction.DESCENDING)
-                .limit(limite)
-                .get()
-                .await()
-                .toObjects(Comentario::class.java)
-        } catch (e: Exception) {
-            Log.e("Firestore", "Error al obtener primeros comentarios: ${e.message}")
             emptyList()
         }
     }
@@ -68,6 +56,20 @@ class ComentarioService {
         } catch (e: Exception) {
             Log.e("Firestore", "Error al agregar comentario: ${e.message}")
             ""
+        }
+    }
+
+    suspend fun deleteComentario(platilloId: String, comentarioId: String): Boolean {
+        return try {
+            platillosCollection.document(platilloId)
+                .collection("comentarios")
+                .document(comentarioId)
+                .delete()
+                .await()
+            true
+        } catch (e: Exception) {
+            Log.e("Firestore", "Error al eliminar comentario: ${e.message}")
+            false
         }
     }
 

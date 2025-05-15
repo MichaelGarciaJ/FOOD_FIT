@@ -120,6 +120,7 @@
     <string name="itemCommentUsername">Usuario</string>
     <string name="itemCommentText">Este platillo es delicioso, me encantó!</string>
     <string name="itemCommentTimestamp">Hace 2 horas</string>
+    <string name="itemCommentDeleteButton">Imagen butón para eliminar comentario</string>
 
 
 </resources>
