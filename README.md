@@ -1,6 +1,6 @@
 # FoodFit 🍽️
 
-**FoodFit** es una aplicación móvil desarrollada en Android Studio que permite a los usuarios visualizar platillos saludables, marcarlos como favoritos, comentar en los platillos y poder compartir los platillos a ptras personas.
+**FoodFit** es una aplicación móvil desarrollada en Android Studio que permite a los usuarios visualizar platillos saludables, marcarlos como favoritos, comentar en los platillos y poder compartir los platillos a otras personas.
 
 ## 📱 Características
 
