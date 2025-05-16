@@ -143,5 +143,8 @@
     <string name="createFoodPlateNewPaso">Nuevo paso</string>
     <string name="createFoodPlateTilPriceIngredient">Precio del ingrediente</string>
 
+    <!-- SEARCH DIALOG -->
+    <string name="searchInputLayout">Escribe un ingrediente</string>
+    <string name="searchEt">Campo para escribir el nombre de un ingrediente</string>
 
 </resources>

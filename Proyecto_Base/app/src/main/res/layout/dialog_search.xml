@@ -12,7 +12,7 @@
         android:id="@+id/searchInputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Escribe un ingrediente"
+        android:hint="@string/searchInputLayout"
         app:boxBackgroundColor="?attr/colorSurfaceContainerHigh"
         app:boxStrokeColor="?attr/colorPrimary"
         app:hintTextColor="?attr/colorOnSurfaceVariant"
@@ -26,6 +26,6 @@
             android:textColor="?attr/colorOnSurface"
             android:textColorHint="?attr/colorOnSurfaceVariant"
             android:inputType="text"
-            android:contentDescription="Campo para escribir el nombre de un ingrediente"/>
+            android:contentDescription="@string/searchEt"/>
     </com.google.android.material.textfield.TextInputLayout>
 </LinearLayout>

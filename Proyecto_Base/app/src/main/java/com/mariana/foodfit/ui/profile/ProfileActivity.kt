@@ -35,7 +35,6 @@ class ProfileActivity : AppCompatActivity() {
     private val platilloService = PlatilloService()
     private val platilloFavoritoService = PlatilloFavoritoService()
 
-
     // Cliente de autenticación de Google
     private lateinit var googleSignInClient: GoogleSignInClient
 
