@@ -7,11 +7,22 @@ import com.google.firebase.firestore.Query
 import com.mariana.foodfit.data.entity.Comentario
 import kotlinx.coroutines.tasks.await
 
+/**
+ * Servicio para gestionar los comentarios asociados a los platillos en Firestore.
+ *
+ * Permite obtener, agregar y eliminar comentarios de forma asíncrona usando corutinas.
+ */
 class ComentarioService {
 
     private val db = FirebaseFirestore.getInstance()
     private val platillosCollection = db.collection("platillos")
 
+    /**
+     * Método que recupera la lista de comentarios de un platillo específico, ordenados por fecha descendente.
+     *
+     * @param platilloId ID del platillo cuyos comentarios se desean obtener.
+     * @return Lista de objetos Comentario.
+     */
     suspend fun getComentarios(platilloId: String): List<Comentario> {
         return try {
             val snapshot = platillosCollection.document(platilloId)
@@ -30,7 +41,16 @@ class ComentarioService {
         }
     }
 
-
+    /**
+     * Método que agrega un nuevo comentario a un platillo.
+     *
+     * @param platilloId ID del platillo.
+     * @param usuarioId ID del usuario que comenta.
+     * @param comentarioTexto Texto del comentario.
+     * @param nombreUsuario Nombre del usuario.
+     * @param fotoUsuario URL o referencia de la foto del usuario.
+     * @return ID del comentario creado o cadena vacía si hubo error.
+     */
     suspend fun addComentario(
         platilloId: String,
         usuarioId: String,
@@ -59,6 +79,13 @@ class ComentarioService {
         }
     }
 
+    /**
+     * Método que elimina un comentario específico de un platillo.
+     *
+     * @param platilloId ID del platillo.
+     * @param comentarioId ID del comentario a eliminar.
+     * @return true si se eliminó correctamente, false si hubo error.
+     */
     suspend fun deleteComentario(platilloId: String, comentarioId: String): Boolean {
         return try {
             platillosCollection.document(platilloId)

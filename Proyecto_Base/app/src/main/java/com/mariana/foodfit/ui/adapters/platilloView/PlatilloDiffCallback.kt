@@ -34,4 +34,5 @@ class PlatilloDiffCallback : DiffUtil.ItemCallback<PlatilloVistaItem>() {
     ): Boolean {
         return oldItem == newItem
     }
+
 }

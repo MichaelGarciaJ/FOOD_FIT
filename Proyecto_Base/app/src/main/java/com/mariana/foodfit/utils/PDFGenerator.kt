@@ -1,7 +1,9 @@
 package com.mariana.foodfit.utils
 
 import android.content.Context
-import android.graphics.*
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
 import android.graphics.pdf.PdfDocument
 import android.icu.text.SimpleDateFormat
 import android.util.Log
@@ -12,10 +14,24 @@ import com.mariana.foodfit.data.model.PreparationStep
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
-import java.util.*
+import java.util.Date
 
+/**
+ * Clase de utilidad encargada de generar un documento PDF con los detalles de una receta,
+ * incluyendo información del platillo, ingredientes, información nutricional y pasos de preparación.
+ */
 object PDFGenerator {
 
+    /**
+     * Método que genera un archivo PDF con la información proporcionada de una receta.
+     *
+     * @param context Contexto de la aplicación, necesario para acceder al almacenamiento.
+     * @param platilloVista Objeto que contiene la información principal del platillo (nombre, categoría, etc.).
+     * @param ingredients Lista de ingredientes utilizados en la receta.
+     * @param ingredientDetails Lista con los detalles nutricionales de cada ingrediente.
+     * @param preparationSteps Lista de pasos necesarios para preparar la receta.
+     * @return Archivo PDF generado o `null` en caso de error.
+     */
     fun generateRecipePDF(
         context: Context,
         platilloVista: PlatilloVistaItem?,
@@ -129,9 +145,6 @@ object PDFGenerator {
         fun drawCenteredText(text: String, paint: Paint) {
             val lines = breakTextIntoLines(text, paint, usableWidth)
             for (line in lines) {
-                if (checkSpace(lineSpacing)) {
-                    // Manejo de cambio de página
-                }
                 val x = (pageWidth - paint.measureText(line)) / 2
                 canvas.drawText(line, x, yPosition, paint)
                 yPosition += lineSpacing
@@ -159,12 +172,6 @@ object PDFGenerator {
             }
 
             val headerHeight = lineSpacing * 1.5f
-            val totalHeight = headerHeight + rowHeights.sum()
-
-            // Verificar espacio para toda la tabla
-            if (checkSpace(totalHeight)) {
-                // Si cambiamos de página, debemos volver a dibujar los encabezados si es necesario
-            }
 
             // Dibujar encabezado de tabla
             val headerPaint = Paint().apply {
@@ -373,6 +380,15 @@ object PDFGenerator {
         }
     }
 
+    /**
+     * Método auxiliar que divide un texto largo en múltiples líneas para ajustarlo al ancho máximo permitido,
+     * asegurando que no se corte y se mantenga legible en el PDF.
+     *
+     * @param text Texto original a dividir.
+     * @param paint Estilo de pintura utilizado para medir el ancho del texto.
+     * @param maxWidth Ancho máximo permitido por línea.
+     * @return Lista de líneas de texto divididas correctamente según el ancho.
+     */
     private fun breakTextIntoLines(text: String, paint: Paint, maxWidth: Float): List<String> {
         if (text.isEmpty()) return listOf("")
 

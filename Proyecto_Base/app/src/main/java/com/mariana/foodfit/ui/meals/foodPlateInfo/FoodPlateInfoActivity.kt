@@ -15,6 +15,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.mariana.foodfit.R
 import com.mariana.foodfit.data.entity.Comentario
 import com.mariana.foodfit.data.entity.Platillo
+import com.mariana.foodfit.data.model.Ingredient
+import com.mariana.foodfit.data.model.IngredientDetail
+import com.mariana.foodfit.data.model.PlatilloVistaItem
+import com.mariana.foodfit.data.model.PreparationStep
 import com.mariana.foodfit.data.service.ComentarioService
 import com.mariana.foodfit.data.service.IngredienteService
 import com.mariana.foodfit.data.service.PlatilloFavoritoService
@@ -25,16 +29,15 @@ import com.mariana.foodfit.ui.adapters.comment.CommentAdapter
 import com.mariana.foodfit.ui.adapters.ingredient.IngredientAdapter
 import com.mariana.foodfit.ui.adapters.ingredientDetail.IngredientDetailAdapter
 import com.mariana.foodfit.ui.adapters.platilloPreparation.PreparationAdapter
-import com.mariana.foodfit.data.model.Ingredient
-import com.mariana.foodfit.data.model.IngredientDetail
-import com.mariana.foodfit.data.model.PlatilloVistaItem
-import com.mariana.foodfit.data.model.PreparationStep
 import com.mariana.foodfit.utils.PDFGenerator
 import com.mariana.foodfit.utils.ToolbarUtils
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 
+/**
+ * Activity que muestra la información detalalada de un platillo específico.
+ */
 class FoodPlateInfoActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityFoodPlateInfoBinding
@@ -49,18 +52,24 @@ class FoodPlateInfoActivity : AppCompatActivity() {
     private var cantidadMostrada = 3
     private val incremento = 3
 
+    // Servicios para interactuar con la base de datos (Firebase)
     private val usuarioService = UsuarioService()
     private val platilloService = PlatilloService()
     private val platilloFavoritoService = PlatilloFavoritoService()
     private val ingredienteService = IngredienteService()
     private val comentarioService = ComentarioService()
 
-    // Instanciamos los adaptadores
+    // Instanciamos los adaptadores para cada UI.
     private lateinit var ingredientAdapter: IngredientAdapter
     private lateinit var ingredientDetailAdapter: IngredientDetailAdapter
     private lateinit var preparationAdapter: PreparationAdapter
     private lateinit var commentAdapter: CommentAdapter
 
+    /**
+     * Método llamado cuando se crea la Activity.
+     *
+     * @param savedInstanceState Bundle con el estado previo (null si es la primera vez).
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -95,12 +104,11 @@ class FoodPlateInfoActivity : AppCompatActivity() {
         ingredientDetailAdapter = IngredientDetailAdapter()
         preparationAdapter = PreparationAdapter()
 
+        // Inicializa el adaptador de comentarios con función para eliminar
         val currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
-
         commentAdapter = CommentAdapter(currentUserId) { comentario ->
             eliminarComentario(comentario)
         }
-        recyclerViewComments.adapter = commentAdapter
 
         // Asignamos los adaptadores a los RecyclerViews
         recyclerViewIngredientes.adapter = ingredientAdapter
@@ -112,6 +120,9 @@ class FoodPlateInfoActivity : AppCompatActivity() {
         setupCommentSubmitButton()
     }
 
+    /**
+     * Método de ciclo de vida llamado cuando la actividad se reanuda.
+     */
     override fun onResume() {
         super.onResume()
         binding.foodPlateInfoShareButton.isEnabled = true
@@ -120,6 +131,11 @@ class FoodPlateInfoActivity : AppCompatActivity() {
         refrescarContenido()
     }
 
+    /**
+     * Método que carga los datos del platillo desde Firestore.
+     *
+     * @param platilloId ID del platillo a cargar.
+     */
     private fun loadPlatilloData(platilloId: String) {
         lifecycleScope.launch {
             try {
@@ -147,9 +163,8 @@ class FoodPlateInfoActivity : AppCompatActivity() {
                         isFavorite = isFavorite
                     )
 
+                    // Actualizar icono de favorito y configurar listener
                     updateFavoriteIcon(isFavorite)
-
-                    // Set listener
                     binding.foodPlateInfoFoodFavoriteIcon.setOnClickListener {
                         onFavoriteClick()
                     }
@@ -162,6 +177,12 @@ class FoodPlateInfoActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Método que carga los ingredientes del platillo y sus detalles nutricionales.
+     * Procesa la información en paralelo usando corrutinas.
+     *
+     * @param platillo Objeto Platillo con la información a cargar.
+     */
     private fun loadIngredientes(platillo: Platillo) {
         lifecycleScope.launch {
             try {
@@ -169,6 +190,7 @@ class FoodPlateInfoActivity : AppCompatActivity() {
                 val detalles = mutableListOf<IngredientDetail>()
                 val pasos = mutableListOf<PreparationStep>()
 
+                // Ejecuta en paralelo la carga de cada ingrediente
                 val corutinas = platillo.ingredientes.map { ingredientePlatillo ->
                     async {
                         val nombreIngrediente = ingredientePlatillo.nombre
@@ -235,6 +257,11 @@ class FoodPlateInfoActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Método que carga los comentarios del platillo desde Firestore.
+     *
+     * @param platilloId ID del platillo cuyos comentarios se van a cargar.
+     */
     private fun loadComentarios(platilloId: String) {
         lifecycleScope.launch {
             todosLosComentarios = comentarioService.getComentarios(platilloId)
@@ -243,14 +270,20 @@ class FoodPlateInfoActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Método que muestra los comentarios de forma incremental según la cantidadMostrada.
+     * Controla la visibilidad del botón "Mostrar más/menos comentarios".
+     */
     @SuppressLint("SetTextI18n")
     private fun mostrarComentariosIncremental() {
         val total = todosLosComentarios.size
         val mostrarHasta = minOf(cantidadMostrada, total)
         val comentariosParaMostrar = todosLosComentarios.take(mostrarHasta)
 
+        // Actualizar adaptador con los comentarios a mostrar
         commentAdapter.submitList(comentariosParaMostrar)
 
+        // Configurar botón de "Mostrar más/menos"
         binding.foodPlateInfoBtnMostrarMasComentarios.apply {
             visibility = if (total > incremento) View.VISIBLE else View.GONE
 
@@ -271,7 +304,11 @@ class FoodPlateInfoActivity : AppCompatActivity() {
             }
         }
     }
-
+    /**
+     * Método que maneja la eliminación de un comentario después de confirmación del usuario.
+     *
+     * @param comentario Comentario que se va a eliminar.
+     */
     private fun eliminarComentario(comentario: Comentario) {
         val platilloId = platilloVista?.id ?: return
 
@@ -295,6 +332,10 @@ class FoodPlateInfoActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Método que configura el botón para enviar nuevos comentarios.
+     * Valida el texto y lo envía al servicio de comentarios.
+     */
     private fun setupCommentSubmitButton() {
         binding.foodPlateInfoSubmitCommentButton.setOnClickListener {
             binding.foodPlateInfoSubmitCommentButton.isEnabled = false
@@ -326,11 +367,20 @@ class FoodPlateInfoActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Método que actualiza el icono de favorito según el estado actual.
+     *
+     * @param isFavorite Indica si el platillo está marcado como favorito.
+     */
     private fun updateFavoriteIcon(isFavorite: Boolean) {
         val iconRes = if (isFavorite) R.drawable.ic_favorite_background else R.drawable.ic_favorite
         binding.foodPlateInfoFoodFavoriteIcon.setImageResource(iconRes)
     }
 
+    /**
+     * Método que maneja el clic en el icono de favorito.
+     * Alterna el estado de favorito del platillo actual.
+     */
     private fun onFavoriteClick() {
         val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return
         val platillo = platilloVista ?: return
@@ -349,10 +399,20 @@ class FoodPlateInfoActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Método que convierte un String numérico a Double, manejando formatos con coma o punto.
+     *
+     * @param value String a convertir.
+     * @return Double resultante o 0.0 si la conversión falla.
+     */
     private fun convertToDouble(value: String?): Double {
         return value?.replace(",", ".")?.toDoubleOrNull() ?: 0.0
     }
 
+    /**
+     * Método que configura el botón para compartir el platillo.
+     * Ofrece opciones para compartir como texto o PDF.
+     */
     private fun setupShareButton() {
         binding.foodPlateInfoShareButton.setOnClickListener {
             binding.foodPlateInfoShareButton.isEnabled = false
@@ -362,10 +422,10 @@ class FoodPlateInfoActivity : AppCompatActivity() {
                 🍽 ${platillo.title}
                 📂 Categoría: ${platillo.subtitle}
                 
-                ¡Descubre este platillo descargando en Food Fit!
+                ¡Descubre este platillo en Food Fit!
             """.trimIndent()
 
-                // Crear un cuadro de diálogo para elegir qué compartir
+                // Mostrar diálogo con opciones de compartir
                 val options = arrayOf("Mensaje", "PDF")
                 val builder = android.app.AlertDialog.Builder(this)
 
@@ -386,6 +446,11 @@ class FoodPlateInfoActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Método que comparte el platillo como texto simple.
+     *
+     * @param shareText Texto a compartir.
+     */
     private fun shareTextOnly(shareText: String) {
         val intent = Intent().apply {
             action = Intent.ACTION_SEND
@@ -396,6 +461,11 @@ class FoodPlateInfoActivity : AppCompatActivity() {
         startActivity(shareIntent)
     }
 
+    /**
+     * Método que genera y comparte un PDF con la información detallada del platillo.
+     *
+     * @param shareText Texto descriptivo para acompañar el PDF.
+     */
     private fun sharePdfWithText(shareText: String) {
         val pdfFile = PDFGenerator.generateRecipePDF(
             context = this,
@@ -426,6 +496,10 @@ class FoodPlateInfoActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Método que refresca todo el contenido de la pantalla.
+     * Carga nuevamente los datos del platillo y los comentarios.
+     */
     private fun refrescarContenido() {
         val platilloId = intent.getStringExtra("PLATILLO") ?: return
         binding.foodPlateInfoSwipeRefreshLayout.isRefreshing = true
@@ -437,6 +511,9 @@ class FoodPlateInfoActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Método que configura el comportamiento del SwipeRefreshLayout.
+     */
     private fun configurarSwipeRefresh() {
         binding.foodPlateInfoSwipeRefreshLayout.setColorSchemeColors(
             getColor(R.color.md_theme_primary)

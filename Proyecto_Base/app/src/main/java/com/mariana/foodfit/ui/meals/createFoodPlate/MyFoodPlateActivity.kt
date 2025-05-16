@@ -2,8 +2,6 @@ package com.mariana.foodfit.ui.meals.createFoodPlate
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.EditText
-import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -21,6 +19,10 @@ import com.mariana.foodfit.utils.ToolbarUtils
 import com.mariana.foodfit.utils.Utils
 import kotlinx.coroutines.launch
 
+/**
+ * Activity principal que permite al usuario visualizar, buscar, crear y eliminar sus platillos personalizados.
+ * También ofrece la opción de marcar platillos como favoritos.
+ */
 class MyFoodPlateActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMyFoodPlateBinding
@@ -32,6 +34,12 @@ class MyFoodPlateActivity : AppCompatActivity() {
     private var listaPlatillos: MutableList<PlatilloVistaItem> = mutableListOf()
     private val ingredientesPorPlatillo = mutableMapOf<String, List<String>>()
     private var todosPlatillos: MutableList<PlatilloVistaItem> = mutableListOf()
+
+    /**
+     * Método llamado cuando se crea la Activity.
+     *
+     * @param savedInstanceState Bundle con el estado previo (null si es la primera vez).
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -39,7 +47,10 @@ class MyFoodPlateActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // Configuramos el botón de menú para abrir/cerrar el drawer
-        ToolbarUtils.configurarDrawerToggle(binding.myFoodPlateCustomToolbar, binding.myFoodPlateDrawerLayout)
+        ToolbarUtils.configurarDrawerToggle(
+            binding.myFoodPlateCustomToolbar,
+            binding.myFoodPlateDrawerLayout
+        )
 
         // Configuración de búsqueda
         ToolbarUtils.configurarBusqueda(binding.myFoodPlateCustomToolbar) {
@@ -52,6 +63,7 @@ class MyFoodPlateActivity : AppCompatActivity() {
         recyclerView = binding.myFoodPlateRecyclerView
         recyclerView.layoutManager = GridLayoutManager(this, 2) // Dos columnas
 
+        // Inicializar adaptador con acción de favorito
         platilloAdapter = PlatilloVistaAdapter { onFavoriteClick(it) }
         recyclerView.adapter = platilloAdapter
 
@@ -64,17 +76,26 @@ class MyFoodPlateActivity : AppCompatActivity() {
         goToCreateFood()
     }
 
+    /**
+     * Método de ciclo de vida llamado cuando la actividad se reanuda.
+     */
     override fun onResume() {
         super.onResume()
         cargarMisPlatillosFirestore()
     }
 
+    /**
+     * Método que muestra un diálogo para que el usuario pueda buscar platillos por ingrediente.
+     */
     private fun abrirDialogoBusqueda() {
         SearchDialog { query ->
             buscarPlatillos(query)
         }.show(supportFragmentManager, "SearchDialog")
     }
 
+    /**
+     * Método que abre la pantalla para crear un nuevo platillo y finaliza la actividad actual.
+     */
     private fun goToCreateFood() {
         binding.myFoodPlateBtnCreateFood.setOnClickListener {
             binding.myFoodPlateBtnCreateFood.isEnabled = false
@@ -84,6 +105,11 @@ class MyFoodPlateActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Método que alterna el estado de favorito de un platillo (agrega o quita de favoritos).
+     *
+     * @param platilloVistaItem Platillo que fue marcado/desmarcado como favorito.
+     */
     private fun onFavoriteClick(platilloVistaItem: PlatilloVistaItem) {
         lifecycleScope.launch {
             val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return@launch
@@ -104,7 +130,10 @@ class MyFoodPlateActivity : AppCompatActivity() {
         }
     }
 
-    // En este método tienes que cambiar para que carge solo los platillos credoPor = Sistema y los del usuario creadoPor = id/nombre aun no se que podemos guardar ahi.
+    /**
+     * Método que carga todos los platillos disponibles (sin filtrar por categoría y creados por "Sistema" o el usuario actual)
+     * y almacena los ingredientes por platillo para búsquedas futuras.
+     */
     private fun cargarTodoPlatillosFirestore() {
         lifecycleScope.launch {
             val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return@launch
@@ -134,7 +163,9 @@ class MyFoodPlateActivity : AppCompatActivity() {
         }
     }
 
-    // Tienes que adaptarlo para que solo cargue mis platillos de comida mediante creadoPor
+    /**
+     * Método que carga exclusivamente los platillos creados por el usuario actual.
+     */
     private fun cargarMisPlatillosFirestore() {
         binding.myFoodPlateSwipeRefreshLayout.isRefreshing = true
 
@@ -162,6 +193,12 @@ class MyFoodPlateActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Método que filtra los platillos según un término de búsqueda que coincida
+     * con los ingredientes.
+     *
+     * @param query Término de búsqueda ingresado por el usuario.
+     */
     private fun buscarPlatillos(query: String) {
         val resultados = todosPlatillos.filter { platillo ->
             val ingredientes = ingredientesPorPlatillo[platillo.id] ?: emptyList()
@@ -172,14 +209,19 @@ class MyFoodPlateActivity : AppCompatActivity() {
             platilloAdapter.submitList(resultados)
         } else {
             Utils.mostrarMensaje(this, "No se encontraron platillos con ese ingrediente.")
-            platilloAdapter.submitList(listaPlatillos.toList()) // mostrar solo mis platillos
+            platilloAdapter.submitList(listaPlatillos.toList())
         }
     }
 
+    /**
+     * Método que muestra un cuadro de diálogo para confirmar la eliminación de un platillo, solicitando su nombre exacto.
+     */
     private fun mostrarDialogoConfirmacionEliminar() {
         val dialogView = layoutInflater.inflate(R.layout.dialog_eliminar_platillo, null)
-        val input = dialogView.findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.editTextNombrePlatillo)
-        val inputLayout = dialogView.findViewById<com.google.android.material.textfield.TextInputLayout>(R.id.textInputLayoutNombrePlatillo)
+        val input =
+            dialogView.findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.editTextNombrePlatillo)
+        val inputLayout =
+            dialogView.findViewById<com.google.android.material.textfield.TextInputLayout>(R.id.textInputLayoutNombrePlatillo)
 
         val dialog = AlertDialog.Builder(this)
             .setTitle("Eliminar platillo")
@@ -206,25 +248,34 @@ class MyFoodPlateActivity : AppCompatActivity() {
         dialog.show()
     }
 
+    /**
+     * Método que elimina un platillo que coincida exactamente con el nombre ingresado por el usuario.
+     */
     private fun eliminarPlatilloPorNombre(nombre: String) {
         val platilloAEliminar = listaPlatillos.find { it.title.equals(nombre, ignoreCase = true) }
 
         if (platilloAEliminar == null) {
-            Utils.mostrarMensaje(this@MyFoodPlateActivity,"No se encontró ningún de tus platillos con ese nombre." )
+            Utils.mostrarMensaje(
+                this@MyFoodPlateActivity,
+                "No se encontró ningún de tus platillos con ese nombre."
+            )
             return
         }
 
         lifecycleScope.launch {
             val resultado = platilloService.eliminarPlatillo(platilloAEliminar.id)
             if (resultado) {
-                Utils.mostrarMensaje(this@MyFoodPlateActivity,"Platillo eliminado correctamente." )
+                Utils.mostrarMensaje(this@MyFoodPlateActivity, "Platillo eliminado correctamente.")
                 cargarMisPlatillosFirestore()
             } else {
-                Utils.mostrarMensaje(this@MyFoodPlateActivity, "Error al eliminar el platillo." )
+                Utils.mostrarMensaje(this@MyFoodPlateActivity, "Error al eliminar el platillo.")
             }
         }
     }
 
+    /**
+     * Método que configura el comportamiento del SwipeRefreshLayout, para refrescar la lista al hacer swipe.
+     */
     private fun configurarSwipeRefresh() {
         binding.myFoodPlateSwipeRefreshLayout.setColorSchemeColors(
             getColor(R.color.md_theme_primary)

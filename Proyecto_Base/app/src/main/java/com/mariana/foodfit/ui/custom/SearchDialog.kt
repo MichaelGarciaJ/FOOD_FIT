@@ -7,11 +7,25 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.mariana.foodfit.databinding.DialogSearchBinding
 
+/**
+ * Diálogo personalizado para realizar una búsqueda de platillos.
+ *
+ * @property onSearchQuery Lambda que se ejecuta con el texto ingresado cuando se realiza la búsqueda.
+ */
 class SearchDialog(private val onSearchQuery: (String) -> Unit) : DialogFragment() {
 
+    // Variable privada para el binding, gestionando ciclo de vida
     private var _binding: DialogSearchBinding? = null
+
+    // Getter no nulo para binding, solo válido entre onCreateDialog y onDestroyView
     private val binding get() = _binding!!
 
+    /**
+     * Método que crea el diálogo personalizado para la búsqueda.
+     *
+     * @param savedInstanceState Bundle con estado previo guardado, si existe.
+     * @return Dialog objeto del diálogo configurado.
+     */
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         _binding = DialogSearchBinding.inflate(layoutInflater)
 
@@ -47,8 +61,12 @@ class SearchDialog(private val onSearchQuery: (String) -> Unit) : DialogFragment
         return builder.create()
     }
 
+    /**
+     * Método que limpia el binding para evitar fugas de memoria.
+     */
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
 }

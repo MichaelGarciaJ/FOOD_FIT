@@ -5,7 +5,6 @@ package com.mariana.foodfit.data.entity
  *
  * Este modelo se guarda en Firestore para representar ingredientes únicos.
  */
-
 data class Ingrediente(
     var idIngrediente: String = "",
     var nombre: String = "",

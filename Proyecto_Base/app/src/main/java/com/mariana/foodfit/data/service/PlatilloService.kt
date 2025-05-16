@@ -1,7 +1,6 @@
 package com.mariana.foodfit.data.service
 
 import android.util.Log
-import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.mariana.foodfit.data.entity.Platillo

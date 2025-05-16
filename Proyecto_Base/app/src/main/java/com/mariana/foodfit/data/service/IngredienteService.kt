@@ -4,7 +4,6 @@ import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QuerySnapshot
 import com.mariana.foodfit.data.entity.Ingrediente
-import com.mariana.foodfit.data.entity.Platillo
 import kotlinx.coroutines.tasks.await
 
 /**

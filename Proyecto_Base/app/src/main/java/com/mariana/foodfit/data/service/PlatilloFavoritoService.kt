@@ -6,6 +6,9 @@ import com.mariana.foodfit.data.entity.Platillo
 import com.mariana.foodfit.data.entity.PlatilloFavorito
 import kotlinx.coroutines.tasks.await
 
+/**
+ * Servicio para gestionar los platillos favoritos de los usuarios en Firestore.
+ */
 class PlatilloFavoritoService {
 
     private val db = FirebaseFirestore.getInstance()
@@ -13,7 +16,11 @@ class PlatilloFavoritoService {
     private val platillosCollection = db.collection("platillos")
 
     /**
-     * Agrega o elimina un platillo de los favoritos de un usuario.
+     * Método que añade o elimina un platillo de la colección de favoritos de un usuario.
+     *
+     * @param userId ID del usuario.
+     * @param platilloId ID del platillo a agregar o eliminar.
+     * @param isFavorite true para agregar a favoritos, false para eliminar.
      */
     suspend fun toggleFavorito(userId: String, platilloId: String, isFavorite: Boolean) {
         val favoritosRef = usuariosCollection.document(userId)
@@ -36,7 +43,10 @@ class PlatilloFavoritoService {
     }
 
     /**
-     * Obtiene los IDs de los platillos favoritos del usuario.
+     * Método que obtiene los IDs de todos los platillos que el usuario ha marcado como favoritos.
+     *
+     * @param userId ID del usuario.
+     * @return Conjunto de IDs de platillos favoritos.
      */
     suspend fun getFavoritosIds(userId: String): Set<String> {
         return try {
@@ -53,7 +63,10 @@ class PlatilloFavoritoService {
 
 
     /**
-     * Devuelve la lista completa de platillos marcados como favoritos por el usuario.
+     * Método que recupera la lista completa de objetos Platillo que el usuario ha marcado como favoritos.
+     *
+     * @param userId ID del usuario.
+     * @return Lista de objetos Platillo favoritos.
      */
     suspend fun getPlatillosFavoritos(userId: String): List<Platillo> {
         return try {
@@ -72,7 +85,10 @@ class PlatilloFavoritoService {
     }
 
     /**
-     * Utiliza el ID para recuperar el platillo completo desde la colección principal.
+     * Método que recupera un objeto Platillo completo a partir de su ID desde la colección principal.
+     *
+     * @param id ID del platillo.
+     * @return Objeto Platillo o null si ocurre un error.
      */
     private suspend fun getPlatilloById(id: String): Platillo? {
         return try {

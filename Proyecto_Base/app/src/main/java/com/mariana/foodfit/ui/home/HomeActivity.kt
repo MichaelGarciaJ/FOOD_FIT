@@ -1,6 +1,5 @@
 package com.mariana.foodfit.ui.home
 
-import com.mariana.foodfit.ui.adapters.platilloView.PlatilloVistaAdapter
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -8,15 +7,20 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.mariana.foodfit.R
-import com.mariana.foodfit.data.service.PlatilloFavoritoService
 import com.mariana.foodfit.data.model.PlatilloVistaItem
+import com.mariana.foodfit.data.service.PlatilloFavoritoService
 import com.mariana.foodfit.data.service.PlatilloService
 import com.mariana.foodfit.databinding.ActivityHomeBinding
+import com.mariana.foodfit.ui.adapters.platilloView.PlatilloVistaAdapter
 import com.mariana.foodfit.ui.search.SearchDialog
 import com.mariana.foodfit.utils.ToolbarUtils
 import com.mariana.foodfit.utils.Utils
 import kotlinx.coroutines.launch
 
+/**
+ * Activity principal que muestra los platillos disponibles.
+ * Permite buscar, ver favoritos y marcar/desmarcar platillos como favoritos.
+ */
 class HomeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityHomeBinding
@@ -27,6 +31,11 @@ class HomeActivity : AppCompatActivity() {
     private var listaPlatillos: MutableList<PlatilloVistaItem> = mutableListOf()
     private val ingredientesPorPlatillo = mutableMapOf<String, List<String>>()
 
+    /**
+     * Método llamado cuando se crea la Activity.
+     *
+     * @param savedInstanceState Bundle con el estado previo (null si es la primera vez).
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -45,18 +54,25 @@ class HomeActivity : AppCompatActivity() {
         configurarSwipeRefresh()
 
         recyclerView = binding.homeRecyclerView
-        recyclerView.layoutManager = GridLayoutManager(this, 2) // Dos columnas
+        recyclerView.layoutManager = GridLayoutManager(this, 2)
 
-        // Crear adaptador una vez
+        // Inicializar adaptador con acción de favorito
         platilloAdapter = PlatilloVistaAdapter { onFavoriteClick(it) }
         recyclerView.adapter = platilloAdapter
     }
 
+    /**
+     * Método de ciclo de vida llamado cuando la actividad se reanuda.
+     */
     override fun onResume() {
         super.onResume()
         cargarTodoPlatillosFirestore()
     }
 
+    /**
+     * Método que carga todos los platillos disponibles (creados por "Sistema" o el usuario actual)
+     * y marca los que están como favoritos.
+     */
     private fun cargarTodoPlatillosFirestore() {
         binding.homeSwipeRefreshLayout.isRefreshing = true
 
@@ -85,6 +101,11 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Método que alterna el estado de favorito de un platillo (agrega o quita de favoritos).
+     *
+     * @param platilloVistaItem Platillo que fue marcado/desmarcado como favorito.
+     */
     private fun onFavoriteClick(platilloVistaItem: PlatilloVistaItem) {
         lifecycleScope.launch {
             val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return@launch
@@ -105,12 +126,21 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Método que muestra un diálogo para que el usuario pueda buscar platillos por ingrediente.
+     */
     private fun abrirDialogoBusqueda() {
         SearchDialog { query ->
             buscarPlatillos(query)
         }.show(supportFragmentManager, "SearchDialog")
     }
 
+    /**
+     * Método que filtra los platillos según un término de búsqueda que coincida
+     * con los ingredientes.
+     *
+     * @param query Término de búsqueda ingresado por el usuario.
+     */
     private fun buscarPlatillos(query: String) {
         val resultados = listaPlatillos.filter { platillo ->
             val ingredientes = ingredientesPorPlatillo[platillo.id] ?: emptyList()
@@ -125,6 +155,9 @@ class HomeActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Método que configura el comportamiento del SwipeRefreshLayout, para refrescar la lista al hacer swipe.
+     */
     private fun configurarSwipeRefresh() {
         binding.homeSwipeRefreshLayout.setColorSchemeColors(
             getColor(R.color.md_theme_primary)

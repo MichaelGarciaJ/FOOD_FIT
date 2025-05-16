@@ -1,26 +1,26 @@
 package com.mariana.foodfit.ui.meals.createFoodPlate
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.google.firebase.auth.FirebaseAuth
 import com.mariana.foodfit.R
 import com.mariana.foodfit.data.init.IngredientePlatillo
 import com.mariana.foodfit.data.init.PlatillosSeeder
 import com.mariana.foodfit.databinding.ActivityCreateFoodPlateBinding
 import com.mariana.foodfit.ui.adapters.ingredient.IngredientPlatilloAdapter
-import com.mariana.foodfit.ui.adapters.preparation.PreparationStepAdapter
+import com.mariana.foodfit.ui.adapters.platilloPreparation.PreparationStepAdapter
 import com.mariana.foodfit.utils.ToolbarUtils
 import com.mariana.foodfit.utils.Utils
 import kotlinx.coroutines.launch
 
+/**
+ * Activity para la creación de un nuevo platillo,
+ */
 class CreateFoodPlateActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCreateFoodPlateBinding
@@ -36,6 +36,11 @@ class CreateFoodPlateActivity : AppCompatActivity() {
 
     private val platillosSeeder = PlatillosSeeder()
 
+    /**
+     * Método llamado cuando se crea la Activity.
+     *
+     * @param savedInstanceState Bundle con el estado previo (null si es la primera vez).
+     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -50,10 +55,13 @@ class CreateFoodPlateActivity : AppCompatActivity() {
         )
         binding.createFoodPlateEtCategory.setAdapter(categoryAdapter)
 
+        // Configurar menú lateral
         ToolbarUtils.configurarDrawerToggle(
             binding.createFoodPlateCustomToolbar,
             binding.createFoodPlateDrawerLayout
         )
+
+        // Desactivar búsqueda
         binding.createFoodPlateCustomToolbar.mostrarBusqueda(false)
 
         configurarSwipeRefresh()
@@ -65,11 +73,18 @@ class CreateFoodPlateActivity : AppCompatActivity() {
         configurarBotonGuardarPlatillo()
     }
 
+    /**
+     * Método de ciclo de vida llamado cuando la actividad se reanuda.
+     */
     override fun onResume() {
         super.onResume()
         limpiarCamposCompletos()
     }
 
+    /**
+     * Método que limpia todos los campos de entrada y las listas de ingredientes y pasos,
+     * también notifica a los adapters para actualizar la UI.
+     */
     private fun limpiarCamposCompletos() {
         // Limpiar textos de platillo
         binding.createFoodPlateEtName.text?.clear()
@@ -92,18 +107,22 @@ class CreateFoodPlateActivity : AppCompatActivity() {
         binding.createFoodPlateBtnSave.isEnabled = true
     }
 
+    /**
+     * Método que configura el botón para guardar el platillo.
+     * Valida los campos, bloquea el botón para evitar múltiples clics,
+     * y realiza el guardado en segundo plano.
+     */
     private fun configurarBotonGuardarPlatillo() {
         binding.createFoodPlateBtnSave.setOnClickListener {
             val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return@setOnClickListener
 
             // Validar campos antes de guardar
             if (validarCamposPlatillo()) {
-                // Bloquear botón para evitar múltiples clics
                 binding.createFoodPlateBtnSave.isEnabled = false
 
                 val nombrePlatillo = binding.createFoodPlateEtName.text.toString().trim()
                 val categoria = binding.createFoodPlateEtCategory.text.toString().trim()
-                val isFavorito = false  // Puedes agregar toggle para esto si quieres
+                val isFavorito = false
                 val creadoPor = userId
 
                 // Ejecutar guardado en corrutina para no bloquear UI
@@ -128,7 +147,7 @@ class CreateFoodPlateActivity : AppCompatActivity() {
                         val intent =
                             Intent(this@CreateFoodPlateActivity, MyFoodPlateActivity::class.java)
                         startActivity(intent)
-                        finish() // Cerrar CreateFoodPlateActivity
+                        finish()
 
                     } catch (e: Exception) {
                         e.printStackTrace()
@@ -137,7 +156,6 @@ class CreateFoodPlateActivity : AppCompatActivity() {
                             "Error al guardar el platillo: ${e.message}",
                             Toast.LENGTH_LONG
                         ).show()
-                        // Volver a habilitar el botón para intentar de nuevo
                         binding.createFoodPlateBtnSave.isEnabled = true
                     }
                 }
@@ -145,7 +163,10 @@ class CreateFoodPlateActivity : AppCompatActivity() {
         }
     }
 
-
+    /**
+     * Método que configura RecyclerView para mostrar y gestionar la lista de ingredientes.
+     * Permite eliminar ingredientes con un callback.
+     */
     private fun configurarRecyclerViewIngredientes() {
         recyclerView = binding.createFoodPlateIngredientsRecyclerView
         recyclerView.layoutManager = LinearLayoutManager(this)
@@ -161,6 +182,10 @@ class CreateFoodPlateActivity : AppCompatActivity() {
         recyclerView.adapter = ingredientePlatilloAdapter
     }
 
+    /**
+     * Método que configura RecyclerView para mostrar y gestionar la lista de pasos de preparación.
+     * Permite eliminar pasos con un callback y actualiza el adapter.
+     */
     private fun configurarRecyclerViewPasos() {
         val recyclerViewPasos = binding.createFoodPlatePreparationRecyclerView
         recyclerViewPasos.layoutManager = LinearLayoutManager(this)
@@ -177,6 +202,10 @@ class CreateFoodPlateActivity : AppCompatActivity() {
         recyclerViewPasos.adapter = preparationStepAdapter
     }
 
+    /**
+     * Método que configura el botón para agregar un nuevo ingrediente.
+     * Valida campos, crea el objeto ingrediente y actualiza el adapter.
+     */
     private fun addIngredienteRecyclerView() {
         binding.createFoodPlateBtnAddIngredient.setOnClickListener {
             if (validarCamposIngredientes()) {
@@ -207,6 +236,10 @@ class CreateFoodPlateActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Método que configura el botón para agregar un nuevo paso de preparación.
+     * Valida que el campo no esté vacío antes de agregar y notificar al adapter.
+     */
     private fun addPasoRecyclerView() {
         binding.createFoodPlateBtnAddStep.setOnClickListener {
 
@@ -221,6 +254,11 @@ class CreateFoodPlateActivity : AppCompatActivity() {
         }
     }
 
+    /**
+     * Método que valida que los campos principales del platillo (nombre, categoría,
+     * ingredientes y pasos) no estén vacíos antes de guardar.
+     * @return true si todos los campos son válidos, false en caso contrario.
+     */
     private fun validarCamposPlatillo(): Boolean {
         val nombrePlatillo = binding.createFoodPlateEtName.text.toString().trim()
         val categoria = binding.createFoodPlateEtCategory.text.toString().trim()
@@ -244,6 +282,10 @@ class CreateFoodPlateActivity : AppCompatActivity() {
         return true
     }
 
+    /**
+     * Método que valida que los campos para agregar un ingrediente no estén vacíos.
+     * @return true si todos los campos son válidos, false en caso contrario.
+     */
     private fun validarCamposIngredientes(): Boolean {
         val nombre = binding.createFoodPlateEtNameIngredient.text.toString().trim()
         val precio = binding.createFoodPlateEtPriceIngredient.text.toString().trim()
@@ -273,6 +315,9 @@ class CreateFoodPlateActivity : AppCompatActivity() {
         return true
     }
 
+    /**
+     * Método que limpia los campos de texto relacionados a la entrada de ingredientes.
+     */
     private fun cleanCamposIngredientes() {
         binding.createFoodPlateEtNameIngredient.text?.clear()
         binding.createFoodPlateEtPriceIngredient.text?.clear()
@@ -280,16 +325,23 @@ class CreateFoodPlateActivity : AppCompatActivity() {
         binding.createFoodPlateIngredientUnit.text?.clear()
     }
 
+    /**
+     * Método que configura el SwipeRefreshLayout para permitir refrescar la pantalla.
+     * Actualmente solo detiene la animación de refresco.
+     */
     private fun configurarSwipeRefresh() {
         binding.createFoodPlateSwipeRefreshLayout.setColorSchemeColors(
             getColor(R.color.md_theme_primary)
         )
         binding.createFoodPlateSwipeRefreshLayout.setOnRefreshListener {
-            // Puedes agregar lógica aquí para refrescar datos si lo deseas
             binding.createFoodPlateSwipeRefreshLayout.isRefreshing = false
         }
     }
 
+    /**
+     * Método que configura el botón cancelar para regresar a la actividad de mis platillos
+     * y finalizar esta actividad.
+     */
     private fun goToMyPlatillosActivityCancel() {
         binding.createFoodPlateBtnCancel.setOnClickListener {
             binding.createFoodPlateBtnCancel.isEnabled = false
@@ -298,4 +350,5 @@ class CreateFoodPlateActivity : AppCompatActivity() {
             finish()
         }
     }
+
 }

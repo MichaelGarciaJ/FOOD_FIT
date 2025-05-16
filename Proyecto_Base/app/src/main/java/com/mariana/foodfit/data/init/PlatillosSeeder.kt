@@ -29,6 +29,13 @@ class PlatillosSeeder(
     /**
      * Método que crea un platillo completo si no existe previamente en la base de datos.
      * Agrega los ingredientes y obtiene la información nutricional y visual correspondiente.
+     *
+     * @param nombrePlatillo Nombre del platillo a crear.
+     * @param categoria Categoría del platillo.
+     * @param ingredientesPlatillo Lista de ingredientes con cantidad y unidad.
+     * @param pasosPreparacion Lista de pasos para preparar el platillo.
+     * @param isFavorito Indica si el platillo se marca como favorito.
+     * @param creadoPor Usuario que crea el platillo.
      */
     suspend fun crearPlatilloCompleto(
         nombrePlatillo: String,
@@ -41,6 +48,7 @@ class PlatillosSeeder(
 
         val ingredientesList = mutableListOf<IngredientePlatillo>()
 
+        // Procesa cada ingrediente del platillo
         for (ingredienteInfo in ingredientesPlatillo) {
             val nombreIngrediente = ingredienteInfo.nombre
             val cantidad = ingredienteInfo.cantidad

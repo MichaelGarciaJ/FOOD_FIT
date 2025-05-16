@@ -25,6 +25,12 @@ object ToolbarUtils {
         }
     }
 
+    /**
+     * Método que configura el comportamiento del botón de búsqueda en una CustomToolbar.
+     *
+     * @param toolbar Instancia de la toolbar personalizada que tiene el botón de búsqueda.
+     * @param accionBusqueda Acción que se ejecutará cuando se presione el botón de búsqueda.
+     */
     fun configurarBusqueda(toolbar: CustomToolbar, accionBusqueda: () -> Unit) {
         toolbar.setOnBusquedaClickListener {
             accionBusqueda()
