@@ -16,6 +16,7 @@ import com.mariana.foodfit.databinding.FragmentMenuLateralBinding
 import com.mariana.foodfit.ui.favorite.FavoriteActivity
 import com.mariana.foodfit.ui.home.HomeActivity
 import com.mariana.foodfit.ui.meals.breakfast.BreakfastActivity
+import com.mariana.foodfit.ui.meals.createFoodPlate.MyFoodPlateActivity
 import com.mariana.foodfit.ui.meals.dinner.DinnerActivity
 import com.mariana.foodfit.ui.meals.lunch.LunchActivity
 import com.mariana.foodfit.ui.meals.snack.SnackActivity
@@ -86,15 +87,11 @@ class MenuLateralFragment : Fragment() {
                 }
 
                 R.id.menuHomeCrear -> {
-                    Utils.mostrarMensaje(context, "Crear nuevo")
+                    navigateToActivity(MyFoodPlateActivity::class.java)
                 }
 
                 R.id.menuHomeFavoritos -> {
                     navigateToActivity(FavoriteActivity::class.java)
-                }
-
-                R.id.menuHomeMenu -> {
-                    Utils.mostrarMensaje(context, "Menú semanal")
                 }
 
                 R.id.menuHomePerfil -> {

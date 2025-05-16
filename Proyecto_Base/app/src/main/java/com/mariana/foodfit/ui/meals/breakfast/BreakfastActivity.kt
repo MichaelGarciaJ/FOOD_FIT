@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.mariana.foodfit.R
 import com.mariana.foodfit.data.service.PlatilloFavoritoService
-import com.mariana.foodfit.ui.meals.model.PlatilloVistaItem
+import com.mariana.foodfit.data.model.PlatilloVistaItem
 import com.mariana.foodfit.data.service.PlatilloService
 import com.mariana.foodfit.databinding.ActivityBreakfastBinding
 import com.mariana.foodfit.ui.search.SearchDialog
@@ -62,10 +62,13 @@ class BreakfastActivity : AppCompatActivity() {
     private fun cargarTodoPlatillosFirestore() {
         lifecycleScope.launch {
             val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return@launch
-            val platillos = platilloService.getPlatillos()
+            val platillos = platilloService.getPlatillos() // todos sin filtro de categoría
             val favoritosIds = platilloFavoritoService.getFavoritosIds(userId)
 
-            todosPlatillos = platillos.map {
+            // Filtrar solo platillos creados por "Sistema" o por el usuario actual
+            val filtrados = platillos.filter { it.creadoPor == "Sistema" || it.creadoPor == userId }
+
+            todosPlatillos = filtrados.map {
                 ingredientesPorPlatillo[it.idPlatillo] = it.ingredientes.map { ingr -> ingr.nombre }
 
                 PlatilloVistaItem(
@@ -84,10 +87,15 @@ class BreakfastActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             val userId = FirebaseAuth.getInstance().currentUser?.uid ?: return@launch
-            val platillos = platilloService.getPlatillosPorCategoria("Desayuno")
+            val platillos = platilloService.getPlatillosPorCategoria("Desayuno") // solo desayuno
             val favoritosIds = platilloFavoritoService.getFavoritosIds(userId)
 
-            listaPlatillos = platillos.map {
+            // Filtrar solo platillos creados por "Sistema" o por el usuario actual
+            val filtrados = platillos.filter { it.creadoPor == "Sistema" || it.creadoPor == userId }
+
+            listaPlatillos = filtrados.map {
+                ingredientesPorPlatillo[it.idPlatillo] = it.ingredientes.map { ingr -> ingr.nombre }
+
                 PlatilloVistaItem(
                     id = it.idPlatillo,
                     fotoUrl = it.fotoUrl,
@@ -97,7 +105,6 @@ class BreakfastActivity : AppCompatActivity() {
                 )
             }.toMutableList()
 
-            // Usamos el adaptador ya existente, solo actualizamos la lista
             platilloAdapter.submitList(listaPlatillos.toList())
             binding.breakfastSwipeRefreshLayout.isRefreshing = false
         }

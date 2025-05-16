@@ -5,10 +5,10 @@ import android.graphics.*
 import android.graphics.pdf.PdfDocument
 import android.icu.text.SimpleDateFormat
 import android.util.Log
-import com.mariana.foodfit.ui.meals.model.Ingredient
-import com.mariana.foodfit.ui.meals.model.IngredientDetail
-import com.mariana.foodfit.ui.meals.model.PlatilloVistaItem
-import com.mariana.foodfit.ui.meals.model.PreparationStep
+import com.mariana.foodfit.data.model.Ingredient
+import com.mariana.foodfit.data.model.IngredientDetail
+import com.mariana.foodfit.data.model.PlatilloVistaItem
+import com.mariana.foodfit.data.model.PreparationStep
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException

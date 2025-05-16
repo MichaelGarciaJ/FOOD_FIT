@@ -14,7 +14,6 @@ class PlatilloService {
 
     private val db = FirebaseFirestore.getInstance()
     private val platillosCollection = db.collection("platillos")
-    private val usuariosCollection = db.collection("usuarios")
 
     /**
      * Método que recupera todos los platillos almacenados en la colección "platillos".
@@ -78,6 +77,22 @@ class PlatilloService {
         } catch (e: Exception) {
             Log.e("Firestore", "Error al agregar platillo: ${e.message}")
             ""
+        }
+    }
+
+    /**
+     * Método que elimina un platillo de Firestore dado su ID.
+     *
+     * @param id ID del platillo a eliminar.
+     * @return true si la eliminación fue exitosa, false en caso contrario.
+     */
+    suspend fun eliminarPlatillo(id: String): Boolean {
+        return try {
+            platillosCollection.document(id).delete().await()
+            true
+        } catch (e: Exception) {
+            Log.e("Firestore", "Error al eliminar platillo: ${e.message}")
+            false
         }
     }
 

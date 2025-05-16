@@ -1,4 +1,4 @@
-package com.mariana.foodfit.ui.meals.model
+package com.mariana.foodfit.data.model
 
 /**
  * Modelo de datos que representa un platillo en la vista de lista de platillos (UI).
@@ -12,10 +12,10 @@ data class PlatilloVistaItem(
 )
 
 data class Ingredient(
-    val cantidad: Int,
-    val nombre: String,
-    val unidad: String,
-    val precio: Double
+    var cantidad: Int,
+    var nombre: String,
+    var unidad: String,
+    var precio: Double
 )
 
 data class IngredientDetail(
@@ -28,7 +28,6 @@ data class IngredientDetail(
 )
 
 data class PreparationStep(
-    val numero: Int,
-    val texto: String
+    var numero: Int,
+    var texto: String
 )
-

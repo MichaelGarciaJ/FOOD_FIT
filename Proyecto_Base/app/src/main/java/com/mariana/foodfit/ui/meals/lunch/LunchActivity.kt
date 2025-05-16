@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.FirebaseAuth
 import com.mariana.foodfit.R
 import com.mariana.foodfit.data.service.PlatilloFavoritoService
-import com.mariana.foodfit.ui.meals.model.PlatilloVistaItem
+import com.mariana.foodfit.data.model.PlatilloVistaItem
 import com.mariana.foodfit.data.service.PlatilloService
 import com.mariana.foodfit.databinding.ActivityLunchBinding
 import com.mariana.foodfit.ui.search.SearchDialog
@@ -66,7 +66,10 @@ class LunchActivity : AppCompatActivity() {
             val platillos = platilloService.getPlatillos()
             val favoritosIds = platilloFavoritoService.getFavoritosIds(userId)
 
-            todosPlatillos = platillos.map {
+            // Filtrar solo platillos creados por "Sistema" o por el usuario actual
+            val filtrados = platillos.filter { it.creadoPor == "Sistema" || it.creadoPor == userId }
+
+            todosPlatillos = filtrados.map {
                 ingredientesPorPlatillo[it.idPlatillo] = it.ingredientes.map { ingr -> ingr.nombre }
 
                 PlatilloVistaItem(
@@ -88,7 +91,12 @@ class LunchActivity : AppCompatActivity() {
             val platillos = platilloService.getPlatillosPorCategoria("Comida")
             val favoritosIds = platilloFavoritoService.getFavoritosIds(userId)
 
-            listaPlatillos = platillos.map {
+            // Filtrar solo platillos creados por "Sistema" o por el usuario actual
+            val filtrados = platillos.filter { it.creadoPor == "Sistema" || it.creadoPor == userId }
+
+            listaPlatillos = filtrados.map {
+                ingredientesPorPlatillo[it.idPlatillo] = it.ingredientes.map { ingr -> ingr.nombre }
+
                 PlatilloVistaItem(
                     id = it.idPlatillo,
                     fotoUrl = it.fotoUrl,

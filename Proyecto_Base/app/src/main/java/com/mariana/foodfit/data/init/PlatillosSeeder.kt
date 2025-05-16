@@ -36,7 +36,7 @@ class PlatillosSeeder(
         ingredientesPlatillo: List<IngredientePlatillo>,
         pasosPreparacion: List<String>,
         isFavorito: Boolean,
-        creadoPor: String
+        creadoPor: String,
     ) = withContext(Dispatchers.IO) {
 
         val ingredientesList = mutableListOf<IngredientePlatillo>()

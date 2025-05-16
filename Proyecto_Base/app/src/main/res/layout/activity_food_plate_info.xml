@@ -145,7 +145,7 @@
                                 android:layout_width="26dp"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
-                                android:text="Cant"
+                                android:text="@string/foodPlateInfoCant"
                                 android:textAppearance="?attr/textAppearanceLabelSmall"
                                 android:textColor="?attr/colorOnSurfaceVariant" />
 
@@ -155,7 +155,7 @@
                                 android:layout_weight="1"
                                 android:gravity="start"
                                 android:paddingStart="8dp"
-                                android:text="Ingrediente"
+                                android:text="@string/foodPlateInfoIngredient"
                                 android:textAppearance="?attr/textAppearanceLabelSmall"
                                 android:textColor="?attr/colorOnSurfaceVariant" />
 
@@ -163,7 +163,7 @@
                                 android:layout_width="62dp"
                                 android:layout_height="wrap_content"
                                 android:gravity="center"
-                                android:text="Und"
+                                android:text="@string/foodPlateInfoUnd"
                                 android:textAppearance="?attr/textAppearanceLabelSmall"
                                 android:textColor="?attr/colorOnSurfaceVariant" />
 
@@ -171,7 +171,7 @@
                                 android:layout_width="62dp"
                                 android:layout_height="wrap_content"
                                 android:gravity="end"
-                                android:text="Precio"
+                                android:text="@string/foodPlateInfoPrecio"
                                 android:textAppearance="?attr/textAppearanceLabelSmall"
                                 android:textColor="?attr/colorOnSurfaceVariant" />
                         </LinearLayout>
@@ -225,7 +225,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="2"
                                 android:gravity="start"
-                                android:text="Ingrediente"
+                                android:text="@string/foodPlateInfoIngredient"
                                 android:textAppearance="?attr/textAppearanceLabelSmall"
                                 android:textColor="?attr/colorOnSurfaceVariant" />
 
@@ -234,7 +234,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:gravity="center"
-                                android:text="Kcal"
+                                android:text="@string/foodPlateInfoKcal"
                                 android:textAppearance="?attr/textAppearanceLabelSmall"
                                 android:textColor="?attr/colorOnSurfaceVariant" />
 
@@ -243,7 +243,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:gravity="center"
-                                android:text="Gr"
+                                android:text="@string/foodPlateInfoGr"
                                 android:textAppearance="?attr/textAppearanceLabelSmall"
                                 android:textColor="?attr/colorOnSurfaceVariant" />
 
@@ -252,7 +252,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:gravity="center"
-                                android:text="Carb"
+                                android:text="@string/foodPlateInfoCarb"
                                 android:textAppearance="?attr/textAppearanceLabelSmall"
                                 android:textColor="?attr/colorOnSurfaceVariant" />
 
@@ -261,7 +261,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:gravity="center"
-                                android:text="Fib"
+                                android:text="@string/foodPlateInfoFib"
                                 android:textAppearance="?attr/textAppearanceLabelSmall"
                                 android:textColor="?attr/colorOnSurfaceVariant" />
 
@@ -270,7 +270,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
                                 android:gravity="center"
-                                android:text="Prot"
+                                android:text="@string/foodPlateInfoProt"
                                 android:textAppearance="?attr/textAppearanceLabelSmall"
                                 android:textColor="?attr/colorOnSurfaceVariant" />
                         </LinearLayout>

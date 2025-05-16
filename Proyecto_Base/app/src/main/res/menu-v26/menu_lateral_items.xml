@@ -34,7 +34,7 @@
     <group android:id="@+id/menuHomeGroupAcciones">
         <item
             android:id="@+id/menuHomeCrear"
-            android:icon="@drawable/ic_add"
+            android:icon="@drawable/ic_plate_food"
             android:iconTint="?attr/colorPrimary"
             android:title="@string/menuHomeCrear" />
         <item
@@ -42,11 +42,6 @@
             android:icon="@drawable/ic_favorite"
             android:iconTint="?attr/colorPrimary"
             android:title="@string/menuHomeFavoritos" />
-        <item
-            android:id="@+id/menuHomeMenu"
-            android:icon="@drawable/ic_letter"
-            android:iconTint="?attr/colorPrimary"
-            android:title="@string/menuHomeMenu" />
         <item
             android:id="@+id/menuHomePerfil"
             android:icon="@drawable/ic_person"

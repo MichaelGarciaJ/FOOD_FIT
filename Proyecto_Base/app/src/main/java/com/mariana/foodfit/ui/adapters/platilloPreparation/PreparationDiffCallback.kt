@@ -1,7 +1,7 @@
 package com.mariana.foodfit.ui.adapters.platilloPreparation
 
 import androidx.recyclerview.widget.DiffUtil
-import com.mariana.foodfit.ui.meals.model.PreparationStep
+import com.mariana.foodfit.data.model.PreparationStep
 
 class PreparationDiffCallback : DiffUtil.ItemCallback<PreparationStep>() {
     override fun areItemsTheSame(oldItem: PreparationStep, newItem: PreparationStep): Boolean {

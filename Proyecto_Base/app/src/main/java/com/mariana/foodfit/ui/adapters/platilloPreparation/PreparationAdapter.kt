@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mariana.foodfit.R
-import com.mariana.foodfit.ui.meals.model.PreparationStep
+import com.mariana.foodfit.data.model.PreparationStep
 
 class PreparationAdapter :
     ListAdapter<PreparationStep, PreparationAdapter.PreparationViewHolder>(PreparationDiffCallback()) {

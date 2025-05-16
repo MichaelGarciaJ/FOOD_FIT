@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.mariana.foodfit.R
-import com.mariana.foodfit.ui.meals.model.Ingredient
+import com.mariana.foodfit.data.model.Ingredient
 
 class IngredientAdapter :
     ListAdapter<Ingredient, IngredientAdapter.IngredientViewHolder>(IngredientDiffCallback()) {

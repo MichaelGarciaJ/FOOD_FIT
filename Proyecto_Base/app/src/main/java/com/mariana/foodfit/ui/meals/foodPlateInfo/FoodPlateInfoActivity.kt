@@ -25,10 +25,10 @@ import com.mariana.foodfit.ui.adapters.comment.CommentAdapter
 import com.mariana.foodfit.ui.adapters.ingredient.IngredientAdapter
 import com.mariana.foodfit.ui.adapters.ingredientDetail.IngredientDetailAdapter
 import com.mariana.foodfit.ui.adapters.platilloPreparation.PreparationAdapter
-import com.mariana.foodfit.ui.meals.model.Ingredient
-import com.mariana.foodfit.ui.meals.model.IngredientDetail
-import com.mariana.foodfit.ui.meals.model.PlatilloVistaItem
-import com.mariana.foodfit.ui.meals.model.PreparationStep
+import com.mariana.foodfit.data.model.Ingredient
+import com.mariana.foodfit.data.model.IngredientDetail
+import com.mariana.foodfit.data.model.PlatilloVistaItem
+import com.mariana.foodfit.data.model.PreparationStep
 import com.mariana.foodfit.utils.PDFGenerator
 import com.mariana.foodfit.utils.ToolbarUtils
 import kotlinx.coroutines.async

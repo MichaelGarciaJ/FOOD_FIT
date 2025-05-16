@@ -1,0 +1,347 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/createFoodPlateDrawerLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.meals.createFoodPlate.CreateFoodPlateActivity">
+
+    <!-- Contenido principal -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- Custom Toolbar -->
+        <com.mariana.foodfit.ui.custom.CustomToolbar
+            android:id="@+id/createFoodPlateCustomToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimaryContainer"
+            android:elevation="4dp" />
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/createFoodPlateSwipeRefreshLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.core.widget.NestedScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fillViewport="true"
+                android:padding="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="24dp">
+
+                    <!-- Icono ic_add -->
+                    <ImageView
+                        android:id="@+id/myFoodPlateIconAdd"
+                        android:layout_width="72dp"
+                        android:layout_height="72dp"
+                        android:layout_marginTop="10dp"
+                        android:contentDescription="@string/myFoodPlateIconAdd"
+                        android:src="@drawable/ic_add"
+                        android:layout_gravity="center"
+                        app:tint="?attr/colorPrimary" />
+
+                    <!-- Campo Nombre del Platillo-->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/createFoodPlateTilName"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="16dp"
+                        android:hint="@string/itemFoodTitle"
+                        app:boxBackgroundColor="?attr/colorSurfaceContainerHigh"
+                        app:boxStrokeColor="?attr/colorPrimary"
+                        app:endIconMode="clear_text"
+                        app:hintTextColor="?attr/colorOnSurfaceVariant"
+                        app:startIconDrawable="@drawable/ic_plate_food"
+                        app:startIconTint="?attr/colorPrimary">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/createFoodPlateEtName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textCapSentences"
+                            android:textColor="?attr/colorOnSurface" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Campo Categoría con select -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/createFoodPlateTilCategory"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:hint="@string/foodPlateInfoCategory"
+                        app:boxBackgroundColor="?attr/colorSurfaceContainerHigh"
+                        app:boxStrokeColor="?attr/colorPrimary"
+                        app:endIconMode="dropdown_menu"
+                        app:hintTextColor="?attr/colorOnSurfaceVariant">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/createFoodPlateEtCategory"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="none"
+                            android:padding="10dp"
+                            android:textColor="?attr/colorOnSurface" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Divider Ingredientes -->
+                    <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginVertical="16dp"
+                        app:color="?attr/colorOutlineVariant" />
+
+                    <!-- Subtítulo Ingredientes -->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:text="@string/foodPlateInfoIngredientsTitle"
+                        android:textAppearance="?attr/textAppearanceTitleMedium"
+                        android:textColor="?attr/colorPrimary" />
+
+                    <!-- Campo Nombre del Ingrediente -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/createFoodPlateTilNameIngredient"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:hint="@string/createFoodPlateTilNameIngredient"
+                        app:boxBackgroundColor="?attr/colorSurfaceContainerHigh"
+                        app:boxStrokeColor="?attr/colorPrimary"
+                        app:endIconMode="clear_text"
+                        app:hintTextColor="?attr/colorOnSurfaceVariant"
+                        app:startIconDrawable="@drawable/ic_ingredient"
+                        app:startIconTint="?attr/colorPrimary">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/createFoodPlateEtNameIngredient"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textCapSentences"
+                            android:textColor="?attr/colorOnSurface" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Campo Precio -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/createFoodPlateTilPriceIngredient"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:hint="@string/createFoodPlateTilPriceIngredient"
+                        app:boxBackgroundColor="?attr/colorSurfaceContainerHigh"
+                        app:boxStrokeColor="?attr/colorPrimary"
+                        app:endIconMode="clear_text"
+                        app:hintTextColor="?attr/colorOnSurfaceVariant"
+                        app:startIconDrawable="@drawable/ic_price"
+                        app:startIconTint="?attr/colorPrimary">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/createFoodPlateEtPriceIngredient"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal"
+                            android:textColor="?attr/colorOnSurface" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                    <!-- Campos para cantidad y unidad -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <!-- Campo Cantidad -->
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/createFoodPlateTilQuantity"
+                            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="0.5"
+                            android:hint="@string/createFoodPlateCantidad"
+                            app:boxBackgroundColor="?attr/colorSurfaceContainerHigh"
+                            app:boxStrokeColor="?attr/colorPrimary"
+                            app:hintTextColor="?attr/colorOnSurfaceVariant">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/createFoodPlateIngredientQuantity"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="number|numberDecimal"
+                                android:textColor="?attr/colorOnSurface" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <!-- Campo Unidad -->
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/createFoodPlateTilUnit"
+                            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="0.5"
+                            android:hint="@string/createFoodPlateUnidad"
+                            app:boxBackgroundColor="?attr/colorSurfaceContainerHigh"
+                            app:boxStrokeColor="?attr/colorPrimary"
+                            app:hintTextColor="?attr/colorOnSurfaceVariant">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/createFoodPlateIngredientUnit"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:textColor="?attr/colorOnSurface" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <!-- Botón + -->
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/createFoodPlateBtnAddIngredient"
+                            style="@style/Widget.Material3.Button.Icon"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            app:backgroundTint="?attr/colorPrimaryContainer"
+                            app:icon="@drawable/ic_add"
+                            app:iconTint="?attr/colorOnPrimaryContainer" />
+                    </LinearLayout>
+
+                    <!-- RecyclerView para ingredientes añadidos -->
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/createFoodPlateIngredientsRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="24dp"
+                        android:nestedScrollingEnabled="false"
+                        tools:listitem="@layout/item_ingredient_with_delete" />
+
+                    <!-- Divider -->
+                    <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="16dp"
+                        app:color="?attr/colorOutlineVariant" />
+
+                    <!-- Subtítulo Preparación -->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:text="@string/foodPlateInfoPreparationTitle"
+                        android:textAppearance="?attr/textAppearanceTitleMedium"
+                        android:textColor="?attr/colorPrimary" />
+
+                    <!-- Contenedor dinámico para pasos de preparación -->
+                    <LinearLayout
+                        android:id="@+id/createFoodPlateStepsContainer"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
+                        android:orientation="vertical" />
+
+                    <!-- Campo para añadir pasos -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="32dp"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:id="@+id/createFoodPlateTilStep"
+                            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            android:hint="@string/createFoodPlateNewPaso"
+                            app:boxBackgroundColor="?attr/colorSurfaceContainerHigh"
+                            app:boxStrokeColor="?attr/colorPrimary"
+                            app:hintTextColor="?attr/colorOnSurfaceVariant">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/createFoodPlateNewStep"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="textCapSentences|textMultiLine"
+                                android:textColor="?attr/colorOnSurface" />
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/createFoodPlateBtnAddStep"
+                            style="@style/Widget.Material3.Button.Icon"
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            app:backgroundTint="?attr/colorPrimaryContainer"
+                            app:icon="@drawable/ic_add"
+                            app:iconTint="?attr/colorOnPrimaryContainer" />
+                    </LinearLayout>
+
+                    <!-- RecyclerView para ingredientes añadidos -->
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/createFoodPlatePreparationRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="24dp"
+                        android:nestedScrollingEnabled="false"
+                        tools:listitem="@layout/item_preparation_with_delete" />
+
+                    <!-- Botones de acción -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:orientation="horizontal">
+
+                        <!-- Botón cancelar -->
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/createFoodPlateBtnCancel"
+                            style="@style/Widget.Material3.Button.OutlinedButton"
+                            android:layout_width="0dp"
+                            android:layout_height="48dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            android:text="@string/editProfileBtnCancel"
+                            android:textColor="?attr/colorPrimary"
+                            app:icon="@drawable/ic_cancel"
+                            app:iconPadding="8dp"
+                            app:iconTint="?attr/colorPrimary"
+                            app:strokeColor="?attr/colorPrimary" />
+
+                        <!-- Botón guardar -->
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/createFoodPlateBtnSave"
+                            style="@style/Widget.Material3.Button"
+                            android:layout_width="0dp"
+                            android:layout_height="48dp"
+                            android:layout_weight="1"
+                            android:text="@string/editProfileBtnSave"
+                            app:icon="@drawable/ic_save"
+                            app:iconTint="?attr/colorOnPrimary" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </androidx.core.widget.NestedScrollView>
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </LinearLayout>
+
+    <!-- Fragmento del menú lateral -->
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/createFoodPlateMenuLateralFragment"
+        android:name="com.mariana.foodfit.ui.menu.MenuLateralFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start" />
+
+</androidx.drawerlayout.widget.DrawerLayout>

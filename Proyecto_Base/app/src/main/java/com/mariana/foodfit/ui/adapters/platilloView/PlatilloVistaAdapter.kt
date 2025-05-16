@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.mariana.foodfit.R
-import com.mariana.foodfit.ui.meals.model.PlatilloVistaItem
+import com.mariana.foodfit.data.model.PlatilloVistaItem
 import com.mariana.foodfit.ui.meals.foodPlateInfo.FoodPlateInfoActivity
 
 /**

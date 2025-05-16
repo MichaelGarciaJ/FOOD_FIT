@@ -39,7 +39,7 @@
     <string name="menuHomeComida">Comida</string>
     <string name="menuHomeCena">Cena</string>
     <string name="menuHomeSnack">Snack</string>
-    <string name="menuHomeCrear">Crear Comida</string>
+    <string name="menuHomeCrear">Mis Platillos</string>
     <string name="menuHomeFavoritos">Favoritos</string>
     <string name="menuHomeMenu">Menú Comida</string>
     <string name="menuHomePerfil">Perfil</string>
@@ -93,6 +93,15 @@
     <string name="foodPlateInfoCommentInput">Escribe tu comentario</string>
     <string name="foodPlateInfoSubmitCommentButton">Comentar</string>
     <string name="foodPlateInfoBtnMostrarMasComentarios">Mostrar más comentarios</string>
+    <string name="foodPlateInfoCant">Cant</string>
+    <string name="foodPlateInfoIngredient">Ingrediente</string>
+    <string name="foodPlateInfoUnd">Und</string>
+    <string name="foodPlateInfoPrecio">Precio</string>
+    <string name="foodPlateInfoKcal">Kcal</string>
+    <string name="foodPlateInfoGr">Gr</string>
+    <string name="foodPlateInfoCarb">Carb</string>
+    <string name="foodPlateInfoFib">Fib</string>
+    <string name="foodPlateInfoProt">Prot</string>
 
     <!-- ITEM FOOD-->
     <string name="itemFoodImage">Imagén del platillo</string>
@@ -121,6 +130,18 @@
     <string name="itemCommentText">Este platillo es delicioso, me encantó!</string>
     <string name="itemCommentTimestamp">Hace 2 horas</string>
     <string name="itemCommentDeleteButton">Imagen butón para eliminar comentario</string>
+
+    <!-- MY FOOD PLATE -->
+    <string name="myFoodPlateIconAdd">Icono de añadir</string>
+    <string name="myFoodPlateBtnCreateFood">Crear</string>
+    <string name="myFoodPlateBtnDeleteFood">Eliminar</string>
+
+    <!-- CREATE FOOD PLATE -->
+    <string name="createFoodPlateTilNameIngredient">Nombre del Ingrediente</string>
+    <string name="createFoodPlateCantidad">Cantidad</string>
+    <string name="createFoodPlateUnidad">Unidad</string>
+    <string name="createFoodPlateNewPaso">Nuevo paso</string>
+    <string name="createFoodPlateTilPriceIngredient">Precio del ingrediente</string>
 
 
 </resources>
